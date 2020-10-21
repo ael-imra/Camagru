@@ -57,19 +57,21 @@ require "../outils/menu.php";
             </div>
             <canvas width="720" height="420"></canvas>
             <div class="d-flex flex-row justify-content-center align-items-center">
-              <div class="d-flex flex-column justify-content-center" id="capture"><i class="fas fa-camera fa-2x"
+              <div class="createImageButton d-flex flex-column justify-content-center" id="capture"><i class="fas fa-camera fa-2x"
                   style="color:white"></i></div>
-              <div class="d-flex flex-column justify-content-center" id="upload_image"
+              <div class="createImageButton d-flex flex-column justify-content-center" id="upload_image"
                 onclick="document.getElementById('upload').click()"><i class="fas fa-upload fa-2x"
                   style="color:white"></i></div>
               <input type="file" id="upload" style="display: none;" onchange="uploadImage()">
+              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-icons fa-2x" style="color:white" onclick="document.querySelectorAll('.gr_emoji > div')[0].style='display:flex!important'"></i></div>
+              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-history fa-2x"  style="color:white" onclick="document.querySelectorAll('.gr_emoji > div')[1].style='display:flex!important'"></i></div>
             </div>
           </div>
         </div>
         <div class="gr_emoji d-flex flex-row">
-          <div class="w-50 d-flex flex-column justofy-content-center align-items-center" style="max-width: 235px">
-            <div>
-              <span class="text-center">Emoji</span>
+          <div class="d-none flex-column justofy-content-center align-items-center">
+            <div class="w-100 text-right mr-4 text-dark">
+              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;" onclick="document.querySelectorAll('.gr_emoji > div')[0].style='display:none!important'">X</span>
             </div>
             <div class="emojiBox d-flex flex-row flex-wrap justify-content-center">
               <div><img class="emoji" src="../img/emoji1.png" onclick="selectEmoji()"></div>
@@ -84,8 +86,9 @@ require "../outils/menu.php";
               </div>
             </div>
           </div>
-          <div class="w-50 d-flex flex-column justofy-content-center align-items-center" style="max-width: 235px">
-            <div><span class="text-center">Activity</span></div>
+          <div class="d-none flex-column justofy-content-center align-items-center">
+            <div class="w-100 text-right mr-4 text-dark">
+              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;" onclick="document.querySelectorAll('.gr_emoji > div')[1].style='display:none!important'">X</span></div>
             <div class="emoji-activity d-flex flex-row flex-wrap justify-content-center">
 
             </div>
@@ -105,9 +108,9 @@ require "../outils/menu.php";
     </div>
     </section>
   </div>
-  <section class="slider w-100 d-flex flex-column" style="overflow: hidden;background-color:black">
+  <section class="slider w-100 d-flex flex-column" style="overflow: hidden;">
     <div class="controlslide w-100 d-flex flex-row justify-content-end align-items-center pr-3"
-      style="background-color: black;color: white!important;">
+      style="color: white!important;">
       <div class="mr-auto ml-2" style="color: white!important;">
         <h4 style="color: white!important;">My Post</h4>
       </div>
@@ -121,7 +124,7 @@ require "../outils/menu.php";
         </span>
       </div>
     </div>
-    <div class="slider-content d-flex flex-row m-1" style="background-color: #353535;border: 1px solid black;">
+    <div class="slider-content d-flex flex-row m-1" style="border: 1px solid black;">
       <?php $_GET["search"] = $_SESSION["User"];
 echo getAllPost($pdo);?>
     </div>

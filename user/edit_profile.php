@@ -100,9 +100,9 @@ if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_PO
 </head>
 
 <body>
-  <div class="d-flex flex-column m-0 p-0 h-100">
+  <div class="d-flex flex-column m-0 p-0">
     <?php require("../outils/menu.php"); ?>
-    <form class="profile_edit w-100 h-100 d-flex flex-row align-items-center justify-content-center" method="post"
+    <form class="profile_edit w-100 d-flex flex-row justify-content-center mt-5" method="post"
       enctype="multipart/form-data">
       <div class="d-flex flex-column"
         style="width: 90%;max-width: 600px;background-color: #252525;border-radius: 20px;">

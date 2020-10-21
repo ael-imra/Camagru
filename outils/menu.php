@@ -60,7 +60,7 @@
       <h4 class=" w-100" style="--color-message:#FF8788;">
         <i class="fas fa-exclamation-triangle" style="--color-message:#FF8788;"></i>Failed!
       </h4>
-      <span style="--color-message:#FF8788;">'.$_SESSION["failed"].'</span>
+      <span>'.$_SESSION["failed"].'</span>
     </div>';
     unset($_SESSION["failed"]);
   }
@@ -103,12 +103,12 @@
               class="text-white">Comment</span></div>
         </li>
         <div class="d-flex flex-column justify-content-center h-50">
-          <li class="mt-5 p-2 w-100 click list-item" onclick="location.href="'.$req_uri.'index.php"">
+          <li class="mt-5 p-2 w-100 click list-item" onclick="location.href=\''.$req_uri.'index.php\'">
             <i class="fas fa-home w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">HOME</span>
           </li>
           <li class="mt-2 p-2 w-100 click list-item"
-            onclick="location.href='.$req_uri.'index.php?search='.$_SESSION["User"].'">
+            onclick="location.href=\''.$req_uri.'index.php?search='.$_SESSION["User"].'\'">
             <i class="fas fa-user-circle w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">My Post</span>
           </li>

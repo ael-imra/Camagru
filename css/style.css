@@ -277,10 +277,9 @@ li img[alt="Profile"] {
 /************************<create_post>***********************/
 canvas {
   background-color: black;
-  border-radius: 25px;
+  border-radius: 10px;
 }
-#capture,
-#upload_image {
+.createImageButton {
   height: 60px;
   width: 60px;
   text-align: center;
@@ -308,6 +307,13 @@ canvas {
   font-size: 18px;
 }
 .gr_emoji > div {
+  width: 320px !important;
+  background-color: #252525;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 5px;
   overflow: auto;
 }

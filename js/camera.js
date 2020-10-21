@@ -43,7 +43,7 @@ window.addEventListener("load", () => {
           newimage.height = val.width;
           context.drawImage(newimage, val.left, val.top, val.width, val.width);
         });
-      }, 10);
+      }, 16);
     })
     .catch((error) => {
       console.log(error);
@@ -66,6 +66,8 @@ function deleteActivity(id) {
   array_activity.splice(id, 1);
   emoji_activity.innerHTML = "";
   resetIndex();
+  document.querySelectorAll(".gr_emoji > div")[1].style =
+    "display:none!important";
 }
 function editActivity(id) {
   let emoji_box = document.getElementsByClassName("box-emoji")[0];
@@ -197,6 +199,8 @@ function selectEmoji() {
     "box-emoji position-absolute d-flex flex-column justify-content-center";
   emoji_image.setAttribute("src", window.event.target.src);
   boxEditEmoji.style = "display:flex!important";
+  document.querySelectorAll(".gr_emoji > div")[0].style =
+    "display:none!important";
 }
 function saveEmoji() {
   let boxEditEmoji = document.getElementsByClassName("boxEditEmoji")[0];

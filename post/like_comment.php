@@ -53,7 +53,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $data = $stmt->fetchAll();
                 if ($data)
                 {
-                    $stmt = $pdo->prepare("INSERT INTO `Like`(`UserId Owner`, `PostId`, `UserAction`) VALUES (:useridowner,:postid,:UserAction)");
+                    $stmt = $pdo->prepare("INSERT INTO `Like`(`UserIdOwner`, `PostId`, `UserAction`) VALUES (:useridowner,:postid,:UserAction)");
                     $stmt->bindParam(":postid",$_POST["postid"]);
                     $stmt->bindParam(":useridowner",$_POST["owner"]);
                     $stmt->bindParam(":UserAction",$_SESSION["User"]);
@@ -87,7 +87,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $stmt->bindParam(":postid",$_POST["postid"]);
                 $stmt->bindParam(":useridowner",$_POST["owner"]);
                 $stmt->bindParam(":UserAction",$_SESSION["User"]);
-                $stmt->bindParam(":content",$_POST["content"]);
+                $stmt->bindParam(":content",htmlspecialchars($_POST["content"]));
                 $stmt->execute();
                 $data_user = getUserData($pdo,$_POST["owner"]);
                 $message = $_POST["owner"]." comment your post";
