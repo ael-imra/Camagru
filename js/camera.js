@@ -128,9 +128,12 @@ function sizeOfVideo() {
   let camera = document.getElementsByClassName("camera")[0];
   slide.style = "width:" + all_post.length * 310 + "px";
   changeSize(2);
-  if (window.innerWidth < 720) {
+  console.log(window.outerWidth);
+  if (window.outerWidth < 720 || window.innerWidth < 720) {
     width = 320;
     height = 360;
+    document.querySelector(".boxEditEmoji").className =
+      "boxEditEmoji d-none flex-column flex-wrap justify-content-center align-items-center";
   } else {
     width = 720;
     height = 480;

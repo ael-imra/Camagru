@@ -1,5 +1,6 @@
 <?php
-require "../post/post.php";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."post/post.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,9 +16,7 @@ require "../post/post.php";
 
 <body>
   <div class="d-flex flex-column m-0 p-0">
-    <?php
-require "../outils/menu.php";
-?>
+    <?php require($Home_dir."outils/menu.php"); ?>
     <div class="create_post d-flex flex-column w-100 mt-5">
       <div id="failed" style="display: none;" class="alert alert-danger text-center" role="alert">
         <h4 class="alert-heading">Failed!</h4>
@@ -125,13 +124,10 @@ require "../outils/menu.php";
       </div>
     </div>
     <div class="slider-content d-flex flex-row m-1" style="border: 1px solid black;">
-      <?php $_GET["search"] = $_SESSION["User"];
-echo getAllPost($pdo);?>
+      <?php $_GET["search"] = $_SESSION["User"]; echo getAllPost($pdo);?>
     </div>
   </section>
-  <?php
-require "../outils/footer.php";
-?>
+  <?php require($Home_dir."outils/footer.php"); ?>
   <script src="../js/script.js"></script>
   <script src="../js/camera.js"></script>
 </body>

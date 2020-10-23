@@ -1,7 +1,7 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
 if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
 {
     $type_image = "";
@@ -31,5 +31,5 @@ if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
         echo "Failed";
 }
 else
-    echo "Failed";
+    set_message_failed("Can't Access this page","/Camagru/index.php");
 ?>

@@ -1,4 +1,11 @@
 <?php
+if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/check.php' )
+{
+    session_start();
+    $_SESSION["failed"] = "Can't Access this page";
+  echo("<script>location.href = '/Camagru/index.php';</script>");
+  exit();
+}
 function Redirect($url)
 {
     echo("<script>location.href = '".$url."';</script>");
@@ -56,14 +63,13 @@ function send_mail($token,$Email,$Email_subject,$csrfToken = null)
     else
     {
         $Email_message = 
-        '<form style="width:35%;text-align:center;" action="'.$url.'/user/active.php" method="POST" target="_blank">'.
-        '<img style="width: 60px;height: 30px;" src="https://i.ibb.co/bPF20LX/CAMAGRU-LOGO.png">'.
+        '<form style="width:320px;text-align:center;" action="'.$url.'/user/active.php" method="POST" target="_blank">'.
+        '<h1>Camagru</h1>'.
         '<p style="font-size:16px;text-align: center;width: 100%;">Reset Password</p>'.
         '<input type="hidden" name="tokenpass" value="'.$token.'">'.
         '<input type="hidden" name="csrfToken" value="'.$csrfToken.'">'.
-        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:50%; margin: 4px;">Old password</label><input style="width:50%;" type="password" name="old_password" required></div>'.
-        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:50%; margin: 4px;">New password</label><input style="width:50%;" type="password" name="new_password" required></div>'.
-        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:50%; margin: 4px;">Confirme password</label><input style="width:50%;" type="password" name="confirme_password" required></div>'.
+        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:100%; text-align:center; margin: 4px;">New password</label><input style="width:100%;" type="password" name="new_password" required></div>'.
+        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:100%; text-align:center; margin: 4px;">Confirme password</label><input style="width:100%;" type="password" name="confirm_pass" required></div>'.
         '<input style="margin: 5px;" type="submit" name="active" value="Reset">'.
         '<hr>'.
         '<p  style="width:100%;text-align:right;">&copy;Camagru</p>'.

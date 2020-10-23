@@ -1,9 +1,8 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$req_uri = (($_SERVER['REQUEST_URI'] == "/Camagru/" || strpos($_SERVER['REQUEST_URI'],"/Camagru/index.php") !== false ) ? "./" : "../");
 function sentDatabase($pdo,$array_items)
 {
     $array_key = array_keys($array_items);
@@ -48,7 +47,7 @@ if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_P
     {
         if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
             set_message_success("User Already exist",$url);
-        $tokenvalidate = hash_hmac('sha256',$_POST["Username"],time());
+        $tokenvalidate = hash('whirlpool',$_POST["Username"]+time());
         $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
         $stmt->bindParam(":Email",$_POST["Email"]);
         $stmt->bindParam(":Username",$_POST["Username"]);
@@ -109,7 +108,7 @@ if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_PO
         <div class="w-100 d-flex flex-column align-items-center justify-content-center"
           style="border-radius:20px 20px 0 0;background-color:#00bcd4;padding:10px 0">
           <div class="position-relative" style="width:100px;height:100px">
-            <img class="rounded-pill" id="Profile_image" src="<?php echo $req_uri.$data[0]['Image'];?>"
+            <img class="rounded-pill" id="Profile_image" src="<?php echo '/Camagru/'.$data[0]['Image'];?>"
               alt="<?php echo $data[0]['Username'];?>" style="width:100px;height:100px;" />
             <i class="fas fa-edit position-absolute" style="cursor:pointer;color:black"
               onclick="document.querySelector('input[name=\'fileinput\']').click()"></i>

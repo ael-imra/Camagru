@@ -1,15 +1,14 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$_SESSION["script"] = "<script>display_signin();</script>";
 if(isset($_POST["signup"]) && $_POST["signup"] != "")
 {
   $_SESSION["script"] = "<script>display_signup();</script>";
     if(isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
     {
-        if(isset($_POST["Username"],$_POST["Email"],$_POST["Password"]) && $_POST["Username"]!= "" && $_POST["Email"] != "" && $_POST["Password"] != "")
+        if(isset($_POST["Username"],$_POST["Email"],$_POST["Password"],$_POST["Confirm_Password"]) && $_POST["Username"]!= "" && $_POST["Email"] != "" && $_POST["Password"] != "" && $_POST["Confirm_Password"]==$_POST["Password"])
         {
             if (!check_user_exist("Username",$_POST["Username"],$pdo) && !check_user_exist("Email",$_POST["Email"],$pdo))
             {
@@ -22,7 +21,7 @@ if(isset($_POST["signup"]) && $_POST["signup"] != "")
                 else
                 {
                     $Password = hash("whirlpool",$_POST["Password"]);
-                    $Tokenlogin = hash_hmac('sha256',$_POST["Username"],time());
+                    $Tokenlogin = hash('whirlpool',$_POST["Username"]+time());
                     send_mail($Tokenlogin,trim($_POST["Email"]),"Camagru Activation");
                     $stmt = $pdo->prepare("INSERT INTO `Users`(`Email`, `Username`, `Password`, `Tokenlogin`) VALUES (:Email,:Username,:Password,:Tokenlogin)");
                     $stmt->bindParam(":Email",$_POST["Email"]);
@@ -36,6 +35,8 @@ if(isset($_POST["signup"]) && $_POST["signup"] != "")
             else
                 set_message_failed("This user already exest, please try to login.",$url);
         }
+        else
+          set_message_failed("Sonthing wrong!",$url);
     }
     else
         set_message_failed("Wrong CSRF TOKEN",$url);
@@ -66,8 +67,8 @@ else if (isset($_POST["signin"]) && $_POST["signin"] != "")
                 else
                     set_message_failed("Your account is not active, please check your Email.",$url);
             }
-            else
-                set_message_failed("Username or Password is wrong",$url);
+            // else
+            //     set_message_failed("Username or Password is wrong",$url);
         }
     }
     else
@@ -80,7 +81,7 @@ if (isset($_POST["reset_Password"]) && $_POST["reset_Password"] != "")
     {
         if($_POST["Email"] != "")
         {
-            $Tokenpassword = hash_hmac("sha256",$_POST["Email"],time());
+            $Tokenpassword = hash("whirlpool",$_POST["Email"]+time());
             $stmt = $pdo->prepare("SELECT * FROM Users WHERE Email=:Email");
             $stmt->bindParam(":Email",$_POST["Email"]);
             $stmt->execute();
@@ -103,7 +104,7 @@ if (isset($_POST["reset_Password"]) && $_POST["reset_Password"] != "")
 }
 else
 {
-    $csrfToken = hash_hmac('sha256',time(),time());
+    $csrfToken = hash('whirlpool',time()+time());
     $_SESSION["csrfToken"] = $csrfToken;
 }
 ?>
@@ -184,6 +185,9 @@ else
                 <div class="form-group mx-auto mt-4 w-75">
                   <input class="rounded-pill w-100" type="Password" name="Password" placeholder="Password" required>
                 </div>
+                <div class="form-group mx-auto mt-4 w-75">
+                  <input class="rounded-pill w-100" type="Password" name="Confirm_Password" placeholder="Confirm Password" required>
+                </div>
                 <div class="form-group mx-auto mt-5 w-75">
                   <input class="rounded-pill w-100" id="btn-signup" type="submit" name="signup" value="Sign up">
                 </div>
@@ -244,7 +248,12 @@ else
   </div>
 
   <script src="../js/script.js"></script>
-  <?php if(isset($_SESSION["script"])) echo $_SESSION["script"];?>
+  <?php 
+      if(isset($_SESSION["script"])) 
+        echo $_SESSION["script"];
+      else 
+        echo "<script>display_signin();</script>"
+  ?>
 </body>
 
 </html>

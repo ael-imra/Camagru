@@ -1,8 +1,11 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
-$_SESSION["Redirect"] = $_SERVER["HTTP_REFERER"];
-unset($_SESSION['User']);
-Redirect("../user/login.php");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
+if (isset($_SESSION["User"]))
+{
+  $_SESSION["Redirect"] = $_SERVER["HTTP_REFERER"];
+  unset($_SESSION['User']);
+  Redirect("../user/login.php");
+}
 ?>

@@ -1,9 +1,7 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
-$url = $_SERVER["HTTP_REFERER"];
-$req_uri = ((str_replace($_SERVER['HTTP_ORIGIN'],'',$_SERVER['HTTP_REFERER']) == "/Camagru/" || strpos(str_replace($_SERVER['HTTP_ORIGIN'],'',$_SERVER['HTTP_REFERER']),"/Camagru/index.php") !== false) ? "./" : "../");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
 function getUserData($pdo,$owner){
     $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `Username`=:username AND `Notification` = 1");
     $stmt->bindParam(":username",$owner);
@@ -123,13 +121,15 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
         else 
             set_message_failed("Something Wroong!",$url);
     }
-    if (isset($_GET["not"]))
+    else if (isset($_GET["not"]))
     {
         $stmt = $pdo->prepare("UPDATE `Like` SET `Notification` = 1 WHERE 1");
         $stmt->execute();
         $stmt = $pdo->prepare("UPDATE `Comment` SET `Notification` = 1 WHERE 1");
         $stmt->execute();
     }
+    else
+        Redirect("/Camagru/index.php");
 }
 else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] == "true" && $_POST["postid"]!="")
 {
@@ -155,7 +155,7 @@ else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] 
                         </div>
                     </div>
                     <div>
-                        <img src="'.$req_uri.$data_user[0]["Image"].'" style="width: 45px;height: 45px;border-radius: 50%;">
+                        <img src="/Camagru/'.$data_user[0]["Image"].'" style="width: 45px;height: 45px;border-radius: 50%;">
                     </div>
                     <div class="d-flex flex-column w-100">
                         <div class="d-flex flex-row justify-content-between">
@@ -170,6 +170,8 @@ else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] 
         }
         echo $div;
     }
+    else 
+        echo "error";
 }
-else 
-    echo "error";
+else
+    Redirect("/Camagru/index.php");

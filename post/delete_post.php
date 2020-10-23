@@ -1,7 +1,7 @@
 <?php
-require("../config/database.php");
-require("../config/setup.php");
-require("../outils/check.php");
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+require($Home_dir."config/setup.php");
+require($Home_dir."outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 function deleteFromTable($pdo,$table,$postid)
 {
@@ -33,5 +33,7 @@ if (isset($_POST["postid"]) && $_POST["postid"] != "")
     else
         set_message_failed("This post doesn't exist!",$url);
 }
+else
+    set_message_failed("Can't Access this page","/Camagru/index.php");
 
 ?>
