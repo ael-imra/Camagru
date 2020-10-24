@@ -262,6 +262,7 @@ function deleteComment(id_comment, id_post) {
       if (this.responseText.indexOf("<script>") > -1) window.location.reload();
       else getComment(id_post);
     }
+    window.location.reload();
   };
   xhttp.open("POST", req_uri + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

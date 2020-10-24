@@ -27,8 +27,10 @@ if ($_FILES && $_FILES["fileinput"]["name"] != "")
     {
         if(($image = getimagesize($_FILES["fileinput"]["tmp_name"])))
         {
-            $image_id = $_SESSION["User"].".".explode("image/",$image["mime"])[1];
+            $image_id = time().".".explode("image/",$image["mime"])[1];
             move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id");
+            if (file_exists("../".$data[0]["Image"]))
+              unlink("../".$data[0]["Image"]);
             sentDatabase($pdo,array("Image"=>"img/".$image_id));
         }
         else
@@ -48,10 +50,14 @@ if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_P
         if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
             set_message_success("User Already exist",$url);
         $tokenvalidate = hash('whirlpool',$_POST["Username"]+time());
-        $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
-        $stmt->bindParam(":Email",$_POST["Email"]);
-        $stmt->bindParam(":Username",$_POST["Username"]);
+        // $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
+        // $stmt->bindParam(":Email",$_POST["Email"]);
+        // $stmt->bindParam(":Username",$_POST["Username"]);
+        // $stmt->bindParam(":user",$_SESSION["User"]);
+        // $stmt->execute();
+        $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
         $stmt->bindParam(":user",$_SESSION["User"]);
+        $stmt->bindParam(":Username",$_POST["Username"]);
         $stmt->execute();
         $_SESSION["User"] = $_POST["Username"];
         set_message_success("You Information has been Saved.",$url);
@@ -120,11 +126,11 @@ if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_PO
         <div class="d-flex flex-column w-100 p-4">
           <div class="d-flex flex-column w-100 p-2">
             <label>Username :</label>
-            <input type="text" name="Username" placeholder="<?php echo $data[0]['Username'];?>" />
+            <input type="text" name="Username" value="<?php echo $data[0]['Username'];?>" />
           </div>
           <div class="d-flex flex-column w-100 p-2">
             <label>Email :</label>
-            <input type="text" name="Email" placeholder="<?php echo $data[0]['Email'];?>" />
+            <input type="text" name="Email" value="<?php echo $data[0]['Email'];?>" />
           </div>
           <div class="d-flex flex-flex w-100 p-2">
             <label>Active Notification :</label>
