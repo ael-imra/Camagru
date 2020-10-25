@@ -2,7 +2,7 @@
 $Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
-$url = "../index.php";
+$url = "./login.php";
 if (isset($_GET["action"],$_GET["token"]) && $_GET["action"] == "active" && $_GET["token"] != "" && $_GET["token"] != '1')
 {
     $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `Tokenlogin`=:Tokenlogin");
@@ -14,14 +14,13 @@ if (isset($_GET["action"],$_GET["token"]) && $_GET["action"] == "active" && $_GE
         $stmt = $pdo->prepare("UPDATE Users SET Tokenlogin='1' WHERE Email=:Email");
         $stmt->bindParam("Email",$data[0]["Email"]);
         $stmt->execute();
-        $_SESSION["User"] = $data[0]["Username"];
         set_message_success("Seccuss to active account",$url);
     }
     else
         set_message_failed("This Token does not exist.",$url);
 }
-else if (isset($_POST["active"],$_POST["tokenpass"],$_POST["new_password"],$_POST["confirm_pass"]) && 
-        $_POST["active"] == "Reset" && $_POST["tokenpass"] != "" && $_POST["new_password"] != "" && $_POST["confirm_pass"] != "")
+else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_password"],$_POST["confirm_pass"]) && 
+        $_POST["active"] == "Reset" && $_POST["tokenpass"] != "" && $_POST["new_password"] != "" && $_POST["confirm_pass"] != "" && $_POST["Email"] != "")
 {
     $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword");
     $stmt->bindParam(":Tokenpassword",$_POST["tokenpass"]);

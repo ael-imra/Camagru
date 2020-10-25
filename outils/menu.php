@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
           onclick="document.getElementsByClassName('full_post')[0].style='display:none!important;'"></i>
       </div>
     </div>
-    <div class="w-100 mb-2">
+    <div class="w-100 mb-2" style="max-height:300px">
       <img id="full_img_post" class="w-100 h-100">
     </div>
     <div class="w-100 d-flex flex-row mb-2 align-items-center">

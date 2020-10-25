@@ -20,9 +20,7 @@ input {
   padding: 5px 10px;
   font-size: 16px;
   outline: none;
-}
-input:focus {
-  box-shadow: 0 0 10px#00BCD4;
+  border-radius: 10px;
 }
 .login-register {
   background-color: #252525;
@@ -81,10 +79,12 @@ input:focus {
 }
 /****************************<Menu>****************************/
 #first-menu {
+  display: flex;
+  align-items: center;
   height: 45px;
   background-color: #252525;
 }
-.navbar-brand img {
+.Homelink img {
   width: 100px;
   height: 30px;
 }

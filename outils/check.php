@@ -62,18 +62,10 @@ function send_mail($token,$Email,$Email_subject,$csrfToken = null)
                     "Thanks, Camagru</p>";
     else
     {
-        $Email_message = 
-        '<form style="width:320px;text-align:center;" action="'.$url.'/user/active.php" method="POST" target="_blank">'.
-        '<h1>Camagru</h1>'.
-        '<p style="font-size:16px;text-align: center;width: 100%;">Reset Password</p>'.
-        '<input type="hidden" name="tokenpass" value="'.$token.'">'.
-        '<input type="hidden" name="csrfToken" value="'.$csrfToken.'">'.
-        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:100%; text-align:center; margin: 4px;">New password</label><input style="width:100%;" type="password" name="new_password" required></div>'.
-        '<div style="width:100%;display: flex;flex-flow: row;"><label style="width:100%; text-align:center; margin: 4px;">Confirme password</label><input style="width:100%;" type="password" name="confirm_pass" required></div>'.
-        '<input style="margin: 5px;" type="submit" name="active" value="Reset">'.
-        '<hr>'.
-        '<p  style="width:100%;text-align:right;">&copy;Camagru</p>'.
-        '</form>';
+        $Email_message = "<h1>Reset Password</h1>".
+        "<p>Click on link to Reset Password:".
+        "<a href='".$url."/user/reset_password.php?tokenpass=".$token."&Email=".$Email."'>Click here<a><br>".
+        "Thanks, Camagru</p>";
     }
     $header = "Content-type: text/html";
     if(!mail($Email_to, $Email_subject, $Email_message, $header))

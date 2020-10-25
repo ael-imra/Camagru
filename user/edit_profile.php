@@ -29,7 +29,7 @@ if ($_FILES && $_FILES["fileinput"]["name"] != "")
         {
             $image_id = time().".".explode("image/",$image["mime"])[1];
             move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id");
-            if (file_exists("../".$data[0]["Image"]))
+            if (file_exists("../".$data[0]["Image"]) && $data[0]["Image"] != "img/default.png")
               unlink("../".$data[0]["Image"]);
             sentDatabase($pdo,array("Image"=>"img/".$image_id));
         }

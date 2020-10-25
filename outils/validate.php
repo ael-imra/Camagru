@@ -29,7 +29,7 @@ function check_user_exist($column,$value,$pdo){
     return (0);
 }
 $url = $_SERVER['REQUEST_URI'];
-if (strpos($url,"/Camagru/user/active.php") !== false)
+if (strpos($url,"/Camagru/user/active.php") !== false || strpos($url,"/Camagru/user/reset_password.php") !== false)
     $pos = 0;
 else if(isset($pdo) && (!isset($_SESSION["User"]) || $_SESSION["User"] == "" || !($i = check_user_exist("Username",$_SESSION["User"],$pdo))) && $url !="/Camagru/user/login.php" && $url !="/Camagru/index.php")
 {
