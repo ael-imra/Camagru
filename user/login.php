@@ -54,7 +54,7 @@ else if (isset($_POST["signin"]) && $_POST["signin"] != "")
                 {
                     $_SESSION["User"] = $data[0]["Username"];
                     if (isset($_SESSION["Redirect"])) Redirect($_SESSION["Redirect"]);
-                    else Redirect("../index.php");
+                    else Redirect("/Camagru/index.php");
                 }
                 else set_message_failed("Your account is not active, please check your Email.", $url);
             }

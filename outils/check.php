@@ -55,7 +55,7 @@ function send_mail($token,$Email,$Email_subject,$csrfToken = null)
     if ($Email_subject == "Camagru Activation")
         $Email_message = "<h1>You've successfully signed up</h1>".
                 "<p>Please complete sign up by clicking the following link:".
-                "<a href='".$url."/user/active.php?action=active&token=".$token."'>Click here<a><br>".
+                "<a href='".$url."/user/active.php?action=active&token=".$token."&Email=".$Email."'>Click here<a><br>".
                 "Thanks, Camagru</p>";
     else if ($Email_subject == "Notification")
         $Email_message = "<h1>".$token."</h1><br>".

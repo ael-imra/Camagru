@@ -3,10 +3,11 @@ $Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 $url = "./login.php";
-if (isset($_GET["action"],$_GET["token"]) && $_GET["action"] == "active" && $_GET["token"] != "" && $_GET["token"] != '1')
+if (isset($_GET["action"],$_GET["token"],$_GET["Email"]) && $_GET["action"] == "active" && $_GET["Email"] != "" && $_GET["token"] != "" && $_GET["token"] != '1')
 {
-    $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `Tokenlogin`=:Tokenlogin");
+    $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `Tokenlogin`=:Tokenlogin AND `Email`=:Email");
     $stmt->bindParam(":Tokenlogin",$_GET["token"]);
+    $stmt->bindParam(":Email",$_GET["Email"]);
     $stmt->execute();
     $data = $stmt->fetchAll();
     if ($data)
@@ -40,7 +41,7 @@ else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_
             set_message_success("Seccuss to reset password account",$url);
         }
         else
-            set_message_failed("New password format wroong OR new password nor eqaul confirme password",$url);
+            set_message_failed("New password format wroong OR new password nor eqaul confirme password","';history.back();//");
     }
     else
         set_message_failed("Password OR Token does not exist.",$url);

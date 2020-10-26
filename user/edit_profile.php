@@ -21,23 +21,20 @@ $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username");
 $stmt->bindParam(":Username",$_SESSION["User"]);
 $stmt->execute();
 $data = $stmt->fetchAll();
-if ($_FILES && $_FILES["fileinput"]["name"] != "")
+if ($_FILES && $_FILES["fileinput"] && $_FILES["fileinput"]["name"] != "")
 {
-    if (isset($_SERVER["CONTENT_LENGTH"]) && $_SERVER["CONTENT_LENGTH"] < 11000000)
-    {
-        if(($image = getimagesize($_FILES["fileinput"]["tmp_name"])))
-        {
-            $image_id = time().".".explode("image/",$image["mime"])[1];
-            move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id");
-            if (file_exists("../".$data[0]["Image"]) && $data[0]["Image"] != "img/default.png")
-              unlink("../".$data[0]["Image"]);
-            sentDatabase($pdo,array("Image"=>"img/".$image_id));
-        }
-        else
-            set_message_failed("Image must be PNG OR JPG OR JPEG OR GIF",$url);
-    }
-    else
-        set_message_failed("Image size above 10MB",$url);
+  $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
+  if ($_FILES && !$_FILES["fileinput"]["error"] && array_search(strtolower($_FILES["fileinput"]["type"]),$type_image) > -1)
+  {
+      $image_id = time().".".explode("image/",$_FILES["fileinput"]["type"])[1];
+      if(!move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id"))
+        set_message_failed("There was some error moving the file to upload directory",$url);
+      if (file_exists("../".$data[0]["Image"]) && $data[0]["Image"] != "img/default.png")
+        unlink("../".$data[0]["Image"]);
+      sentDatabase($pdo,array("Image"=>"img/".$image_id));
+  }
+  else
+      set_message_failed("Image must be PNG OR JPG OR JPEG OR GIF And Size lower than 10 MB",$url);
 }
 if (isset($_POST["save"]))
     sentDatabase($pdo,array("Notification"=>((isset($_POST["checkbox"])) && $_POST["checkbox"] == "on") ? 1 : 0));
@@ -47,25 +44,30 @@ if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_P
         $_SESSION["failed"] = "";
     else if (validator_Email($_POST["Email"]) && validator_Username($_POST["Username"]))
     {
-        if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
-            set_message_success("User Already exist",$url);
-        $tokenvalidate = hash('whirlpool',$_POST["Username"]+time());
-        // $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
-        // $stmt->bindParam(":Email",$_POST["Email"]);
-        // $stmt->bindParam(":Username",$_POST["Username"]);
-        // $stmt->bindParam(":user",$_SESSION["User"]);
-        // $stmt->execute();
-        $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
-        $stmt->bindParam(":user",$_SESSION["User"]);
+      if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
+          set_message_failed("User Already exist",$url);
+      else
+      {
+        $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
+        $stmt->bindParam(":Email",$_POST["Email"]);
         $stmt->bindParam(":Username",$_POST["Username"]);
+        $stmt->bindParam(":user",$_SESSION["User"]);
         $stmt->execute();
-        $_SESSION["User"] = $_POST["Username"];
+        if ($_POST["Username"] != $data[0]["Username"])
+        {
+          $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
+          $stmt->bindParam(":user",$_SESSION["User"]);
+          $stmt->bindParam(":Username",$_POST["Username"]);
+          $stmt->execute();
+          $_SESSION["User"] = $_POST["Username"];
+        }
         set_message_success("You Information has been Saved.",$url);
+      }
     }
     else
-        set_message_failed("Username or Email was wrong please try again.",$url);
+      set_message_failed("Username or Email was wrong please try again.",$url);
 }
-if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_POST["confirme_Password"]) &&  $_POST["old_Password"] != "" && $_POST["new_Password"] != "" && $_POST["confirme_Password"] != "")
+if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Password"]) &&  $_POST["old_Password"] != "" && $_POST["new_Password"] != "" && $_POST["confirme_Password"] != "")
 {
     if (validator_Password($_POST["new_Password"]) && $_POST["new_Password"] == $_POST["confirme_Password"] && $_POST["new_Password"] != $_POST["old_Password"])
     {
@@ -98,9 +100,9 @@ if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_PO
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/all.css">
+  <link rel="stylesheet" href="../css/style.css">
   <title>Edit Profile</title>
 </head>
 
@@ -156,9 +158,7 @@ if (isset($_POST["old_Password"]) && isset($_POST["new_Password"]) && isset($_PO
       </div>
     </form>
     </section>
-    <?php
-            require("../outils/footer.php");
-        ?>
+    <?php require("../outils/footer.php"); ?>
   </div>
   <script src="../js/script.js"></script>
 </body>

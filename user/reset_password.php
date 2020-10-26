@@ -7,12 +7,14 @@ if (isset($_GET["tokenpass"],$_GET["Email"]) && $_GET["tokenpass"]!="" && $_GET[
 {
   $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword");
   $stmt->bindParam(":Tokenpassword",$_GET["tokenpass"]);
-  $data = $stmt->execute();
+  $stmt->execute();
+  $data = $stmt->fetchAll();
   if(!$data)
     set_message_failed("Invalide Token !",$url);
-}else
+}
+else
   set_message_failed("You can't access this page!",$url);
-?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +31,36 @@ if (isset($_GET["tokenpass"],$_GET["Email"]) && $_GET["tokenpass"]!="" && $_GET[
       <div class="mx-auto">
         <a class="Homelink" href="../index.php"><img src="../img/logo.png"></a>
       </div>
-    </header>
-    <form class="mt-5 p-3 d-flex flex-column align-items-center justify-content-center mx-auto" style="width:90%;max-width:500px;height:300px;background-color:#252525;border-radius:8px" action="<?php echo $url.'/user/active.php'?>" method="POST">
+    </header>    
+    <?php
+      if (isset($_SESSION["failed"]) && $_SESSION["failed"] != "")
+      {
+    ?>
+        <div id="failed" class="message position-fixed text-center d-flex flex-column" style="--color-message:#FF8788;">
+          <h4 class=" w-100" style="--color-message:#FF8788;">
+            <i class="fas fa-exclamation-triangle" style="--color-message:#FF8788;"></i>Failed!
+          </h4>
+          <span style="--color-message:#FF8788;"><?php echo $_SESSION["failed"] ?></span>
+        </div>
+    <?php
+        unset($_SESSION["failed"]);
+      }
+    ?>
+    <?php
+      if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
+      {
+    ?>
+      <div id="success" class="message position-fixed text-center d-flex flex-column">
+        <h4 class=" w-100">
+          <i class="fas fa-chevron-circle-down"></i>Success!
+        </h4>
+        <span><?php echo $_SESSION["success"] ?></span>
+      </div>
+    <?php
+      unset($_SESSION["success"]);
+      }
+    ?>
+    <form class="mt-5 p-3 d-flex flex-column align-items-center justify-content-center mx-auto" style="width:90%;max-width:500px;height:300px;background-color:#252525;border-radius:8px" action="<?php echo './active.php'?>" method="POST">
       <p style="font-size:20px;text-align: center;width: 100%;color:white;margin-bottom:55px">Reset Password</p>
       <input type="hidden" name="tokenpass" value="<?php echo $_GET["tokenpass"];?>">
       <input type="hidden" name="Email" value="<?php echo $_GET["Email"];?>">
