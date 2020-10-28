@@ -1,11 +1,11 @@
 <?php
-if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
-{
-  session_start();
-  $_SESSION["failed"] = "Can't Access this page";
-  echo("<script>location.href = '/Camagru/index.php';</script>");
-  exit();
-}
+  if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
+  {
+    session_start();
+    $_SESSION["failed"] = "Can't Access this page";
+    header("location: /Camagru/index.php");
+    exit();
+  }
   function getNotification($pdo,$table)
   {
       $stmt = $pdo->prepare("SELECT * FROM `$table` WHERE `UserIdOwner`=:UserIdOwner AND `Notification`=0");
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
     if ($notification != "")
         $notification = '<div class="notification-box d-none position-absolute">'.$notification.'</div>';
   }
-  ?>
+?>
 <header class="position-fixed w-100 d-flex flex-row align-items-center" style="z-index:99;" id="first-menu">
   <?php  
     if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)){
@@ -62,9 +62,9 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
 <?php
   if(isset($_SESSION["failed"]) && $_SESSION["failed"] != ""){
     echo 
-    '<div id="failed" class="message position-fixed text-center d-flex flex-column" style="--color-message:#FF8788;">
-      <h4 class=" w-100" style="--color-message:#FF8788;">
-        <i class="fas fa-exclamation-triangle" style="--color-message:#FF8788;"></i>Failed!
+    '<div id="failed" class="message position-fixed text-center d-flex flex-column">
+      <h4 class=" w-100">
+        <i class="fas fa-exclamation-triangle"></i>Failed!
       </h4>
       <span>'.$_SESSION["failed"].'</span>
     </div>';
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
   <?php  if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)){
       echo 
       '<ul class="position-fixed pl-0 pt-2" id="second-menu">
-        <form class="form-inline w-100 ml-4 mb-2" action="/Camagru/index.php" method="GET">
+        <form class="w-100 ml-4 mb-2" action="/Camagru/index.php" method="GET">
           <div class="w-100">
             <input class="w-75 pl-3 rounded-pill mx-auto" type="search" name="search" placeholder="Search">
             <button class="border-0 position-relative" id="btn-search" type="submit"><i class="fa fa-search"
@@ -98,32 +98,32 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
         <li class="text-center"><span class="text-white">'.$_SESSION["User"].'</span></li>
         <li class="text-center "><i class="fas fa-circle text-success"></i><span class="text-white p-1">Online</span></li>
         <li class="d-flex flex-row justify-content-around ml-0 mt-2 pb-2 pt-2 border-top border-bottom">
-          <div class="flex-grow-1 text-center"><span
+          <div class="text-center"><span
               class="text-white d-block">'.get_count("Post",$pdo).'</span><span class="text-white">Post</span>
           </div>
-          <div class="flex-grow-1 text-center"><span
+          <div class="text-center"><span
               class="text-white d-block">'.get_count("Like",$pdo).'</span><span class="text-white">Like</span>
           </div>
-          <div class="flex-grow-1 text-center"><span
+          <div class="text-center"><span
               class="text-white d-block">'.get_count("Comment",$pdo).'</span><span
               class="text-white">Comment</span></div>
         </li>
         <div class="d-flex flex-column justify-content-center h-50">
-          <li class="mt-5 p-2 w-100 click list-item" onclick="location.href=\'/Camagru/index.php\'">
+          <li class="mt-5 p-2 w-100 menu-item" onclick="location.href=\'/Camagru/index.php\'">
             <i class="fas fa-home w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">HOME</span>
           </li>
-          <li class="mt-2 p-2 w-100 click list-item"
+          <li class="mt-2 p-2 w-100 menu-item"
             onclick="location.href=\'/Camagru/index.php?search='.$_SESSION["User"].'\'">
             <i class="fas fa-user-circle w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">My Post</span>
           </li>
-          <li class="mt-2 p-2 w-100 click list-item"
+          <li class="mt-2 p-2 w-100 menu-item"
             onclick="location.href = \'/Camagru/post/create_post.php\';">
             <i class="fas fa-plus w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">New Post</span>
           </li>
-          <li class="mt-2 p-2 w-100 click list-item"
+          <li class="mt-2 p-2 w-100 menu-item"
             onclick="location.href = \'/Camagru/user/edit_profile.php\';">
             <i class="fas fa-user-edit w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">Edit Profile</span>
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
       </ul>';
     }
   ?>
-  <div class="full_post d-none flex-column align-items-center pl-3 pr-3 mt-4 p-3">
+  <div class="full_post d-none flex-column align-items-center p-3">
     <div class="w-100 d-flex flex-row align-items-center mb-2">
       <div class="w-25 d-flex flex-row" style="margin: 3px;">
         <i class="fas fa-arrow-left fa-2x mr-2" id="full_previous_post"></i>
@@ -140,9 +140,9 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
       </div>
       <div class="w-50 d-flex flex-row justify-content-center align-items-center">
         <div class="mr-1">
-          <img id="full_img_owner" alt="Profile">
+          <img id="full_post_img_owner" alt="Profile">
         </div>
-        <div id="full_owner"></div>
+        <div id="full_post_owner"></div>
       </div>
       <div class="w-25 text-right" style="margin: 3px;">
         <i class="fas fa-times fa-2x"

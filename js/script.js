@@ -191,9 +191,9 @@ function getPost(id_post) {
     document
       .getElementById("full_img_post")
       .setAttribute("src", array_post[i].img);
-    document.getElementById("full_owner").innerHTML = array_post[i].owner;
+    document.getElementById("full_post_owner").innerHTML = array_post[i].owner;
     document
-      .getElementById("full_img_owner")
+      .getElementById("full_post_img_owner")
       .setAttribute("src", array_post[i].img_owner);
     document.getElementById("full_like_count").innerHTML =
       array_post[i].like_count;

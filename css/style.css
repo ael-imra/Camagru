@@ -1,6 +1,5 @@
 * {
   color: #00bcd4;
-  --color-message: #b1e17e;
 }
 ::placeholder,
 input {
@@ -111,12 +110,12 @@ input {
 #second-menu li:last-child {
   bottom: 2%;
 }
-.click,
+.menu-item,
 i,
 .post_btn {
   cursor: pointer;
 }
-.list-item:hover {
+.menu-item:hover {
   background-color: #00bcd4;
 }
 .notification-box {
@@ -215,7 +214,7 @@ li img[alt="Profile"] {
 .full_post input:focus {
   box-shadow: none;
 }
-#full_img_owner {
+#full_post_img_owner {
   max-height: 300px;
 }
 .delete_comment_box button {
@@ -386,4 +385,10 @@ input[type="range"] {
 .message i {
   color: var(--color-message);
   margin-right: 7px;
+}
+#failed {
+  --color-message: #ff8788;
+}
+#success {
+  --color-message: #b1e17e;
 }

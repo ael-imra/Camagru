@@ -6,6 +6,6 @@ if (isset($_SESSION["User"]))
 {
   $_SESSION["Redirect"] = $_SERVER["HTTP_REFERER"];
   unset($_SESSION['User']);
-  Redirect("../user/login.php");
 }
+Redirect("../user/login.php");
 ?>

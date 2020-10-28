@@ -3,6 +3,8 @@ $Home_dir = $_SERVER['DOCUMENT_ROOT'] . "/Camagru/";
 require ($Home_dir . "config/setup.php");
 require ($Home_dir . "outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo))
+  Redirect("../index.php");
 if (isset($_POST["signup"]) && $_POST["signup"] != "")
 {
     $_SESSION["script"] = "<script>display_signup();</script>";

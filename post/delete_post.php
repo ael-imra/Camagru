@@ -3,6 +3,8 @@ $Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
+  Redirect("../user/login.php");
 function deleteFromTable($pdo,$table,$postid)
 {
     $stmt = $pdo->prepare("DELETE FROM `$table` WHERE `PostId` = :postid");
@@ -28,10 +30,10 @@ if (isset($_POST["postid"]) && $_POST["postid"] != "")
             deleteFromTable($pdo,"Like","post_".$postid);
         }
         else
-            set_message_failed("This post doesn't exist!",$url);
+            set_message_failed("You don't have permission to delete this post!",$url);
     }
     else
-        set_message_failed("This post doesn't exist!",$url);
+        set_message_failed("You don't have permission to delete this post!",$url);
 }
 else
     set_message_failed("Can't Access this page","/Camagru/index.php");

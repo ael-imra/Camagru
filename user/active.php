@@ -41,7 +41,11 @@ else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_
             set_message_success("Seccuss to reset password account",$url);
         }
         else
-            set_message_failed("New password format wroong OR new password nor eqaul confirme password","';history.back();//");
+        {
+            $_SESSION["failed"] = "New password format wroong OR new password nor eqaul confirme password";
+            echo "<script>history.back();</script>";
+            exit();
+        }
     }
     else
         set_message_failed("Password OR Token does not exist.",$url);

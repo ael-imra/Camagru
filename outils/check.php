@@ -1,14 +1,14 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/check.php' )
 {
-    session_start();
     $_SESSION["failed"] = "Can't Access this page";
-  echo("<script>location.href = '/Camagru/index.php';</script>");
-  exit();
+    header("location: /Camagru/index.php");
+    exit();
 }
 function Redirect($url)
 {
-    echo("<script>location.href = '".$url."';</script>");
+    header("location: ".$url);
     exit();
 }
 function set_message_failed($msg,$url){
@@ -50,7 +50,7 @@ function get_count($table,$pdo,$post_id = null)
 }
 function send_mail($token,$Email,$Email_subject,$csrfToken = null)
 {
-    $url = "https://192.168.99.102:8088/Camagru";
+    $url = "https://192.168.99.103:8088/Camagru";
     $Email_to = $Email;
     if ($Email_subject == "Camagru Activation")
         $Email_message = "<h1>You've successfully signed up</h1>".

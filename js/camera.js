@@ -128,7 +128,6 @@ function sizeOfVideo() {
   let camera = document.getElementsByClassName("camera")[0];
   slide.style = "width:" + all_post.length * 310 + "px";
   changeSize(2);
-  console.log(window.outerWidth);
   if (window.outerWidth < 720 || window.innerWidth < 720) {
     width = 320;
     height = 360;
