@@ -7,23 +7,27 @@ if (!isset($pdo))
         $pdo = new PDO("mysql:host=".$DB_HOST.";",$DB_USER,$DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    catch(Exception $e)
+    catch(PDOException $e)
     {
         echo "Error to connect with database";
+        exit();
     }
     if (isset($pdo))
     {
         try {
             $stmt = $pdo->prepare("CREATE DATABASE IF NOT EXISTS `".$DB_NAME."`;");
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo "ERROR ON CREATE DATABASE";
+            exit();
         }
         try{
             $pdo = new PDO($DB_DSN,$DB_USER,$DB_PASSWORD);
-        }catch(Exception $e)
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }catch(PDOException $e)
         {
             echo "Error to connect with database";
+            exit();
         }
         try {
             $stmt = $pdo->prepare("CREATE TABLE IF NOT EXISTS `Users`
@@ -35,11 +39,12 @@ if (!isset($pdo))
                 `Tokenlogin` VARCHAR(255),
                 `Notification` BOOLEAN DEFAULT 1,
                 `Tokenpassword` VARCHAR(255),
-                UNIQUE KEY(`Username`,`Email`)s
+                UNIQUE KEY(`Username`,`Email`)
             );");
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo "ERROR ON TABLE USERS";
+            exit();
         }
 
         try {
@@ -51,8 +56,9 @@ if (!isset($pdo))
                 `Date_create` DATETIME NOT NULL
             );");
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo "ERROR ON TABLE POST";
+            exit();
         }
 
         try {
@@ -66,8 +72,9 @@ if (!isset($pdo))
                 `Notification` BOOLEAN DEFAULT 0
             );");
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo "ERROR ON TABLE LIKE";
+            exit();
         }
 
         try {
@@ -81,8 +88,9 @@ if (!isset($pdo))
                 `Notification` BOOLEAN DEFAULT 0
             );");
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo "ERROR ON TABLE COMMENT";
+            exit();
         }
     }
 }
