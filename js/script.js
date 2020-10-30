@@ -1,11 +1,11 @@
-let switch_span = document.querySelectorAll(".switch span");
-let req_uri =
+var switch_span = document.querySelectorAll(".switch span");
+var req_uri =
   location.pathname == "/Camagru/" || location.pathname == "/Camagru/index.php"
     ? "./"
     : "../";
 setTimeout(() => {
-  let success = document.getElementById("success");
-  let failed = document.getElementById("failed");
+  var success = document.getElementById("success");
+  var failed = document.getElementById("failed");
   if (success != null) success.style = "display:none!important;";
   if (failed != null) failed.style = "display:none!important;";
 }, 3000);
@@ -51,17 +51,17 @@ function menu_click() {
   }
 }
 function slide_click(control) {
-  let slide = document.getElementsByClassName("slider-content")[0];
-  let count_post = document.getElementsByClassName("post").length;
+  var slide = document.getElementsByClassName("slider-content")[0];
+  var count_post = document.getElementsByClassName("post").length;
   if (control == "next") {
-    let transform = slide.style.transform;
-    let count_post_win = parseInt(window.innerWidth / 310);
-    let diff = (count_post - count_post_win) * 310;
+    var transform = slide.style.transform;
+    var count_post_win = parseInt(window.innerWidth / 310);
+    var diff = (count_post - count_post_win) * 310;
     if (
       transform &&
       parseInt(transform.split("translateX(")[1]) - 310 >= -diff
     ) {
-      let translateX = parseInt(transform.split("translateX(")[1]);
+      var translateX = parseInt(transform.split("translateX(")[1]);
       slide.style =
         "width:" +
         slide.style.width +
@@ -72,9 +72,9 @@ function slide_click(control) {
       slide.style =
         "width:" + slide.style.width + ";transform:translateX(" + -310 + "px);";
   } else if (control == "previous") {
-    let transform = slide.style.transform;
+    var transform = slide.style.transform;
     if (transform && parseInt(transform.split("translateX(")[1]) + 310 <= 0) {
-      let translateX = parseInt(transform.split("translateX(")[1]);
+      var translateX = parseInt(transform.split("translateX(")[1]);
       slide.style =
         "width:" +
         slide.style.width +
@@ -85,17 +85,17 @@ function slide_click(control) {
   }
 }
 function change_image() {
-  let input = document.querySelector("input[name='fileinput']");
-  let img = document.getElementById("Profile_image");
-  let filereader = new FileReader();
+  var input = document.querySelector("input[name='fileinput']");
+  var img = document.getElementById("Profile_image");
+  var filereader = new FileReader();
   filereader.onload = function () {
     img.setAttribute("src", this.result);
   };
   filereader.readAsDataURL(input.files[0]);
 }
 function notificatioClick() {
-  let box = document.querySelector(".notification-box");
-  let icon = document.querySelector(".nt-active");
+  var box = document.querySelector(".notification-box");
+  var icon = document.querySelector(".nt-active");
   if (
     box &&
     box.style &&
@@ -103,7 +103,7 @@ function notificatioClick() {
   ) {
     if (icon) {
       icon.className = "d-none";
-      let xhttp = new XMLHttpRequest();
+      var xhttp = new XMLHttpRequest();
       xhttp.open("GET", req_uri + "post/like_comment.php?not=1");
       xhttp.send();
     }
@@ -111,27 +111,27 @@ function notificatioClick() {
   } else if (box) box.style.display = "none";
 }
 // ---------------------Full_Post------------------------
-class Post {
-  constructor(
-    id,
-    owner,
-    img,
-    img_owner,
-    like_count,
-    comment_count,
-    like_color
-  ) {
-    this.id = id;
-    this.owner = owner;
-    this.img = img;
-    this.img_owner = img_owner;
-    this.like_count = like_count;
-    this.comment_count = comment_count;
-    this.like_color = like_color;
-  }
+function Post(
+  id,
+  owner,
+  img,
+  img_owner,
+  like_count,
+  comment_count,
+  like_color
+) {
+  return {
+    id: id,
+    owner: owner,
+    img: img,
+    img_owner: img_owner,
+    like_count: like_count,
+    comment_count: comment_count,
+    like_color: like_color,
+  };
 }
 function deletePost(id) {
-  let xhttp = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
   xhttp.open("POST", req_uri + "post/delete_post.php");
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200)
@@ -141,8 +141,8 @@ function deletePost(id) {
   xhttp.send("postid=" + id);
 }
 function displayDeleteBox(id) {
-  let delete_box = document.querySelector("#" + id + " .delete_box");
-  let post_box = document.querySelector("#" + id + " .post_box");
+  var delete_box = document.querySelector("#" + id + " .delete_box");
+  var post_box = document.querySelector("#" + id + " .post_box");
   if (delete_box.style.display == "flex") {
     delete_box.style = "display:none!important;";
     post_box.style = "";
@@ -154,22 +154,22 @@ function displayDeleteBox(id) {
 }
 
 function getPost(id_post) {
-  let all_post = document.getElementsByClassName("post");
-  let array_post = new Array(all_post.length);
-  let i = 0;
+  var all_post = document.getElementsByClassName("post");
+  var array_post = new Array(all_post.length);
+  var i = 0;
   while (i < all_post.length) {
-    let id = all_post[i].id;
-    let owner = document.querySelector("#" + id + " #owner").innerHTML;
-    let img = document.querySelector("#" + id + " .post_box > img").src;
-    let img_owner = document.querySelector("#" + id + ' img[alt="Profile"]')
+    var id = all_post[i].id;
+    var owner = document.querySelector("#" + id + " #owner").innerHTML;
+    var img = document.querySelector("#" + id + " .post_box > img").src;
+    var img_owner = document.querySelector("#" + id + ' img[alt="Profile"]')
       .src;
-    let like_count = document.querySelector("#" + id + " #like_txt").innerHTML;
-    let comment_count = document.querySelector("#" + id + " #comment_txt")
+    var like_count = document.querySelector("#" + id + " #like_txt").innerHTML;
+    var comment_count = document.querySelector("#" + id + " #comment_txt")
       .innerHTML;
-    let like_color = document.querySelector("#" + id + " .like_txt").style
+    var like_color = document.querySelector("#" + id + " .like_txt").style
       .color;
     like_count = like_count;
-    array_post[i] = new Post(
+    array_post[i] = Post(
       id,
       owner,
       img,
@@ -180,10 +180,10 @@ function getPost(id_post) {
     );
     i++;
   }
-  let find = array_post.find((elem) => elem.id == id_post);
+  var find = array_post.find((elem) => elem.id == id_post);
   i = array_post.indexOf(find);
   if (i > -1) {
-    let post = document.querySelector("#" + id_post);
+    var post = document.querySelector("#" + id_post);
     document.getElementsByClassName("full_post")[0].style =
       "display:flex!important;max-height:650px;height:" +
       (window.innerHeight - 60) +
@@ -228,13 +228,14 @@ function getPost(id_post) {
   }
 }
 function getComment(id_post) {
-  let xhttp = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
+  document.getElementsByClassName("comment_box")[0].innerHTML = "";
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200)
-      if (this.response !== "error")
+      if (this.responseText !== "error")
         document.getElementsByClassName(
           "comment_box"
-        )[0].innerHTML = this.response;
+        )[0].innerHTML = this.responseText;
   };
   xhttp.open("POST", req_uri + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -256,7 +257,7 @@ function likeBox(color) {
     "padding: 5px;cursor: pointer;border: 1px solid " + color;
 }
 function deleteComment(id_comment, id_post) {
-  let xhttp = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText.indexOf("<script>") > -1) window.location.reload();
@@ -269,7 +270,7 @@ function deleteComment(id_comment, id_post) {
   xhttp.send("submit=delete&commentid=" + id_comment);
 }
 function displayDeleteComment(id_comment) {
-  let comment_box = document.querySelectorAll("#" + id_comment + " > div");
+  var comment_box = document.querySelectorAll("#" + id_comment + " > div");
   if (
     comment_box[0].style.display == "" ||
     comment_box[0].style.display == "none"
@@ -284,8 +285,8 @@ function displayDeleteComment(id_comment) {
   }
 }
 function hide_show_comment(id) {
-  let post = document.getElementById(id);
-  let comment = document.querySelector("#" + id + " .comment_text");
+  var post = document.getElementById(id);
+  var comment = document.querySelector("#" + id + " .comment_text");
   post.style = "";
   if (comment.style.display == "") {
     comment.style = "display:block!important";
@@ -293,16 +294,16 @@ function hide_show_comment(id) {
   } else if (comment.style.display == "block") comment.style.display = "";
 }
 function like_click(id) {
-  let owner = document.querySelector("#" + id + " #owner");
-  let like_btn = document.querySelector("#" + id + " .fa-thumbs-up");
-  let like_txt_btn = document.querySelector("#" + id + " .like_txt");
-  let like_txt = document.querySelector("#" + id + " #like_txt");
-  let color = "";
+  var owner = document.querySelector("#" + id + " #owner");
+  var like_btn = document.querySelector("#" + id + " .fa-thumbs-up");
+  var like_txt_btn = document.querySelector("#" + id + " .like_txt");
+  var like_txt = document.querySelector("#" + id + " #like_txt");
+  var color = "";
   if (like_btn.style.color == "") color = "color:#167db9!important";
-  let xhttp = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
-    let response = parseInt(this.response.split("-")[1]);
     if (this.readyState == 4 && this.status == 200) {
+      var response = parseInt(this.responseText.split("-")[1]);
       if (this.responseText.indexOf("<script>") > -1) window.location.reload();
       else if (this.responseText !== "error") {
         like_btn.style = color;
@@ -319,12 +320,12 @@ function like_click(id) {
   xhttp.send("submit=like&postid=" + id + "&owner=" + owner.innerHTML);
 }
 function Comment_click(id) {
-  let owner = document.querySelector("#" + id + " #owner");
-  let comment_txt = document.querySelector("#" + id + " .comment_txt");
-  let comment_count = document.querySelector("#" + id + " #comment_txt");
-  let xhttp = new XMLHttpRequest();
+  var owner = document.querySelector("#" + id + " #owner");
+  var comment_txt = document.querySelector("#" + id + " .comment_txt");
+  var comment_count = document.querySelector("#" + id + " #comment_txt");
+  var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
-    let response = parseInt(this.response.split("-")[1]);
+    var response = parseInt(this.responseText.split("-")[1]);
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText.indexOf("<script>") > -1) window.location.reload();
       else if (this.responseText !== "error") {

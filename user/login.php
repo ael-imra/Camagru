@@ -185,7 +185,7 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
                 </div>
                 <div class="mx-auto mt-5 w-100 text-center">
                   <span class="text-white">Already have an account? Click <span style="color:#F97042;cursor:pointer;"
-                      class="click_form" onclick="switch_l_r(document.querySelectorAll('.click_form')[2])">here</span>
+                      class="click_form" onclick="display_reset_Password()">here</span>
                     to login</span>
                 </div>
               </form>

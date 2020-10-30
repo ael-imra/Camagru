@@ -103,7 +103,6 @@ require($Home_dir."post/post.php");
           </div>
         </div>
       </div>
-      <img id="image_capture" src="">
     </div>
     </section>
   </div>

@@ -14,13 +14,13 @@ require("post/post.php");
 </head>
 
 <body>
-  <div class="d-flex flex-column m-0 p-0 align-items-center">
+  <div class="d-flex flex-column m-0 p-0">
     <?php require("outils/menu.php"); ?>
     <div class="index-content d-flex flex-row flex-wrap justify-content-center w-100 mx-auto mt-5">
       <?php echo getAllPost($pdo);?>
     </div>
     </section>
-    <form method="GET" class="pagination d-flex flex-rowr">
+    <form method="GET" class="pagination d-flex flex-row mx-auto">
       <?php echo getPagination($pdo);?>
     </form>
     </section>

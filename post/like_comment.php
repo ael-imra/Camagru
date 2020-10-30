@@ -174,4 +174,4 @@ else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] 
         echo "error";
 }
 else
-    Redirect("/Camagru/index.php");
+    echo "error";
