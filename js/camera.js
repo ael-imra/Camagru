@@ -16,20 +16,19 @@ var array_activity = Array();
 var width = 720;
 var height = 420;
 window.addEventListener("resize", sizeOfVideo);
-// window.addEventListener("visibilitychange", sizeOfVideo);
 window.addEventListener("load", () => {
   var video = document.createElement("video");
   var canvas = document.getElementsByTagName("canvas")[0];
   var context = canvas.getContext("2d");
-  var newimage = document.createElement("IMG");
+  var newimage = document.createElement("img");
   var capture = document.getElementById("capture");
   sizeOfVideo();
   navigator.mediaDevices
     .getUserMedia({
       audio: false,
       video: {
-        width: 720,
-        height: 480,
+        width: 1920,
+        height: 1080,
       },
     })
     .then((stream) => {
@@ -50,6 +49,12 @@ window.addEventListener("load", () => {
       }, 16);
     })
     .catch((error) => {
+      capture.style = "display:none!important";
+      document.getElementsByClassName("createImageButton")[2].style =
+        "display:none!important";
+      document.getElementsByClassName("createImageButton")[3].style =
+        "display:none!important";
+      createImageButton.style = "display:none!important";
       console.log(error);
     });
   capture.addEventListener("click", () => {

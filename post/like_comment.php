@@ -41,7 +41,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                     echo "Like:-".get_count("Like",$pdo,$_POST["postid"]);
                 }
             }
-            else if (explode('post_',$_POST["postid"])[1])
+            else if (count(explode('post_',$_POST["postid"])) == 2)
             {
                 $postid = explode('post_',$_POST["postid"])[1];
                 $stmt = $pdo->prepare("SELECT * FROM `Post` WHERE `PostId`=:postid AND `UserIdOwner`=:useridowner");
@@ -51,6 +51,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $data = $stmt->fetchAll();
                 if ($data)
                 {
+                    echo "<script>alert('".$value."')</script>";
                     $stmt = $pdo->prepare("INSERT INTO `Like`(`UserIdOwner`, `PostId`, `UserAction`) VALUES (:useridowner,:postid,:UserAction)");
                     $stmt->bindParam(":postid",$_POST["postid"]);
                     $stmt->bindParam(":useridowner",$_POST["owner"]);
@@ -71,7 +72,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
     }
     else if (isset($_POST["submit"]) && $_POST["submit"] == "comment")
     {
-        if (isset($_POST["postid"]) && isset($_POST["owner"]) && isset($_POST["content"]) && explode('post_',$_POST["postid"])[1] && str_replace(' ','',$_POST["content"]))
+        if (isset($_POST["postid"]) && isset($_POST["owner"]) && isset($_POST["content"]) && count(explode('post_',$_POST["postid"])) == 2 && str_replace(' ','',$_POST["content"]))
         {
             $postid = explode('post_',$_POST["postid"])[1];
             $stmt = $pdo->prepare("SELECT * FROM `Post` WHERE `PostId`=:postid AND `UserIdOwner`=:useridowner");

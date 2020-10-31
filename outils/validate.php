@@ -10,7 +10,10 @@ function validator_email($email){
 }
 
 function validator_password($password){
-    return(preg_match("/^[ -~]{8,25}$/",$password));
+    $has_lowerCase = preg_match("/[a-z]+/",$password);
+    $has_upperCase = preg_match("/[A-Z]+/",$password);
+    $has_number = preg_match("/[0-9]+/",$password);
+    return((preg_match("/^[ -~]{8,25}$/",$password) && $has_lowerCase && $has_upperCase && $has_number));
 }
 
 function validator_username($username){

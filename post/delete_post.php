@@ -13,7 +13,7 @@ function deleteFromTable($pdo,$table,$postid)
 }
 if (isset($_POST["postid"]) && $_POST["postid"] != "")
 {
-    if (explode('post_',$_POST["postid"])[1])
+    if (count(explode('post_',$_POST["postid"]))>=2)
     {
         $postid = explode('post_',$_POST["postid"])[1];
         $stmt = $pdo->prepare("SELECT * FROM `Post` WHERE `PostId` = :postid AND `UserIdOwner`=:UserIdOwner");

@@ -5,7 +5,7 @@ require($Home_dir."outils/check.php");
 if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
 {
     $type_image = "";
-    if (explode('data:image/',$_POST["image_data"])[1] && explode(';',explode('data:image/',$_POST["image_data"])[1])[0])
+    if (count(explode('data:image/',$_POST["image_data"])) >= 2 && count(explode(';',explode('data:image/',$_POST["image_data"])[1]))>=1)
         $type_image = explode(';',explode('data:image/',$_POST["image_data"])[1])[0];
     if ($_SERVER["CONTENT_LENGTH"] < 11000000 && ($type_image == "png" || $type_image == "jpg" || $type_image == "jpeg" || $type_image == "gif"))
     {

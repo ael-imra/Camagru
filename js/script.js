@@ -1,5 +1,5 @@
 var switch_span = document.querySelectorAll(".switch span");
-var req_uri =
+var url =
   location.pathname == "/Camagru/" || location.pathname == "/Camagru/index.php"
     ? "./"
     : "../";
@@ -104,7 +104,7 @@ function notificatioClick() {
     if (icon) {
       icon.className = "d-none";
       var xhttp = new XMLHttpRequest();
-      xhttp.open("GET", req_uri + "post/like_comment.php?not=1");
+      xhttp.open("GET", url + "post/like_comment.php?not=1");
       xhttp.send();
     }
     box.style = "display:block!important";
@@ -132,7 +132,7 @@ function Post(
 }
 function deletePost(id) {
   var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", req_uri + "post/delete_post.php");
+  xhttp.open("POST", url + "post/delete_post.php");
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200)
       window.location = window.location.href;
@@ -237,7 +237,7 @@ function getComment(id_post) {
           "comment_box"
         )[0].innerHTML = this.responseText;
   };
-  xhttp.open("POST", req_uri + "post/like_comment.php", true);
+  xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send("all_comment=true&postid=" + id_post);
 }
@@ -259,13 +259,10 @@ function likeBox(color) {
 function deleteComment(id_comment, id_post) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      if (this.responseText.indexOf("<script>") > -1) window.location.reload();
-      else getComment(id_post);
-    }
+    if (this.readyState == 4 && this.status == 200) getComment(id_post);
     window.location.reload();
   };
-  xhttp.open("POST", req_uri + "post/like_comment.php", true);
+  xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send("submit=delete&commentid=" + id_comment);
 }
@@ -303,9 +300,9 @@ function like_click(id) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText === "");
       var response = parseInt(this.responseText.split("-")[1]);
-      if (this.responseText.indexOf("<script>") > -1) window.location.reload();
-      else if (this.responseText !== "error") {
+      if (this.responseText !== "error" && this.responseText !== "") {
         like_btn.style = color;
         like_txt_btn.style = color;
         likeBox(like_btn.style.color);
@@ -315,7 +312,7 @@ function like_click(id) {
       }
     }
   };
-  xhttp.open("POST", req_uri + "post/like_comment.php", true);
+  xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send("submit=like&postid=" + id + "&owner=" + owner.innerHTML);
 }
@@ -337,7 +334,7 @@ function Comment_click(id) {
       }
     }
   };
-  xhttp.open("POST", req_uri + "post/like_comment.php", true);
+  xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send(
     "submit=comment&postid=" +
