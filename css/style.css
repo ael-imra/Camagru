@@ -61,10 +61,6 @@ input {
 .text-white {
   font-size: 12px;
 }
-.signin,
-.reset_password {
-  display: none !important;
-}
 @media (max-width: 768px) {
   #login-img {
     display: none !important;

@@ -1,6 +1,8 @@
 <?php
 $Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
 require($Home_dir."post/post.php");
+if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
+  Redirect("../user/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,12 +75,12 @@ require($Home_dir."post/post.php");
               <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;" onclick="document.querySelectorAll('.gr_emoji > div')[0].style='display:none!important'">X</span>
             </div>
             <div class="emojiBox d-flex flex-row flex-wrap justify-content-center">
-              <div><img class="emoji" src="../img/emoji1.png" onclick="selectEmoji(1)"></div>
-              <div><img class="emoji" src="../img/emoji2.png" onclick="selectEmoji(2)"></div>
-              <div><img class="emoji" src="../img/emoji3.png" onclick="selectEmoji(3)"></div>
-              <div><img class="emoji" src="../img/emoji4.png" onclick="selectEmoji(4)"></div>
-              <div><img class="emoji" src="../img/emoji5.png" onclick="selectEmoji(5)"></div>
-              <div><img class="emoji" src="../img/emoji6.png" onclick="selectEmoji(6)"></div>
+              <div><img class="emoji" src="../img/emoji1.png" onclick="selectEmoji(0)"></div>
+              <div><img class="emoji" src="../img/emoji2.png" onclick="selectEmoji(1)"></div>
+              <div><img class="emoji" src="../img/emoji3.png" onclick="selectEmoji(2)"></div>
+              <div><img class="emoji" src="../img/emoji4.png" onclick="selectEmoji(3)"></div>
+              <div><img class="emoji" src="../img/emoji5.png" onclick="selectEmoji(4)"></div>
+              <div><img class="emoji" src="../img/emoji6.png" onclick="selectEmoji(5)"></div>
               <div>
                 <input type="file" id="fileinput" style="display: none;" onchange="addNewEmoji()">
                 <img class="emoji" src="../img/addEmoji.png" onclick="document.getElementById('fileinput').click();">

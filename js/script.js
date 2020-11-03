@@ -3,51 +3,62 @@ var url =
   location.pathname == "/Camagru/" || location.pathname == "/Camagru/index.php"
     ? "./"
     : "../";
-setTimeout(() => {
+setTimeout(function () {
   var success = document.getElementById("success");
   var failed = document.getElementById("failed");
-  if (success != null) success.style = "display:none!important;";
-  if (failed != null) failed.style = "display:none!important;";
+  if (success != null)
+    success.className = success.className.replace("d-flex", "d-none");
+  if (failed != null)
+    failed.className = failed.className.replace("d-flex", "d-none");
 }, 3000);
 function display_signin() {
   switch_span[1].removeAttribute("id");
   switch_span[0].setAttribute("id", "active");
-  document.getElementsByClassName("signin")[0].style =
-    "display:flex!important;";
-  document.getElementsByClassName("signup")[0].style =
-    "display:none!important;";
-  document.getElementsByClassName("reset_password")[0].style =
-    "display:none!important;";
+  document.querySelector(".signin").className = document
+    .querySelector(".signin")
+    .className.replace("d-none", "d-flex");
+  document.querySelector(".signup").className = document
+    .querySelector(".signup")
+    .className.replace("d-flex", "d-none");
+  document.querySelector(".reset_password").className = document
+    .querySelector(".reset_password")
+    .className.replace("d-flex", "d-none");
 }
 function display_signup() {
   switch_span[0].removeAttribute("id");
   switch_span[1].setAttribute("id", "active");
-  document.getElementsByClassName("signin")[0].style =
-    "display:none!important;";
-  document.getElementsByClassName("signup")[0].style =
-    "display:flex!important;";
-  document.getElementsByClassName("reset_password")[0].style =
-    "display:none!important;";
+  document.querySelector(".signin").className = document
+    .querySelector(".signin")
+    .className.replace("d-flex", "d-none");
+  document.querySelector(".signup").className = document
+    .querySelector(".signup")
+    .className.replace("d-none", "d-flex");
+  document.querySelector(".reset_password").className = document
+    .querySelector(".reset_password")
+    .className.replace("d-flex", "d-none");
 }
 function display_reset_Password() {
   switch_span[1].removeAttribute("id");
   switch_span[0].setAttribute("id", "active");
-  document.getElementsByClassName("signin")[0].style =
-    "display:none!important;";
-  document.getElementsByClassName("signup")[0].style =
-    "display:none!important;";
-  document.getElementsByClassName("reset_password")[0].style =
-    "display:flex!important;";
+  document.querySelector(".signin").className = document
+    .querySelector(".signin")
+    .className.replace("d-flex", "d-none");
+  document.querySelector(".signup").className = document
+    .querySelector(".signup")
+    .className.replace("d-flex", "d-none");
+  document.querySelector(".reset_password").className = document
+    .querySelector(".reset_password")
+    .className.replace("d-none", "d-flex");
 }
 function menu_click() {
   ul = document.querySelector("#second-menu");
   menu_icon = document.querySelector("#menu_icon");
   if (menu_icon.getAttribute("class") == "fas fa-bars") {
     menu_icon.setAttribute("class", "fas fa-times");
-    ul.style = "display:block!important";
+    ul.style.display = "block";
   } else {
     menu_icon.setAttribute("class", "fas fa-bars");
-    ul.style = "display:none!important";
+    ul.style.display = "none";
   }
 }
 function slide_click(control) {
@@ -153,79 +164,67 @@ function displayDeleteBox(id) {
   }
 }
 
+function findOtherPost(id_post, next) {
+  id_next = null;
+  var post = document.getElementsByClassName("post");
+  for (var i = 0; i < post.length; i++) {
+    if (post[i].id == id_post && i + next >= 0 && i + next < post.length)
+      id_next = post[i + next].id;
+  }
+  return id_next;
+}
 function getPost(id_post) {
-  var all_post = document.getElementsByClassName("post");
-  var array_post = new Array(all_post.length);
-  var i = 0;
-  while (i < all_post.length) {
-    var id = all_post[i].id;
-    var owner = document.querySelector("#" + id + " #owner").innerHTML;
-    var img = document.querySelector("#" + id + " .post_box > img").src;
-    var img_owner = document.querySelector("#" + id + ' img[alt="Profile"]')
-      .src;
-    var like_count = document.querySelector("#" + id + " #like_txt").innerHTML;
-    var comment_count = document.querySelector("#" + id + " #comment_txt")
-      .innerHTML;
-    var like_color = document.querySelector("#" + id + " .like_txt").style
-      .color;
-    like_count = like_count;
-    array_post[i] = Post(
-      id,
-      owner,
-      img,
-      img_owner,
-      like_count,
-      comment_count,
-      like_color
+  var full_previous_post = document.getElementById("full_previous_post");
+  var full_next_post = document.getElementById("full_next_post");
+  document.getElementsByClassName("full_post")[0].style =
+    "display:flex!important;max-height:650px;height:" +
+    (window.innerHeight - 60) +
+    "px;";
+  document
+    .getElementById("full_img_post")
+    .setAttribute(
+      "src",
+      document.querySelector("#" + id_post + " .post_box > img").src
     );
-    i++;
-  }
-  var find = array_post.find((elem) => elem.id == id_post);
-  i = array_post.indexOf(find);
-  if (i > -1) {
-    var post = document.querySelector("#" + id_post);
-    document.getElementsByClassName("full_post")[0].style =
-      "display:flex!important;max-height:650px;height:" +
-      (window.innerHeight - 60) +
-      "px;";
-    document
-      .getElementById("full_img_post")
-      .setAttribute("src", array_post[i].img);
-    document.getElementById("full_post_owner").innerHTML = array_post[i].owner;
-    document
-      .getElementById("full_post_img_owner")
-      .setAttribute("src", array_post[i].img_owner);
-    document.getElementById("full_like_count").innerHTML =
-      array_post[i].like_count;
-    document.getElementById("full_comment_count").innerHTML =
-      array_post[i].comment_count;
-    likeBox(array_post[i].like_color);
-    getComment(id_post);
-    if (array_post[i + 1]) {
-      document.getElementById("full_next_post").style =
-        "display:block!important";
-      document
-        .getElementById("full_next_post")
-        .setAttribute("onclick", "getPost('" + array_post[i + 1].id + "')");
-    } else
-      document.getElementById("full_next_post").style =
-        "color:#232323!important";
-    if (array_post[i - 1]) {
-      document.getElementById("full_previous_post").style =
-        "display:block!important";
-      document
-        .getElementById("full_previous_post")
-        .setAttribute("onclick", "getPost('" + array_post[i - 1].id + "')");
-    } else
-      document.getElementById("full_previous_post").style =
-        "color:#232323!important";
-    document
-      .querySelector(".full_post input[type='submit']")
-      .setAttribute("onclick", 'fullSentComment("' + id_post + '")');
-    document
-      .querySelector(".full_post .like_box")
-      .setAttribute("onclick", 'like_click("' + id_post + '")');
-  }
+  document.getElementById("full_post_owner").innerHTML = document.querySelector(
+    "#" + id_post + " #owner"
+  ).innerHTML;
+  document
+    .getElementById("full_post_img_owner")
+    .setAttribute(
+      "src",
+      document.querySelector("#" + id_post + ' img[alt="Profile"]').src
+    );
+  document.getElementById("full_like_count").innerHTML = document.querySelector(
+    "#" + id_post + " #like_txt"
+  ).innerHTML;
+  document.getElementById(
+    "full_comment_count"
+  ).innerHTML = document.querySelector(
+    "#" + id_post + " #comment_txt"
+  ).innerHTML;
+  likeBox(document.querySelector("#" + id_post + " .like_txt").style.color);
+  getComment(id_post);
+  if (findOtherPost(id_post, 1)) {
+    full_next_post.style = "display:block!important";
+    full_next_post.setAttribute(
+      "onclick",
+      "getPost('" + findOtherPost(id_post, 1) + "')"
+    );
+  } else full_next_post.style = "color:#232323!important";
+  if (findOtherPost(id_post, -1)) {
+    full_previous_post.style = "display:block!important";
+    full_previous_post.setAttribute(
+      "onclick",
+      "getPost('" + findOtherPost(id_post, -1) + "')"
+    );
+  } else full_previous_post.style = "color:#232323!important";
+  document
+    .querySelector(".full_post input[type='submit']")
+    .setAttribute("onclick", 'fullSentComment("' + id_post + '")');
+  document
+    .querySelector(".full_post .like_box")
+    .setAttribute("onclick", 'like_click("' + id_post + '")');
 }
 function getComment(id_post) {
   var xhttp = new XMLHttpRequest();

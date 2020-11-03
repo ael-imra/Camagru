@@ -149,7 +149,7 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
 ?>
     <section class="d-flex flex-row position-relative h-100">
       <div class="login-register d-flex flex-row w-75 br-box border-dark overflow-hidden mt-4 mx-auto position-relative">
-        <div id="login-img" class="w-50 d-flex flex-column align-items-center bg-linear">
+        <div id="login-img" class="w-50 h-100 d-flex flex-column align-items-center bg-linear">
           <div class="d-flex flex-column justify-content-center w-100 h-100">
             <img class="w-100" src="../img/banner.png">
             <h1 class="w-100 text-center text-dark">Join us</h1>

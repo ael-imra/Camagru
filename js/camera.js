@@ -16,7 +16,7 @@ var array_activity = Array();
 var width = 720;
 var height = 420;
 window.addEventListener("resize", sizeOfVideo);
-window.addEventListener("load", () => {
+window.addEventListener("load", function () {
   var video = document.createElement("video");
   var canvas = document.getElementsByTagName("canvas")[0];
   var context = canvas.getContext("2d");
@@ -31,16 +31,13 @@ window.addEventListener("load", () => {
         height: 1080,
       },
     })
-    .then((stream) => {
-      try {
-        video.src = window.URL.createObjectURL(stream);
-      } catch (error) {
-        video.srcObject = stream;
-      }
+    .then(function (mediaStream) {
+      if (typeof video.srcObject == "object") video.srcObject = mediaStream;
+      else video.mozSrcObject = mediaStream;
       video.play();
-      setInterval(() => {
+      setInterval(function () {
         context.drawImage(video, 0, 0, width, height);
-        array_activity.forEach((val) => {
+        array_activity.forEach(function (val) {
           newimage.setAttribute("src", val.img);
           newimage.width = val.width;
           newimage.height = val.width;
@@ -48,16 +45,15 @@ window.addEventListener("load", () => {
         });
       }, 16);
     })
-    .catch((error) => {
+    .catch(function (error) {
       capture.style = "display:none!important";
       document.getElementsByClassName("createImageButton")[2].style =
         "display:none!important";
       document.getElementsByClassName("createImageButton")[3].style =
         "display:none!important";
-      createImageButton.style = "display:none!important";
       console.log(error);
     });
-  capture.addEventListener("click", () => {
+  capture.addEventListener("click", function () {
     image_capture.setAttribute("src", canvas.toDataURL("image/jpeg"));
     post_info.className =
       "post_info d-flex flex-column justify-content-center align-items-center";
@@ -109,7 +105,7 @@ function resetIndex() {
   var emoji_activity = document.getElementsByClassName("emoji-activity")[0];
   var i = 0;
   emoji_activity.innerHTML = "";
-  array_activity.forEach((val) => {
+  array_activity.forEach(function (val) {
     val.id = i;
     emoji_activity.innerHTML +=
       '<div class="emoji-act d-flex flex-column align-items-center">' +
@@ -172,7 +168,7 @@ function post_sent() {
         document.getElementById("failed").style = "display:block";
         document.getElementById("failed").innerHTML =
           "Image(JPG OR JPEG OR PNG OR GIF) And Size less than 10MB";
-        setTimeout(() => {
+        setTimeout(function () {
           document.getElementById("failed").style = "display:none;";
         }, 3000);
       } else window.location = "create_post.php";
@@ -187,7 +183,7 @@ function post_sent() {
 function uploadImage() {
   var file = document.getElementById("upload").files[0];
   var reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = function (e) {
     image_capture.setAttribute("src", e.target.result);
     post_info.className =
       "post_info d-flex flex-column justify-content-center align-items-center";
@@ -323,7 +319,7 @@ function addNewEmoji() {
   var emojiBox = document.getElementsByClassName("emojiBox")[0];
   var div = document.createElement("div");
   var img = document.createElement("img");
-  reader.onload = (e) => {
+  reader.onload = function (e) {
     img.src = e.target.result;
     img.className = "emoji";
     img.setAttribute("onClick", "selectEmoji()");
