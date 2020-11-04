@@ -122,25 +122,6 @@ function notificatioClick() {
   } else if (box) box.style.display = "none";
 }
 // ---------------------Full_Post------------------------
-function Post(
-  id,
-  owner,
-  img,
-  img_owner,
-  like_count,
-  comment_count,
-  like_color
-) {
-  return {
-    id: id,
-    owner: owner,
-    img: img,
-    img_owner: img_owner,
-    like_count: like_count,
-    comment_count: comment_count,
-    like_color: like_color,
-  };
-}
 function deletePost(id) {
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", url + "post/delete_post.php");
@@ -299,7 +280,6 @@ function like_click(id) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText === "");
       var response = parseInt(this.responseText.split("-")[1]);
       if (this.responseText !== "error" && this.responseText !== "") {
         like_btn.style = color;
