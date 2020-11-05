@@ -60,8 +60,8 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                     $data_user = getUserData($pdo,$_POST["owner"]);
                     $message = $_SESSION["User"]." like your post";
                     echo "Like:-".get_count("Like",$pdo,$_POST["postid"]);
-                    if ($data_user)
-                        send_mail($message,$data_user[0]["Email"],"Notification");
+                    // if ($data_user)
+                    //     send_mail($message,$data_user[0]["Email"],"Notification");
                 }
                 else 
                     set_message_failed("Something Wroong!",$url);
@@ -91,8 +91,8 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $data_user = getUserData($pdo,$_POST["owner"]);
                 $message = $_POST["owner"]." comment your post";
                 echo "Comment:-".get_count("Comment",$pdo,$_POST["postid"]);
-                if ($data_user)
-                    send_mail($message,$data_user[0]["Email"],"Notification");
+                // if ($data_user)
+                //     send_mail($message,$data_user[0]["Email"],"Notification");
             }
             else 
                 set_message_failed("Something Wroong!",$url);

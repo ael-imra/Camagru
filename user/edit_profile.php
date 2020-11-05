@@ -120,10 +120,11 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
           <div class="position-relative" style="width:100px;height:100px">
             <img class="rounded-pill" id="Profile_image" src="<?php echo '/Camagru/'.$data[0]['Image'];?>"
               alt="<?php echo $data[0]['Username'];?>" style="width:100px;height:100px;" />
-            <i class="fas fa-edit position-absolute" style="cursor:pointer;color:black"
+            <i class="fas fa-edit position-absolute" style="cursor:pointer;color:black;top:0;right:0;"
               onclick="document.querySelector('input[name=\'fileinput\']').click()"></i>
-            <input class="position-absolute" style="width: 0;height: 0;margin: 0;overflow: hidden;padding: 0;"
-              type="file" name="fileinput" onchange="change_image()" />
+            <input class="position-absolute"
+              style="width: 0;height: 0;margin: 0;overflow: hidden;padding: 0;top:0;right:0;" type="file"
+              name="fileinput" onchange="change_image()" />
           </div>
           <span class="d-block font-weight-bold" style="color:black"><?php echo $data[0]['Username'];?></span>
         </div>

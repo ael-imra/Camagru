@@ -58,21 +58,28 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
             </div>
             <canvas width="720" height="420"></canvas>
             <div class="d-flex flex-row justify-content-center align-items-center">
-              <div class="createImageButton d-flex flex-column justify-content-center" id="capture"><i class="fas fa-camera fa-2x"
-                  style="color:white"></i></div>
+              <div class="createImageButton d-none flex-column justify-content-center" id="capture"><i
+                  class="fas fa-camera fa-2x" style="color:white"></i></div>
               <div class="createImageButton d-flex flex-column justify-content-center" id="upload_image"
                 onclick="document.getElementById('upload').click()"><i class="fas fa-upload fa-2x"
                   style="color:white"></i></div>
               <input type="file" id="upload" style="display: none;" onchange="uploadImage()">
-              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-icons fa-2x" style="color:white" onclick="document.querySelectorAll('.gr_emoji > div')[0].style='display:flex!important'"></i></div>
-              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-history fa-2x"  style="color:white" onclick="document.querySelectorAll('.gr_emoji > div')[1].style='display:flex!important'"></i></div>
+              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-icons fa-2x"
+                  style="color:white"
+                  onclick="document.querySelectorAll('.gr_emoji > div')[0].setAttribute('style','display:flex!important')"></i>
+              </div>
+              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-history fa-2x"
+                  style="color:white"
+                  onclick="document.querySelectorAll('.gr_emoji > div')[1].setAttribute('style','display:flex!important')"></i>
+              </div>
             </div>
           </div>
         </div>
         <div class="gr_emoji d-flex flex-row">
-          <div class="d-none flex-column justofy-content-center align-items-center">
+          <div class="d-none flex-column justify-content-center align-items-center">
             <div class="w-100 text-right mr-4 text-dark">
-              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;" onclick="document.querySelectorAll('.gr_emoji > div')[0].style='display:none!important'">X</span>
+              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;"
+                onclick="document.querySelectorAll('.gr_emoji > div')[0].setAttribute('style','display:none!important')">X</span>
             </div>
             <div class="emojiBox d-flex flex-row flex-wrap justify-content-center">
               <div><img class="emoji" src="../img/emoji1.png" onclick="selectEmoji(0)"></div>
@@ -87,9 +94,11 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
               </div>
             </div>
           </div>
-          <div class="d-none flex-column justofy-content-center align-items-center">
+          <div class="d-none flex-column justify-content-center align-items-center">
             <div class="w-100 text-right mr-4 text-dark">
-              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;" onclick="document.querySelectorAll('.gr_emoji > div')[1].style='display:none!important'">X</span></div>
+              <span class="text-white font-weight-bold" style="cursor:pointer;font-size:18px;"
+                onclick="document.querySelectorAll('.gr_emoji > div')[1].setAttribute('style','display:none!important')">X</span>
+            </div>
             <div class="emoji-activity d-flex flex-row flex-wrap justify-content-center">
 
             </div>

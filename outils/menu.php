@@ -40,9 +40,9 @@
       </div>';
     }
   ?>
-  <div class="w-75 <?php (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)) ? print('text-center'): print('text-left ml-3')?>">
-    <img style="width:90px;cursor:pointer;" src="/Camagru/img/logo.png"
-      onclick="location.href='/Camagru/index.php';">
+  <div
+    class="w-75 <?php (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)) ? print('text-center'): print('text-left ml-3')?>">
+    <img style="width:90px;cursor:pointer;" src="/Camagru/img/logo.png" onclick="location.href='/Camagru/index.php';">
   </div>
   <?php  
     if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)){
@@ -62,9 +62,9 @@
 <?php
   if(isset($_SESSION["failed"]) && $_SESSION["failed"] != ""){
     echo 
-    '<div id="failed" class="message position-fixed text-center d-flex flex-column">
-      <h4 class=" w-100">
-        <i class="fas fa-exclamation-triangle"></i>Failed!
+    '<div id="failed" class="message position-fixed text-center d-flex flex-column" style="background-color:#ff8788">
+      <h4 class=" w-100" style="color:#ff8788">
+        <i class="fas fa-exclamation-triangle" style="color:#ff8788"></i>Failed!
       </h4>
       <span>'.$_SESSION["failed"].'</span>
     </div>';
@@ -74,9 +74,9 @@
 <?php
   if(isset($_SESSION["success"]) && $_SESSION["success"] != ""){
     echo 
-    '<div id="success" class="message position-fixed text-center d-flex flex-column">
-      <h4 class=" w-100">
-        <i class="fas fa-chevron-circle-down"></i>Success!
+    '<div id="success" class="message position-fixed text-center d-flex flex-column" style="background-color:#b1e17e">
+      <h4 class=" w-100" style="color:#b1e17e">
+        <i class="fas fa-chevron-circle-down" style="color:#b1e17e"></i>Success!
       </h4>
       <span>'.$_SESSION["success"].'</span>
     </div>';
@@ -132,7 +132,7 @@
       </ul>';
     }
   ?>
-  <div class="full_post d-none flex-column align-items-center p-3">
+  <div class="full_post d-none flex-column align-items-center p-3 mt-3.com.com">
     <div class="w-100 d-flex flex-row align-items-center mb-2">
       <div class="w-25 d-flex flex-row" style="margin: 3px;">
         <i class="fas fa-arrow-left fa-2x mr-2" id="full_previous_post"></i>
@@ -146,7 +146,7 @@
       </div>
       <div class="w-25 text-right" style="margin: 3px;">
         <i class="fas fa-times fa-2x"
-          onclick="document.getElementsByClassName('full_post')[0].style='display:none!important;'"></i>
+          onclick="document.getElementsByClassName('full_post')[0].setAttribute('style','display:none!important;')"></i>
       </div>
     </div>
     <div class="w-100 mb-2" style="max-height:300px">

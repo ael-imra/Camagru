@@ -360,7 +360,6 @@ input[type="range"] {
 .message {
   width: 320px;
   min-height: 135px;
-  background: var(--color-message);
   z-index: 99;
   right: 0;
   top: 0;
@@ -370,7 +369,6 @@ input[type="range"] {
   overflow: hidden;
 }
 .message h4 {
-  color: var(--color-message);
   background: white;
   font-size: 28px;
 }
@@ -379,12 +377,5 @@ input[type="range"] {
   margin: auto 0;
 }
 .message i {
-  color: var(--color-message);
   margin-right: 7px;
-}
-#failed {
-  --color-message: #ff8788;
-}
-#success {
-  --color-message: #b1e17e;
 }

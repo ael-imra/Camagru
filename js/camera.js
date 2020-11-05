@@ -43,13 +43,11 @@ window.addEventListener("load", function () {
           context.drawImage(newimage, val.left, val.top, val.width, val.width);
         });
       }, 16);
+      capture.className = capture.className.replace('d-none','d-flex');
+      document.getElementsByClassName("createImageButton")[2].className = document.getElementsByClassName("createImageButton")[2].className.replace('d-none','d-flex');
+      document.getElementsByClassName("createImageButton")[3].className = document.getElementsByClassName("createImageButton")[3].className.replace('d-none','d-flex');
     })
     .catch(function (error) {
-      capture.style = "display:none!important";
-      document.getElementsByClassName("createImageButton")[2].style =
-        "display:none!important";
-      document.getElementsByClassName("createImageButton")[3].style =
-        "display:none!important";
       console.log(error);
     });
   capture.addEventListener("click", function () {
@@ -68,8 +66,7 @@ window.addEventListener("load", function () {
 function deleteActivity(id) {
   array_activity.splice(id, 1);
   resetIndex();
-  document.querySelectorAll(".gr_emoji > div")[1].style =
-    "display:none!important";
+  document.querySelectorAll(".gr_emoji > div")[1].setAttribute("style", "display:none!important")
 }
 function editActivity(id) {
   var emoji_box = document.getElementsByClassName("box-emoji")[0];
@@ -83,16 +80,16 @@ function editActivity(id) {
   emoji_image.setAttribute("src", array_activity[id].img);
   emoji_image.width = array_activity[id].width;
   emoji_image.height = emoji_image.width;
-  emoji_box.style =
+  emoji_box.setAttribute("style",
     "left:" +
     array_activity[id].left +
     "px;top:" +
     array_activity[id].top +
-    "px;";
+    "px;");
   left_input.value = array_activity[id].left;
   top_input.value = array_activity[id].top;
   size_input.value = emoji_image.width;
-  boxEditEmoji.style = "display:flex!important";
+  boxEditEmoji.setAttribute("style", "display:flex!important");
   changePositionEmoji("Left_1");
   changePositionEmoji("Top_1");
   deleteActivity(id);
@@ -127,7 +124,7 @@ function sizeOfVideo() {
   var slide = document.getElementsByClassName("slider-content")[0];
   var all_post = document.getElementsByClassName("post");
   var camera = document.getElementsByClassName("camera")[0];
-  slide.style = "width:" + all_post.length * 310 + "px";
+  slide.setAttribute("style", "width:" + all_post.length * 310 + "px");
   changeSize(2);
   if (window.outerWidth < 720 || window.innerWidth < 720) {
     width = 320;
@@ -138,7 +135,7 @@ function sizeOfVideo() {
     width = 720;
     height = 480;
   }
-  camera.style = "width:" + width + "px!important;";
+  camera.setAttribute("style","width:" + width + "px!important;");
   canvas.width = width;
   canvas.height = height;
   img.width = width;
@@ -161,11 +158,11 @@ function post_sent() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "Failed") {
-        document.getElementById("failed").style = "display:block";
+        document.getElementById("failed").setAttribute("style", "display:block");
         document.getElementById("failed").innerHTML =
           "Image(JPG OR JPEG OR PNG OR GIF) And Size less than 10MB";
         setTimeout(function () {
-          document.getElementById("failed").style = "display:none;";
+          document.getElementById("failed").setAttribute("style", "display:none;");
         }, 3000);
       } else window.location.reload();
     }
@@ -205,9 +202,9 @@ function selectEmoji(index) {
     "src",
     document.getElementsByClassName("emoji")[index].src
   );
-  boxEditEmoji.style = "display:flex!important";
-  document.querySelectorAll(".gr_emoji > div")[0].style =
-    "display:none!important";
+  boxEditEmoji.setAttribute("style", "display:flex!important");
+  document.querySelectorAll(".gr_emoji > div")[0].setAttribute("style",
+    "display:none!important");
 }
 function saveEmoji() {
   var boxEditEmoji = document.getElementsByClassName("boxEditEmoji")[0];
@@ -222,13 +219,13 @@ function saveEmoji() {
   );
   emoji_box.className =
     "box-emoji position-absolute d-none flex-column justify-content-center";
-  boxEditEmoji.style = "display:none!important";
+  boxEditEmoji.setAttribute("style", "display:none!important");
   resetIndex();
 }
 function cancelEmoji() {
   var emoji_box = document.getElementsByClassName("box-emoji")[0];
   var boxEditEmoji = document.getElementsByClassName("boxEditEmoji")[0];
-  boxEditEmoji.style = "display:none!important";
+  boxEditEmoji.setAttribute("style", "display:none!important");
   emoji_box.className =
     "box-emoji position-absolute d-none flex-column justify-content-center";
 }
@@ -265,47 +262,47 @@ function changePositionEmoji(id) {
     var input_text = document.querySelector("#leftEmoji input[type='text']");
     if (id == "Left_1") {
       input_text.value = input_range.value;
-      box.style =
-        "left:" + input_text.value + "px;top:" + box.offsetTop + "px;";
+      box.setAttribute("style",
+      "left:" + input_text.value + "px;top:" + box.offsetTop + "px;");
     } else if (id == "Left_2") {
       input_range.value = input_text.value;
-      box.style =
-        "left:" + input_range.value + "px;top:" + box.offsetTop + "px;";
+      box.setAttribute("style",
+        "left:" + input_range.value + "px;top:" + box.offsetTop + "px;");
     }
     if (box.offsetLeft > width - img.width) {
       input_text.value = width - img.width;
       input_range.value = width - img.width;
-      box.style =
-        "left:" + (width - img.width) + "px;top:" + box.offsetTop + "px;";
+      box.setAttribute("style",
+        "left:" + (width - img.width) + "px;top:" + box.offsetTop + "px;");
     }
     if (box.offsetLeft < 0) {
       input_text.value = 0;
       input_range.value = 0;
-      box.style = "left:" + 0 + "px;top:" + box.offsetTop + "px;";
+      box.setAttribute("style", "left:" + 0 + "px;top:" + box.offsetTop + "px;");
     }
   } else if (id == "Top_1" || id == "Top_2") {
     var input_range = document.querySelector("#topEmoji input[type='range']");
     var input_text = document.querySelector("#topEmoji input[type='text']");
     if (id == "Top_1") {
       input_text.value = input_range.value;
-      box.style =
-        "left:" + box.offsetLeft + "px;top:" + input_text.value + "px;";
+      box.setAttribute("style", 
+        "left:" + box.offsetLeft + "px;top:" + input_text.value + "px;");
     } else if (id == "Top_2") {
       input_range.value = input_text.value;
-      box.style =
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;";
+      box.setAttribute("style", 
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
     }
     if (box.offsetTop > height - img.width) {
       input_text.value = height - img.width;
       input_range.value = height - img.width;
-      box.style =
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;";
+      box.setAttribute("style", 
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
     }
     if (box.offsetTop < 0) {
       input_text.value = 0;
       input_range.value = 0;
-      box.style =
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;";
+      box.setAttribute("style", 
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
     }
   }
 }
@@ -320,10 +317,15 @@ function addNewEmoji() {
     img.className = "emoji";
     img.setAttribute(
       "onClick",
-      "selectEmoji(" + document.getElementsByClassName("emoji") + ")"
+      "selectEmoji(" + (document.getElementsByClassName("emoji").length - 1) + ")"
     );
     div.appendChild(img);
-    emojiBox.prepend(div);
+    emojiBox.appendChild(div);
+    let all_div_emojiBox = document.querySelectorAll(".emojiBox > div");
+    let copyDiv = all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML;
+    all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML = all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
+    all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML = copyDiv;
+
   };
   reader.readAsDataURL(file);
 }

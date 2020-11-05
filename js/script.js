@@ -73,25 +73,25 @@ function slide_click(control) {
       parseInt(transform.split("translateX(")[1]) - 310 >= -diff
     ) {
       var translateX = parseInt(transform.split("translateX(")[1]);
-      slide.style =
+      slide.setAttribute("style", 
         "width:" +
         slide.style.width +
         ";transform:translateX(" +
         (translateX - 310) +
-        "px);";
+        "px);");
     } else if (!transform && diff - 310 >= 0)
-      slide.style =
-        "width:" + slide.style.width + ";transform:translateX(" + -310 + "px);";
+      slide.setAttribute("style", 
+        "width:" + slide.style.width + ";transform:translateX(" + -310 + "px);");
   } else if (control == "previous") {
     var transform = slide.style.transform;
     if (transform && parseInt(transform.split("translateX(")[1]) + 310 <= 0) {
       var translateX = parseInt(transform.split("translateX(")[1]);
-      slide.style =
+      slide.setAttribute("style", 
         "width:" +
         slide.style.width +
         ";transform:translateX(" +
         (translateX + 310) +
-        "px);";
+        "px);");
     }
   }
 }
@@ -118,7 +118,7 @@ function notificatioClick() {
       xhttp.open("GET", url + "post/like_comment.php?not=1");
       xhttp.send();
     }
-    box.style = "display:block!important";
+    box.setAttribute("style",  "display:block!important");
   } else if (box) box.style.display = "none";
 }
 // ---------------------Full_Post------------------------
@@ -136,12 +136,12 @@ function displayDeleteBox(id) {
   var delete_box = document.querySelector("#" + id + " .delete_box");
   var post_box = document.querySelector("#" + id + " .post_box");
   if (delete_box.style.display == "flex") {
-    delete_box.style = "display:none!important;";
-    post_box.style = "";
+    delete_box.setAttribute("style",  "display:none!important;");
+    post_box.setAttribute("style",  "");
   } else {
-    delete_box.style =
-      "display:flex!important;height:" + post_box.offsetHeight + "px;";
-    post_box.style = "display:none!important;";
+    delete_box.setAttribute("style", 
+      "display:flex!important;height:" + post_box.offsetHeight + "px;");
+    post_box.setAttribute("style",  "display:none!important;");
   }
 }
 
@@ -157,10 +157,10 @@ function findOtherPost(id_post, next) {
 function getPost(id_post) {
   var full_previous_post = document.getElementById("full_previous_post");
   var full_next_post = document.getElementById("full_next_post");
-  document.getElementsByClassName("full_post")[0].style =
+  document.getElementsByClassName("full_post")[0].setAttribute("style", 
     "display:flex!important;max-height:650px;height:" +
     (window.innerHeight - 60) +
-    "px;";
+    "px;");
   document
     .getElementById("full_img_post")
     .setAttribute(
@@ -187,19 +187,19 @@ function getPost(id_post) {
   likeBox(document.querySelector("#" + id_post + " .like_txt").style.color);
   getComment(id_post);
   if (findOtherPost(id_post, 1)) {
-    full_next_post.style = "display:block!important";
+    full_next_post.setAttribute("style",  "display:block!important");
     full_next_post.setAttribute(
       "onclick",
       "getPost('" + findOtherPost(id_post, 1) + "')"
     );
-  } else full_next_post.style = "color:#232323!important";
+  } else full_next_post.setAttribute("style",  "color:#232323!important");
   if (findOtherPost(id_post, -1)) {
-    full_previous_post.style = "display:block!important";
+    full_previous_post.setAttribute("style",  "display:block!important");
     full_previous_post.setAttribute(
       "onclick",
       "getPost('" + findOtherPost(id_post, -1) + "')"
     );
-  } else full_previous_post.style = "color:#232323!important";
+  } else full_previous_post.setAttribute("style",  "color:#232323!important");
   document
     .querySelector(".full_post input[type='submit']")
     .setAttribute("onclick", 'fullSentComment("' + id_post + '")');
@@ -231,10 +231,10 @@ function fullSentComment(id_post) {
   getComment(id_post);
 }
 function likeBox(color) {
-  document.querySelector(".full_post .like_txt").style = "color:" + color;
-  document.querySelector(".full_post .fa-thumbs-up").style = "color:" + color;
-  document.querySelector(".full_post .like_box").style =
-    "padding: 5px;cursor: pointer;border: 1px solid " + color;
+  document.querySelector(".full_post .like_txt").setAttribute("style",  "color:" + color);
+  document.querySelector(".full_post .fa-thumbs-up").setAttribute("style",  "color:" + color);
+  document.querySelector(".full_post .like_box").setAttribute("style", 
+    "padding: 5px;cursor: pointer;border: 1px solid " + color);
 }
 function deleteComment(id_comment, id_post) {
   var xhttp = new XMLHttpRequest();
@@ -252,22 +252,22 @@ function displayDeleteComment(id_comment) {
     comment_box[0].style.display == "" ||
     comment_box[0].style.display == "none"
   ) {
-    comment_box[0].style = "display:flex!important";
-    comment_box[1].style = "display:none!important";
-    comment_box[2].style = "display:none!important";
+    comment_box[0].setAttribute("style",  "display:flex!important");
+    comment_box[1].setAttribute("style",  "display:none!important");
+    comment_box[2].setAttribute("style",  "display:none!important");
   } else {
-    comment_box[0].style = "display:none!important";
-    comment_box[1].style = "display:block!important";
-    comment_box[2].style = "display:flex!important";
+    comment_box[0].setAttribute("style",  "display:none!important");
+    comment_box[1].setAttribute("style",  "display:block!important");
+    comment_box[2].setAttribute("style",  "display:flex!important");
   }
 }
 function hide_show_comment(id) {
   var post = document.getElementById(id);
   var comment = document.querySelector("#" + id + " .comment_text");
-  post.style = "";
+  post.setAttribute("style",  "");
   if (comment.style.display == "") {
-    comment.style = "display:block!important";
-    post.style = "height: 325px;";
+    comment.setAttribute("style",  "display:block!important");
+    post.setAttribute("style",  "height: 325px;");
   } else if (comment.style.display == "block") comment.style.display = "";
 }
 function like_click(id) {
@@ -282,8 +282,8 @@ function like_click(id) {
     if (this.readyState == 4 && this.status == 200) {
       var response = parseInt(this.responseText.split("-")[1]);
       if (this.responseText !== "error" && this.responseText !== "") {
-        like_btn.style = color;
-        like_txt_btn.style = color;
+        like_btn.setAttribute("style",  color);
+        like_txt_btn.setAttribute("style",  color);
         likeBox(like_btn.style.color);
         like_txt.innerHTML = response + " like" + (response > 1 ? "s" : "");
         document.getElementById("full_like_count").innerHTML =

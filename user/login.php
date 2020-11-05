@@ -16,12 +16,12 @@ if (isset($_POST["signup"]) && $_POST["signup"] != "")
             {
                 if (!validator_Username($_POST["Username"])) set_message_failed("Username must be :<br/>-between 7 and 25 character", $url);
                 else if (!validator_Email($_POST["Email"])) set_message_failed("Email wrong.", $url);
-                else if (!validator_Password($_POST["Password"])) set_message_failed("Password wrong.", $url);
+                else if (!validator_Password($_POST["Password"])) set_message_failed("Password must be :<br/>-above 8 character<br/>-contain lower and upper alpha and number", $url);
                 else
                 {
                     $Password = hash("whirlpool", $_POST["Password"]);
                     $Tokenlogin = hash('whirlpool', $_POST["Username"] + time());
-                    send_mail($Tokenlogin, trim($_POST["Email"]) , "Camagru Activation");
+                    // send_mail($Tokenlogin, trim($_POST["Email"]) , "Camagru Activation");
                     $stmt = $pdo->prepare("INSERT INTO `Users`(`Email`, `Username`, `Password`, `Tokenlogin`) VALUES (:Email,:Username,:Password,:Tokenlogin)");
                     $stmt->bindParam(":Email", $_POST["Email"]);
                     $stmt->bindParam(":Username", $_POST["Username"]);
@@ -86,7 +86,7 @@ if (isset($_POST["reset_Password"]) && $_POST["reset_Password"] != "")
                 $stmt->bindParam("Email", $_POST["Email"]);
                 $stmt->bindParam("Tokenpassword", $Tokenpassword);
                 $stmt->execute();
-                send_mail($Tokenpassword, $_POST["Email"], "reset Password");
+                // send_mail($Tokenpassword, $_POST["Email"], "reset Password");
                 set_message_success("To Reset Your Password Please check your Email", $url);
             }
             else set_message_failed("This Email does not exist.", $url);
@@ -123,11 +123,11 @@ else
 if (isset($_SESSION["failed"]) && $_SESSION["failed"] != "")
 {
 ?>
-    <div id="failed" class="message position-fixed text-center d-flex flex-column" style="--color-message:#FF8788;">
-      <h4 class=" w-100" style="--color-message:#FF8788;">
-        <i class="fas fa-exclamation-triangle" style="--color-message:#FF8788;"></i>Failed!
+    <div id="failed" class="message position-fixed text-center d-flex flex-column" style="background-color:#ff8788">
+      <h4 class=" w-100" style="color:#ff8788;">
+        <i class="fas fa-exclamation-triangle" style="color:#ff8788;"></i>Failed!
       </h4>
-      <span style="--color-message:#FF8788;"><?php echo $_SESSION["failed"] ?></span>
+      <span><?php echo $_SESSION["failed"] ?></span>
     </div>
     <?php
     unset($_SESSION["failed"]);
@@ -137,9 +137,9 @@ if (isset($_SESSION["failed"]) && $_SESSION["failed"] != "")
 if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
 {
 ?>
-    <div id="success" class="message position-fixed text-center d-flex flex-column">
-      <h4 class=" w-100">
-        <i class="fas fa-chevron-circle-down"></i>Success!
+    <div id="success" class="message position-fixed text-center d-flex flex-column" style="background-color:#b1e17e">
+      <h4 class=" w-100" style="color:#b1e17e">
+        <i class="fas fa-chevron-circle-down" style="color:#b1e17e"></i>Success!
       </h4>
       <span><?php echo $_SESSION["success"] ?></span>
     </div>
@@ -148,7 +148,8 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
 }
 ?>
     <section class="d-flex flex-row position-relative h-100">
-      <div class="login-register d-flex flex-row w-75 br-box border-dark overflow-hidden mt-4 mx-auto position-relative">
+      <div
+        class="login-register d-flex flex-row w-75 br-box border-dark overflow-hidden mt-4 mx-auto position-relative">
         <div id="login-img" class="w-50 h-100 d-flex flex-column align-items-center bg-linear">
           <div class="d-flex flex-column justify-content-center w-100 h-100">
             <img class="w-100" src="../img/banner.png">
@@ -160,8 +161,7 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
           <div class="position-absolute switch border rounded-pill border-white mt-4 mr-2" style="right:0;top:0">
             <span class="rounded-pill click_form" onclick="display_signin()">Sign
               In</span>
-            <span id="active" class="rounded-pill click_form"
-              onclick="display_signup()">Sign Up</span>
+            <span id="active" class="rounded-pill click_form" onclick="display_signup()">Sign Up</span>
           </div>
           <div class="signup d-flex align-items-center h-100">
             <div class="d-flex flex-column align-items-center w-100">
@@ -225,8 +225,8 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
                     value="Reset Password">
                 </div>
                 <div class="mx-auto mt-3 w-75">
-                  <p class="text-center w-100" style="cursor: pointer" id="btn-back"
-                    onclick="display_signin()">← Back</p>
+                  <p class="text-center w-100" style="cursor: pointer" id="btn-back" onclick="display_signin()">← Back
+                  </p>
                 </div>
               </form>
             </div>
