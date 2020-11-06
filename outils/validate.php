@@ -6,9 +6,8 @@ if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/validate.php' )
     exit();
 }
 function validator_email($email){
-    return(preg_match("/^[a-zA-Z\d][a-zA-Z\d\.\-_]{4,30}@[a-zA-Z\d\._]{3,16}\.[a-zA-Z\d\._]{2,7}$/",$email));
+    return(filter_var($email, FILTER_VALIDATE_EMAIL));
 }
-
 function validator_password($password){
     $has_lowerCase = preg_match("/[a-z]+/",$password);
     $has_upperCase = preg_match("/[A-Z]+/",$password);

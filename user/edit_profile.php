@@ -50,11 +50,7 @@ if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_P
           set_message_failed("User Already exist",$url);
       else
       {
-        $stmt = $pdo->prepare("UPDATE `Users` SET Email=:Email,Username=:Username WHERE Username=:user");
-        $stmt->bindParam(":Email",$_POST["Email"]);
-        $stmt->bindParam(":Username",$_POST["Username"]);
-        $stmt->bindParam(":user",$_SESSION["User"]);
-        $stmt->execute();
+        sentDatabase($pdo,array("Email"=>$_POST["Email"],"Username"=>$_POST["Username"]));
         if ($_POST["Username"] != $data[0]["Username"])
         {
           $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
@@ -124,7 +120,7 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
               onclick="document.querySelector('input[name=\'fileinput\']').click()"></i>
             <input class="position-absolute"
               style="width: 0;height: 0;margin: 0;overflow: hidden;padding: 0;top:0;right:0;" type="file"
-              name="fileinput" onchange="change_image()" />
+              name="fileinput" onchange="change_image()" accept="image/png,image/jpg,image/jpeg,image/gif" />
           </div>
           <span class="d-block font-weight-bold" style="color:black"><?php echo $data[0]['Username'];?></span>
         </div>

@@ -36,16 +36,30 @@ window.addEventListener("load", function () {
       video.play();
       setInterval(function () {
         context.drawImage(video, 0, 0, width, height);
-        array_activity.forEach(function (val) {
-          newimage.setAttribute("src", val.img);
-          newimage.width = val.width;
-          newimage.height = val.width;
-          context.drawImage(newimage, val.left, val.top, val.width, val.width);
-        });
+        for (var i = 0; i < array_activity.length; i++) {
+          newimage.setAttribute("src", array_activity[i].img);
+          newimage.width = array_activity[i].width;
+          newimage.height = array_activity[i].width;
+          context.drawImage(
+            newimage,
+            array_activity[i].left,
+            array_activity[i].top,
+            array_activity[i].width,
+            array_activity[i].width
+          );
+        }
       }, 16);
-      capture.className = capture.className.replace('d-none','d-flex');
-      document.getElementsByClassName("createImageButton")[2].className = document.getElementsByClassName("createImageButton")[2].className.replace('d-none','d-flex');
-      document.getElementsByClassName("createImageButton")[3].className = document.getElementsByClassName("createImageButton")[3].className.replace('d-none','d-flex');
+      capture.className = capture.className.replace("d-none", "d-flex");
+      document.getElementsByClassName(
+        "createImageButton"
+      )[2].className = document
+        .getElementsByClassName("createImageButton")[2]
+        .className.replace("d-none", "d-flex");
+      document.getElementsByClassName(
+        "createImageButton"
+      )[3].className = document
+        .getElementsByClassName("createImageButton")[3]
+        .className.replace("d-none", "d-flex");
     })
     .catch(function (error) {
       console.log(error);
@@ -66,7 +80,9 @@ window.addEventListener("load", function () {
 function deleteActivity(id) {
   array_activity.splice(id, 1);
   resetIndex();
-  document.querySelectorAll(".gr_emoji > div")[1].setAttribute("style", "display:none!important")
+  document
+    .querySelectorAll(".gr_emoji > div")[1]
+    .setAttribute("style", "display:none!important");
 }
 function editActivity(id) {
   var emoji_box = document.getElementsByClassName("box-emoji")[0];
@@ -80,12 +96,14 @@ function editActivity(id) {
   emoji_image.setAttribute("src", array_activity[id].img);
   emoji_image.width = array_activity[id].width;
   emoji_image.height = emoji_image.width;
-  emoji_box.setAttribute("style",
+  emoji_box.setAttribute(
+    "style",
     "left:" +
-    array_activity[id].left +
-    "px;top:" +
-    array_activity[id].top +
-    "px;");
+      array_activity[id].left +
+      "px;top:" +
+      array_activity[id].top +
+      "px;"
+  );
   left_input.value = array_activity[id].left;
   top_input.value = array_activity[id].top;
   size_input.value = emoji_image.width;
@@ -135,7 +153,7 @@ function sizeOfVideo() {
     width = 720;
     height = 480;
   }
-  camera.setAttribute("style","width:" + width + "px!important;");
+  camera.setAttribute("style", "width:" + width + "px!important;");
   canvas.width = width;
   canvas.height = height;
   img.width = width;
@@ -158,11 +176,15 @@ function post_sent() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "Failed") {
-        document.getElementById("failed").setAttribute("style", "display:block");
+        document
+          .getElementById("failed")
+          .setAttribute("style", "display:block");
         document.getElementById("failed").innerHTML =
           "Image(JPG OR JPEG OR PNG OR GIF) And Size less than 10MB";
         setTimeout(function () {
-          document.getElementById("failed").setAttribute("style", "display:none;");
+          document
+            .getElementById("failed")
+            .setAttribute("style", "display:none;");
         }, 3000);
       } else window.location.reload();
     }
@@ -203,8 +225,9 @@ function selectEmoji(index) {
     document.getElementsByClassName("emoji")[index].src
   );
   boxEditEmoji.setAttribute("style", "display:flex!important");
-  document.querySelectorAll(".gr_emoji > div")[0].setAttribute("style",
-    "display:none!important");
+  document
+    .querySelectorAll(".gr_emoji > div")[0]
+    .setAttribute("style", "display:none!important");
 }
 function saveEmoji() {
   var boxEditEmoji = document.getElementsByClassName("boxEditEmoji")[0];
@@ -262,47 +285,64 @@ function changePositionEmoji(id) {
     var input_text = document.querySelector("#leftEmoji input[type='text']");
     if (id == "Left_1") {
       input_text.value = input_range.value;
-      box.setAttribute("style",
-      "left:" + input_text.value + "px;top:" + box.offsetTop + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + input_text.value + "px;top:" + box.offsetTop + "px;"
+      );
     } else if (id == "Left_2") {
       input_range.value = input_text.value;
-      box.setAttribute("style",
-        "left:" + input_range.value + "px;top:" + box.offsetTop + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + input_range.value + "px;top:" + box.offsetTop + "px;"
+      );
     }
     if (box.offsetLeft > width - img.width) {
       input_text.value = width - img.width;
       input_range.value = width - img.width;
-      box.setAttribute("style",
-        "left:" + (width - img.width) + "px;top:" + box.offsetTop + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + (width - img.width) + "px;top:" + box.offsetTop + "px;"
+      );
     }
     if (box.offsetLeft < 0) {
       input_text.value = 0;
       input_range.value = 0;
-      box.setAttribute("style", "left:" + 0 + "px;top:" + box.offsetTop + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + 0 + "px;top:" + box.offsetTop + "px;"
+      );
     }
   } else if (id == "Top_1" || id == "Top_2") {
     var input_range = document.querySelector("#topEmoji input[type='range']");
     var input_text = document.querySelector("#topEmoji input[type='text']");
     if (id == "Top_1") {
       input_text.value = input_range.value;
-      box.setAttribute("style", 
-        "left:" + box.offsetLeft + "px;top:" + input_text.value + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + box.offsetLeft + "px;top:" + input_text.value + "px;"
+      );
     } else if (id == "Top_2") {
       input_range.value = input_text.value;
-      box.setAttribute("style", 
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;"
+      );
     }
     if (box.offsetTop > height - img.width) {
       input_text.value = height - img.width;
       input_range.value = height - img.width;
-      box.setAttribute("style", 
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;"
+      );
     }
     if (box.offsetTop < 0) {
       input_text.value = 0;
       input_range.value = 0;
-      box.setAttribute("style", 
-        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;");
+      box.setAttribute(
+        "style",
+        "left:" + box.offsetLeft + "px;top:" + input_range.value + "px;"
+      );
     }
   }
 }
@@ -317,15 +357,17 @@ function addNewEmoji() {
     img.className = "emoji";
     img.setAttribute(
       "onClick",
-      "selectEmoji(" + (document.getElementsByClassName("emoji").length - 1) + ")"
+      "selectEmoji(" +
+        (document.getElementsByClassName("emoji").length - 1) +
+        ")"
     );
     div.appendChild(img);
     emojiBox.appendChild(div);
-    let all_div_emojiBox = document.querySelectorAll(".emojiBox > div");
-    let copyDiv = all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML;
-    all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML = all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
+    var all_div_emojiBox = document.querySelectorAll(".emojiBox > div");
+    var copyDiv = all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML;
+    all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML =
+      all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
     all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML = copyDiv;
-
   };
   reader.readAsDataURL(file);
 }

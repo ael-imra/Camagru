@@ -50,7 +50,7 @@ function get_count($table,$pdo,$post_id = null)
 }
 function send_mail($token,$Email,$Email_subject,$csrfToken = null)
 {
-    $url = "https://192.168.99.104:8088/Camagru";
+    $url = "https://".$_SERVER['HTTP_HOST']."/Camagru";
     $Email_to = $Email;
     if ($Email_subject == "Camagru Activation")
         $Email_message = "<h1>You've successfully signed up</h1>".

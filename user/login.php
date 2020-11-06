@@ -21,7 +21,7 @@ if (isset($_POST["signup"]) && $_POST["signup"] != "")
                 {
                     $Password = hash("whirlpool", $_POST["Password"]);
                     $Tokenlogin = hash('whirlpool', $_POST["Username"] + time());
-                    // send_mail($Tokenlogin, trim($_POST["Email"]) , "Camagru Activation");
+                    send_mail($Tokenlogin, trim($_POST["Email"]) , "Camagru Activation");
                     $stmt = $pdo->prepare("INSERT INTO `Users`(`Email`, `Username`, `Password`, `Tokenlogin`) VALUES (:Email,:Username,:Password,:Tokenlogin)");
                     $stmt->bindParam(":Email", $_POST["Email"]);
                     $stmt->bindParam(":Username", $_POST["Username"]);
@@ -33,7 +33,7 @@ if (isset($_POST["signup"]) && $_POST["signup"] != "")
             }
             else set_message_failed("This user already exist", $url);
         }
-        else set_message_failed("Sonthing wrong!", $url);
+        else set_message_failed("Somthing wrong!", $url);
     }
     else set_message_failed("Wrong CSRF TOKEN", $url);
 }
@@ -86,7 +86,7 @@ if (isset($_POST["reset_Password"]) && $_POST["reset_Password"] != "")
                 $stmt->bindParam("Email", $_POST["Email"]);
                 $stmt->bindParam("Tokenpassword", $Tokenpassword);
                 $stmt->execute();
-                // send_mail($Tokenpassword, $_POST["Email"], "reset Password");
+                send_mail($Tokenpassword, $_POST["Email"], "reset Password");
                 set_message_success("To Reset Your Password Please check your Email", $url);
             }
             else set_message_failed("This Email does not exist.", $url);

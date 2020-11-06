@@ -63,7 +63,7 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
               <div class="createImageButton d-flex flex-column justify-content-center" id="upload_image"
                 onclick="document.getElementById('upload').click()"><i class="fas fa-upload fa-2x"
                   style="color:white"></i></div>
-              <input type="file" id="upload" style="display: none;" onchange="uploadImage()">
+              <input type="file" id="upload" style="display: none;" onchange="uploadImage()" accept="image/png,image/jpg,image/jpeg,image/gif" >
               <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-icons fa-2x"
                   style="color:white"
                   onclick="document.querySelectorAll('.gr_emoji > div')[0].setAttribute('style','display:flex!important')"></i>
