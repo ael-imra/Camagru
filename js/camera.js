@@ -15,9 +15,9 @@ var image_capture = document.getElementById("image_capture");
 var array_activity = Array();
 var width = 720;
 var height = 420;
+var video = document.createElement("video");
 window.addEventListener("resize", sizeOfVideo);
 window.addEventListener("load", function () {
-  var video = document.createElement("video");
   var canvas = document.getElementsByTagName("canvas")[0];
   var context = canvas.getContext("2d");
   var newimage = document.createElement("img");
@@ -186,7 +186,7 @@ function post_sent() {
             .getElementById("failed")
             .setAttribute("style", "display:none;");
         }, 3000);
-      } else window.location.reload();
+      }
     }
   };
   xhttp.open("POST", "image.php", true);
@@ -199,17 +199,11 @@ function uploadImage() {
   var file = document.getElementById("upload").files[0];
   var reader = new FileReader();
   reader.onload = function () {
-    image_capture.setAttribute("src", this.result);
-    post_info.className =
-      "post_info d-flex flex-column justify-content-center align-items-center";
-    gr_emoji.className = "gr_emoji d-none flex-row";
-    gr_emoji.className = "gr_emoji d-none flex-row";
-    camera.className =
-      "camera d-none flex-column align-items-center justify-content-center";
-    imageCapture.className = "imageCapture d-block";
-    document.getElementsByClassName("slider")[0].className = "slider d-none";
+    var imgUplaoad = document.createElement("img");
+    imgUplaoad.src = this.result;
+    video = imgUplaoad;
   };
-  reader.readAsDataURL(file);
+  if (file) reader.readAsDataURL(file);
 }
 // **************************/Post****************************
 // **************************Emoji****************************
@@ -369,7 +363,7 @@ function addNewEmoji() {
       all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
     all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML = copyDiv;
   };
-  reader.readAsDataURL(file);
+  if (file) reader.readAsDataURL(file);
 }
 
 // **************************/Emoji****************************

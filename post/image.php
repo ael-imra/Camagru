@@ -11,15 +11,18 @@ if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
     {
         $img_base64 = str_replace(' ', '+', $_POST["image_data"]);
         $path = 'img/post_'.time().'.'.$type_image;
-        $file = file_get_contents($img_base64);
-        file_put_contents($path, $file);
-        $path = "post/".$path;
-        $date = date("Y-m-d H:i:s");
-        $stmt = $pdo->prepare("INSERT INTO `Post`(`UserIdOwner`, `Image`, `Date_create`) VALUES (:user,:image,:date)");
-        $stmt->bindParam(":user",$_SESSION["User"]);
-        $stmt->bindParam(":image",$path);
-        $stmt->bindParam(":date",$date);
-        $stmt->execute();
+        if (getimagesize($img_base64))
+        {
+            $file = file_get_contents($img_base64);
+            file_put_contents($path, $file);
+            $path = "post/".$path;
+            $date = date("Y-m-d H:i:s");
+            $stmt = $pdo->prepare("INSERT INTO `Post`(`UserIdOwner`, `Image`, `Date_create`) VALUES (:user,:image,:date)");
+            $stmt->bindParam(":user",$_SESSION["User"]);
+            $stmt->bindParam(":image",$path);
+            $stmt->bindParam(":date",$date);
+            $stmt->execute();
+        }
     }
     else
         echo "Failed";
