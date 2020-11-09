@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
@@ -28,5 +28,5 @@ if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
         echo "Failed";
 }
 else
-    set_message_failed("Can't Access this page","/Camagru/index.php");
+    set_message_failed("Can't Access this page","/index.php");
 ?>

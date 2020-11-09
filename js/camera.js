@@ -15,12 +15,14 @@ var image_capture = document.getElementById("image_capture");
 var array_activity = Array();
 var width = 720;
 var height = 420;
-var video = document.createElement("video");
+var canvas = document.getElementsByTagName("canvas")[0];
+var context = canvas.getContext("2d");
+var IdInterval = null;
+var ImageToDraw = null;
+var mediaStream = null;
+var newimage = document.createElement('img');
 window.addEventListener("resize", sizeOfVideo);
 window.addEventListener("load", function () {
-  var canvas = document.getElementsByTagName("canvas")[0];
-  var context = canvas.getContext("2d");
-  var newimage = document.createElement("img");
   var capture = document.getElementById("capture");
   sizeOfVideo();
   navigator.mediaDevices
@@ -30,36 +32,9 @@ window.addEventListener("load", function () {
         height: 1080,
       },
     })
-    .then(function (mediaStream) {
-      if (typeof video.srcObject == "object") video.srcObject = mediaStream;
-      else video.src = URL.createObjectURL(mediaStream);
-      video.play();
-      setInterval(function () {
-        context.drawImage(video, 0, 0, width, height);
-        for (var i = 0; i < array_activity.length; i++) {
-          newimage.setAttribute("src", array_activity[i].img);
-          newimage.width = array_activity[i].width;
-          newimage.height = array_activity[i].width;
-          context.drawImage(
-            newimage,
-            array_activity[i].left,
-            array_activity[i].top,
-            array_activity[i].width,
-            array_activity[i].width
-          );
-        }
-      }, 16);
-      capture.className = capture.className.replace("d-none", "d-flex");
-      document.getElementsByClassName(
-        "createImageButton"
-      )[2].className = document
-        .getElementsByClassName("createImageButton")[2]
-        .className.replace("d-none", "d-flex");
-      document.getElementsByClassName(
-        "createImageButton"
-      )[3].className = document
-        .getElementsByClassName("createImageButton")[3]
-        .className.replace("d-none", "d-flex");
+    .then(function(Stream){
+      mediaStream = Stream;
+      DrawVideo();
     })
     .catch(function (error) {
       console.log(error);
@@ -76,6 +51,30 @@ window.addEventListener("load", function () {
     document.getElementsByClassName("slider")[0].className = "slider d-none";
   });
 });
+function DrawVideo(){
+  var video = document.createElement("video");
+    if (typeof video.srcObject == "object") video.srcObject = mediaStream;
+    else video.src = URL.createObjectURL(mediaStream);
+    ImageToDraw = video;
+    video.play();
+    IdInterval = setInterval(DrawImage, 16);
+}
+function DrawImage(){
+  context.drawImage(ImageToDraw, 0, 0, width, height);
+  for (var i = 0; i < array_activity.length; i++) {
+    var elem = array_activity[i];
+    newimage.setAttribute("src", elem.img);
+    newimage.width = elem.width;
+    newimage.height = elem.width;
+    context.drawImage(
+      newimage,
+      elem.left,
+      elem.top,
+      elem.width,
+      elem.width
+    );
+  }
+}
 // **************************/Activity****************************
 function deleteActivity(id) {
   array_activity.splice(id, 1);
@@ -134,6 +133,8 @@ function resetIndex() {
       "</div>";
     i++;
   });
+  if (ImageToDraw instanceof Image)
+    DrawImage();
 }
 // **************************/Activity****************************
 function sizeOfVideo() {
@@ -158,6 +159,8 @@ function sizeOfVideo() {
   canvas.height = height;
   img.width = width;
   img.height = height;
+  if (ImageToDraw instanceof Image)
+    DrawImage();
 }
 // **************************Post****************************
 function post_back() {
@@ -168,6 +171,7 @@ function post_back() {
   camera.className =
     "camera d-flex flex-column align-items-center justify-content-center";
   imageCapture.className = "imageCapture d-none";
+  document.getElementById("image_capture").setAttribute("src","");
   document.getElementsByClassName("slider")[0].className =
     "slider w-100 d-flex flex-column";
 }
@@ -187,6 +191,7 @@ function post_sent() {
             .setAttribute("style", "display:none;");
         }, 3000);
       }
+      window.location.reload();
     }
   };
   xhttp.open("POST", "image.php", true);
@@ -199,15 +204,29 @@ function uploadImage() {
   var file = document.getElementById("upload").files[0];
   var reader = new FileReader();
   reader.onload = function () {
-    var imgUplaoad = document.createElement("img");
+    array_activity = Array();
+    resetIndex();
+    Display_createImageButton(document.getElementsByClassName('createImageButton').length-1);
+    var imgUplaoad = new Image();;
     imgUplaoad.src = this.result;
-    video = imgUplaoad;
+    imgUplaoad.onload = function(){
+      clearInterval(IdInterval);
+      ImageToDraw = imgUplaoad;
+      DrawImage();
+    };
   };
   if (file) reader.readAsDataURL(file);
 }
 // **************************/Post****************************
 // **************************Emoji****************************
-
+function Display_createImageButton(index){
+  var createImageButton = document.getElementsByClassName('createImageButton');
+  console.log(index);
+  if(createImageButton[index].className.indexOf("d-none") > -1)
+    createImageButton[index].className = createImageButton[index].className.replace("d-none","d-flex");
+  else if (createImageButton[index].className.indexOf("d-flex") > -1)
+    createImageButton[index].className = createImageButton[index].className.replace("d-flex","d-none");
+}
 function selectEmoji(index) {
   var emoji_box = document.getElementsByClassName("box-emoji")[0];
   var boxEditEmoji = document.getElementsByClassName("boxEditEmoji")[0];
@@ -238,6 +257,8 @@ function saveEmoji() {
     "box-emoji position-absolute d-none flex-column justify-content-center";
   boxEditEmoji.setAttribute("style", "display:none!important");
   resetIndex();
+  if (ImageToDraw instanceof Image)
+    DrawImage();
 }
 function cancelEmoji() {
   var emoji_box = document.getElementsByClassName("box-emoji")[0];

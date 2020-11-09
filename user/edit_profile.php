@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -23,6 +23,7 @@ $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username");
 $stmt->bindParam(":Username",$_SESSION["User"]);
 $stmt->execute();
 $data = $stmt->fetchAll();
+$is_changed = false;
 if ($_FILES && $_FILES["fileinput"] && $_FILES["fileinput"]["name"] != "")
 {
   $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
@@ -59,17 +60,17 @@ if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_P
           $stmt->execute();
           $_SESSION["User"] = $_POST["Username"];
         }
-        set_message_success("You Information has been Saved.",$url);
+        $is_changed = true;
       }
     }
     else
       set_message_failed("Username or Email was wrong please try again.",$url);
 }
-if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Password"]) &&  $_POST["old_Password"] != "" && $_POST["new_Password"] != "" && $_POST["confirme_Password"] != "")
+if (isset($_POST["current-password"],$_POST["new-password"],$_POST["confirm-password"]) &&  $_POST["current-password"] != "" && $_POST["new-password"] != "" && $_POST["confirm-password"] != "")
 {
-    if (validator_Password($_POST["new_Password"]) && $_POST["new_Password"] == $_POST["confirme_Password"] && $_POST["new_Password"] != $_POST["old_Password"])
+    if (validator_Password($_POST["new-password"]) && $_POST["new-password"] == $_POST["confirm-password"] && $_POST["new-password"] != $_POST["current-password"])
     {
-        $Password = hash("whirlpool",$_POST["old_Password"]);
+        $Password = hash("whirlpool",$_POST["current-password"]);
         $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username AND Password=:Password");
         $stmt->bindParam(":Password",$Password);
         $stmt->bindParam(":Username",$_SESSION["User"]);
@@ -77,12 +78,12 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
         $data = $stmt->fetchAll();
         if ($data)
         {
-            $Password = hash("whirlpool",$_POST["new_Password"]);
+            $Password = hash("whirlpool",$_POST["new-password"]);
             $stmt = $pdo->prepare("UPDATE `Users` SET Password=:Password WHERE Username=:Username");
             $stmt->bindParam(":Password",$Password);
             $stmt->bindParam(":Username",$_SESSION["User"]);
             $stmt->execute();
-            set_message_success("You Information has been Saved.",$url);
+            $is_changed = true;
         }
         else
             set_message_failed("old Password wasn't match",$url);
@@ -90,6 +91,8 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
     else
         set_message_failed("Something wrong with your Password please try again.",$url);
 }
+if ($is_changed)
+  set_message_success("You Information has been Saved.",'./logout.php');
 ?>
 
 <!DOCTYPE html>
@@ -114,7 +117,7 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
         <div class="w-100 d-flex flex-column align-items-center justify-content-center"
           style="border-radius:20px 20px 0 0;background-color:#00bcd4;padding:10px 0">
           <div class="position-relative" style="width:100px;height:100px">
-            <img class="rounded-pill" id="Profile_image" src="<?php echo '/Camagru/'.$data[0]['Image'];?>"
+            <img class="rounded-pill" id="Profile_image" src="<?php echo '/'.$data[0]['Image'];?>"
               alt="<?php echo $data[0]['Username'];?>" style="width:100px;height:100px;" />
             <i class="fas fa-edit position-absolute" style="cursor:pointer;color:black;top:0;right:0;"
               onclick="document.querySelector('input[name=\'fileinput\']').click()"></i>
@@ -140,15 +143,15 @@ if (isset($_POST["old_Password"],$_POST["new_Password"],$_POST["confirme_Passwor
           </div>
           <div class="d-flex flex-column w-100 p-2">
             <label>Old Password :</label>
-            <input type="password" name="old_Password" />
+            <input type="password" name="current-password" autocomplete="off" />
           </div>
           <div class="d-flex flex-column w-100 p-2">
             <label>New Password :</label>
-            <input type="password" name="new_Password" />
+            <input type="password" name="new-password" autocomplete="off" />
           </div>
           <div class="d-flex flex-column w-100 p-2">
-            <label>Confirme Password :</label>
-            <input type="password" name="confirme_Password" />
+            <label>Confirm Password :</label>
+            <input type="password" name="confirm-password" autocomplete="off" />
           </div>
           <div class="d-flex flex-column align-items-center w-100 p-2">
             <button type="submit" name="save">Save</button>

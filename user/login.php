@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT'] . "/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT'] . "/";
 require ($Home_dir . "config/setup.php");
 require ($Home_dir . "outils/check.php");
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -56,7 +56,7 @@ else if (isset($_POST["signin"]) && $_POST["signin"] != "")
                 {
                     $_SESSION["User"] = $data[0]["Username"];
                     if (isset($_SESSION["Redirect"])) Redirect($_SESSION["Redirect"]);
-                    else Redirect("/Camagru/index.php");
+                    else Redirect("/index.php");
                 }
                 else set_message_failed("Your account is not active, please check your Email.", $url);
             }

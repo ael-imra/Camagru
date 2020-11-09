@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 if (isset($_SESSION["User"]))

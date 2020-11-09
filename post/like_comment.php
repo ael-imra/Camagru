@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 function getUserData($pdo,$owner){
@@ -130,7 +130,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
         $stmt->execute();
     }
     else
-        Redirect("/Camagru/index.php");
+        Redirect("/index.php");
 }
 else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] == "true" && $_POST["postid"]!="")
 {
@@ -156,7 +156,7 @@ else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] 
                         </div>
                     </div>
                     <div>
-                        <img src="/Camagru/'.$data_user[0]["Image"].'" style="width: 45px;height: 45px;border-radius: 50%;">
+                        <img src="/'.$data_user[0]["Image"].'" style="width: 45px;height: 45px;border-radius: 50%;">
                     </div>
                     <div class="d-flex flex-column w-100">
                         <div class="d-flex flex-row justify-content-between">

@@ -1,9 +1,9 @@
 <?php
-  if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/menu.php' )
+  if ($_SERVER['REQUEST_URI'] == '/outils/menu.php' )
   {
     session_start();
     $_SESSION["failed"] = "Can't Access this page";
-    header("location: /Camagru/index.php");
+    header("location: /index.php");
     exit();
   }
   function getNotification($pdo,$table)
@@ -42,20 +42,20 @@
   ?>
   <div
     class="w-75 <?php (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)) ? print('text-center'): print('text-left ml-3')?>">
-    <img style="width:90px;cursor:pointer;" src="/Camagru/img/logo.png" onclick="location.href='/Camagru/index.php';">
+    <img style="width:90px;cursor:pointer;" src="/img/logo.png" onclick="location.href='/index.php';">
   </div>
   <?php  
     if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)){
       echo 
         '<div class="ml-auto d-flex flex-row align-items-center position-relative">
           <i class="fas fa-bell mr-2" style="cursor: pointer;" onclick="notificatioClick()"></i>
-          <i class="fas fa-sign-out-alt ml-2 mr-2" onclick="location.href = \'/Camagru/user/logout.php\'"></i>
+          <i class="fas fa-sign-out-alt ml-2 mr-2" onclick="location.href = \'/user/logout.php\'"></i>
           <span class="position-absolute '.($notification!=""? "nt-active":"").'"></span>
           '.$notification.'
         </div>';
       }
       else {
-        echo "<div class='w-25 text-right mr-3'><a href='/Camagru/user/login.php' id='btn-login'>Login</a></div>";
+        echo "<div class='w-25 text-right mr-3'><a href='/user/login.php' id='btn-login'>Login</a></div>";
       }
   ?>
 </header>
@@ -87,14 +87,14 @@
   <?php  if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$pdo)){
       echo 
       '<ul class="position-fixed pl-0 pt-2" id="second-menu">
-        <form class="w-100 ml-4 mb-2" action="/Camagru/index.php" method="GET">
+        <form class="w-100 ml-4 mb-2" action="/index.php" method="GET">
           <div class="w-100">
             <input class="w-75 pl-3 rounded-pill mx-auto" type="search" name="search" placeholder="Search">
             <button class="border-0 position-relative" id="btn-search" type="submit"><i class="fa fa-search"
                 style="color: white;"></i></button>
           </div>
         </form>
-        <li class="text-center"><img src="/Camagru/'.$data[0]["Image"].'" alt="Profile"></li>
+        <li class="text-center"><img src="/'.$data[0]["Image"].'" alt="Profile"></li>
         <li class="text-center"><span class="text-white">'.$_SESSION["User"].'</span></li>
         <li class="text-center "><i class="fas fa-circle text-success"></i><span class="text-white p-1">Online</span></li>
         <li class="d-flex flex-row justify-content-around ml-0 mt-2 pb-2 pt-2 border-top border-bottom">
@@ -109,22 +109,22 @@
               class="text-white">Comment</span></div>
         </li>
         <div class="d-flex flex-column justify-content-center h-50">
-          <li class="mt-5 p-2 w-100 menu-item" onclick="location.href=\'/Camagru/index.php\'">
+          <li class="mt-5 p-2 w-100 menu-item" onclick="location.href=\'/index.php\'">
             <i class="fas fa-home w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">HOME</span>
           </li>
           <li class="mt-2 p-2 w-100 menu-item"
-            onclick="location.href=\'/Camagru/index.php?search='.$_SESSION["User"].'\'">
+            onclick="location.href=\'/index.php?search='.$_SESSION["User"].'\'">
             <i class="fas fa-user-circle w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">My Post</span>
           </li>
           <li class="mt-2 p-2 w-100 menu-item"
-            onclick="location.href = \'/Camagru/post/create_post.php\';">
+            onclick="location.href = \'/post/create_post.php\';">
             <i class="fas fa-plus w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">New Post</span>
           </li>
           <li class="mt-2 p-2 w-100 menu-item"
-            onclick="location.href = \'/Camagru/user/edit_profile.php\';">
+            onclick="location.href = \'/user/edit_profile.php\';">
             <i class="fas fa-user-edit w-25 text-center text-light"></i>
             <span class="w-75 text-center text-light">Edit Profile</span>
           </li>

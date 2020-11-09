@@ -1,9 +1,9 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
-if ($_SERVER['REQUEST_URI'] == '/Camagru/post/post.php' )
-    set_message_failed("Can't Access this page","/Camagru/index.php");
+if ($_SERVER['REQUEST_URI'] == '/post/post.php' )
+    set_message_failed("Can't Access this page","/index.php");
 function getDateTime($Interval)
 {
     if ($Interval->format("%Y") > 0)
@@ -76,12 +76,12 @@ function getAllPost($pdo){
                     '</div>'.PHP_EOL.
                     '<div class="post_box">'.PHP_EOL.
                         '<div class="w-100 d-flex flex-row ml-auto align-items-center mb-1">'.PHP_EOL.
-                            '<img class="mr-1" src="/Camagru/'.$data_user[0]["Image"].'" alt="Profile">'.PHP_EOL.
+                            '<img class="mr-1" src="/'.$data_user[0]["Image"].'" alt="Profile">'.PHP_EOL.
                             '<span id="owner" class="d-block" style="font-size: 12px;">'.$value["UserIdOwner"].'</span>'.PHP_EOL.
                             '<span class="d-block ml-auto" style="font-size: 10px;">'.$date_post.'</span>'.PHP_EOL.
                             (($value["UserIdOwner"] == $_SESSION["User"])?'<i class="far fa-trash-alt ml-2" style="color: red!important;" title="delete" onclick="displayDeleteBox(\''.$postid.'\')"></i>'.PHP_EOL : '').
                         '</div>'.PHP_EOL.
-                        '<img class="w-100 mb-2" style="height:193px;" src="/Camagru/'.$value["Image"].'" onclick="getPost(\''.$postid.'\')">'.PHP_EOL.
+                        '<img class="w-100 mb-2" style="height:193px;" src="/'.$value["Image"].'" onclick="getPost(\''.$postid.'\')">'.PHP_EOL.
                         '<div class="d-flex flex-row align-items-center">'.PHP_EOL.
                             '<div class="text-left m-1 post_btn" onclick="like_click(\''.$postid.'\')">'.PHP_EOL.
                                 '<i class="fas fa-thumbs-up" style="'.$is_like.'"></i>'.PHP_EOL.

@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 $url = "./login.php";
@@ -51,7 +51,7 @@ else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_
         set_message_failed("Password OR Token does not exist.",$url);
 }
 else
-    Redirect("/Camagru/user/login.php");
+    Redirect("/user/login.php");
 
 
 ?>

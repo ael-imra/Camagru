@@ -1,5 +1,5 @@
 <?php
-$Home_dir = $_SERVER['DOCUMENT_ROOT']."/Camagru/";
+$Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."post/post.php");
 if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
   Redirect("../user/login.php");
@@ -58,19 +58,24 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
             </div>
             <canvas width="720" height="420"></canvas>
             <div class="d-flex flex-row justify-content-center align-items-center">
-              <div class="createImageButton d-none flex-column justify-content-center" id="capture"><i
+              <div class="createImageButton d-flex flex-column justify-content-center" id="capture"><i
                   class="fas fa-camera fa-2x" style="color:white"></i></div>
               <div class="createImageButton d-flex flex-column justify-content-center" id="upload_image"
                 onclick="document.getElementById('upload').click()"><i class="fas fa-upload fa-2x"
                   style="color:white"></i></div>
-              <input type="file" id="upload" style="display: none;" onchange="uploadImage()" accept="image/png,image/jpg,image/jpeg,image/gif" >
-              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-icons fa-2x"
+              <input type="file" id="upload" style="display: none;" onchange="uploadImage()"
+                onclick="document.getElementById('upload').value=''" accept=" image/png,image/jpg,image/jpeg,image/gif">
+              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-icons fa-2x"
                   style="color:white"
                   onclick="document.querySelectorAll('.gr_emoji > div')[0].setAttribute('style','display:flex!important')"></i>
               </div>
-              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-history fa-2x"
+              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-history fa-2x"
                   style="color:white"
                   onclick="document.querySelectorAll('.gr_emoji > div')[1].setAttribute('style','display:flex!important')"></i>
+              </div>
+              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-video fa-2x"
+                  style="color:white"
+                  onclick="DrawVideo();Display_createImageButton(document.getElementsByClassName('createImageButton').length -1);"></i>
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
 <?php
-if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/validate.php' )
+if ($_SERVER['REQUEST_URI'] == '/outils/validate.php' )
 {
     $_SESSION["failed"] = "Can't Access this page";
-    header("location: /Camagru/index.php");
+    header("location: /index.php");
     exit();
 }
 function validator_email($email){

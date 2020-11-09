@@ -1,9 +1,9 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_URI'] == '/Camagru/outils/check.php' )
+if ($_SERVER['REQUEST_URI'] == '/outils/check.php' )
 {
     $_SESSION["failed"] = "Can't Access this page";
-    header("location: /Camagru/index.php");
+    header("location: /index.php");
     exit();
 }
 function Redirect($url)
@@ -50,7 +50,7 @@ function get_count($table,$pdo,$post_id = null)
 }
 function send_mail($token,$Email,$Email_subject,$csrfToken = null)
 {
-    $url = "https://".$_SERVER['HTTP_HOST']."/Camagru";
+    $url = "https://".$_SERVER['HTTP_HOST'];
     $Email_to = $Email;
     if ($Email_subject == "Camagru Activation")
         $Email_message = "<h1>You've successfully signed up</h1>".

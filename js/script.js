@@ -1,6 +1,6 @@
 var switch_span = document.querySelectorAll(".switch span");
 var url =
-  location.pathname == "/Camagru/" || location.pathname == "/Camagru/index.php"
+  location.pathname == "/" || location.pathname == "/index.php"
     ? "./"
     : "../";
 setTimeout(function () {
@@ -347,4 +347,3 @@ function Comment_click(id) {
   hide_show_comment(id);
 }
 // ---------------------/Full_Post------------------------
-delete window.console;
