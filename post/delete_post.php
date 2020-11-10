@@ -2,7 +2,7 @@
 $Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
   Redirect("../user/login.php");
 function deleteFromTable($pdo,$table,$postid)

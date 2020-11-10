@@ -6,18 +6,18 @@ if ($_SERVER['REQUEST_URI'] == '/post/post.php' )
     set_message_failed("Can't Access this page","/index.php");
 function getDateTime($Interval)
 {
-    if ($Interval->format("%Y") > 0)
-        return ((int)$Interval->format("%Y")." year".(($Interval->format("%Y") > 1)?"s":"")." ago");
-    else if ($Interval->format("%M") > 0)
-        return ((int)$Interval->format("%M")." month".(($Interval->format("%M") > 1)?"s":"")." ago");
-    else if ($Interval->format("%D") > 0)
-        return ((int)$Interval->format("%D")." day".(($Interval->format("%D") > 1)?"s":"")." ago");
-    else if ($Interval->format("%H") > 0)
-        return ((int)$Interval->format("%H")." hour".(($Interval->format("%H") > 1)?"s":"")." ago");
-    else if ($Interval->format("%I") > 0)
-        return ((int)$Interval->format("%I")." minute".(($Interval->format("%I") > 1)?"s":"")." ago");
-    else if ($Interval->format("%S") > 0)
-        return ((int)$Interval->format("%S")." second".(($Interval->format("%S") > 1)?"s":"")." ago");
+    if ($Interval->y > 0)
+        return ($Interval->y." year".(($Interval->y > 1)?"s":"")." ago");
+    else if ($Interval->m > 0)
+        return ($Interval->m." month".(($Interval->m > 1)?"s":"")." ago");
+    else if ($Interval->d > 0)
+        return ($Interval->d." day".(($Interval->d > 1)?"s":"")." ago");
+    else if ($Interval->h > 0)
+        return ($Interval->h." hour".(($Interval->h > 1)?"s":"")." ago");
+    else if ($Interval->i > 0)
+        return ($Interval->i." minute".(($Interval->i > 1)?"s":"")." ago");
+    else if ($Interval->s > 0)
+        return ($Interval->s." second".(($Interval->s > 1)?"s":"")." ago");
 }
 function getDataUser($pdo,$owner){
     $stmt = $pdo->prepare("SELECT `Image` FROM `Users` WHERE `Username`=:username");
@@ -124,7 +124,7 @@ function getPagination($pdo)
         $count = $data[0]["Count"] / 16;
         $count = (int)($count + (((int)$count < $count) ? 1 : 0));
         if (isset($_GET["search"]) && $_GET["search"] != "")
-            $div .= "<div><input type='hidden' name='search' value='".$_GET["search"]."'></div>";
+            $div .= "<div><input type='hidden' name='search' value='".htmlspecialchars($_GET["search"])."'></div>";
         while($i <= $count)
         {
             $style = "";

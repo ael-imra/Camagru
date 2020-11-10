@@ -2,7 +2,7 @@
 $Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
   Redirect("./login.php");
 function sentDatabase($pdo,$array_items)
@@ -17,6 +17,7 @@ function sentDatabase($pdo,$array_items)
         $stmt->bindParam(":user",$_SESSION["User"]);
         $stmt->execute();
         $i++;
+        $is_changed = true;
     }
 }
 $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username");
@@ -27,7 +28,7 @@ $is_changed = false;
 if ($_FILES && $_FILES["fileinput"] && $_FILES["fileinput"]["name"] != "")
 {
   $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
-  if ($_FILES && !$_FILES["fileinput"]["error"] && array_search(strtolower($_FILES["fileinput"]["type"]),$type_image) > -1)
+  if ($_FILES && getimagesize($_FILES["fileinput"]["tmp_name"]) && !$_FILES["fileinput"]["error"] && array_search(strtolower($_FILES["fileinput"]["type"]),$type_image) > -1)
   {
       $image_id = time().".".explode("image/",$_FILES["fileinput"]["type"])[1];
       if(!move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id"))
@@ -92,7 +93,7 @@ if (isset($_POST["current-password"],$_POST["new-password"],$_POST["confirm-pass
         set_message_failed("Something wrong with your Password please try again.",$url);
 }
 if ($is_changed)
-  set_message_success("You Information has been Saved.",'./logout.php');
+  set_message_success("You Information has been Saved.",$url);
 ?>
 
 <!DOCTYPE html>

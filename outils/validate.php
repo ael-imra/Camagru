@@ -16,11 +16,11 @@ function validator_password($password){
 }
 
 function validator_username($username){
-    return(preg_match("/^[a-zA-Z][a-zA-Z][a-zA-Z\d\._\-]{7,25}$/",$username));
+    return(preg_match("/^[a-zA-Z][a-zA-Z\d\._\-]{7,25}$/",$username));
 }
 
-function check_user_exist($column,$value,$pdo){
-    $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `$column`=:value");
+function check_user_exist($row,$value,$pdo){
+    $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `$row`=:value");
     $stmt->bindParam("value",$value);
     $stmt->execute();
     $data = $stmt->fetchAll();

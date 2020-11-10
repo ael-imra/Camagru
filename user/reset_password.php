@@ -38,11 +38,11 @@ else
       if (isset($_SESSION["failed"]) && $_SESSION["failed"] != "")
       {
     ?>
-    <div id="failed" class="message position-fixed text-center d-flex flex-column" style="--color-message:#FF8788;">
-      <h4 class=" w-100" style="--color-message:#FF8788;">
-        <i class="fas fa-exclamation-triangle" style="--color-message:#FF8788;"></i>Failed!
+    <div id="failed" class="message position-fixed text-center d-flex flex-column" style="background-color:#FF8788;">
+      <h4 class=" w-100" style="color:#FF8788;">
+        <i class="fas fa-exclamation-triangle" style="color:#FF8788;"></i>Failed!
       </h4>
-      <span style="--color-message:#FF8788;"><?php echo $_SESSION["failed"] ?></span>
+      <span style="color:white;"><?php echo $_SESSION["failed"] ?></span>
     </div>
     <?php
         unset($_SESSION["failed"]);
@@ -52,9 +52,9 @@ else
       if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
       {
     ?>
-    <div id="success" class="message position-fixed text-center d-flex flex-column">
-      <h4 class=" w-100">
-        <i class="fas fa-chevron-circle-down"></i>Success!
+    <div id="success" class="message position-fixed text-center d-flex flex-column" style="background-color:#b1e17e">
+      <h4 class=" w-100" style="color:#b1e17e">
+        <i class="fas fa-chevron-circle-down" style="color:#b1e17e"></i>Success!
       </h4>
       <span><?php echo $_SESSION["success"] ?></span>
     </div>
@@ -78,6 +78,7 @@ else
         value="Reset">
     </form>
     <?php require("../outils/footer.php");?>
+    <script src="../js/script.js"></script>
   </div>
 </body>
 

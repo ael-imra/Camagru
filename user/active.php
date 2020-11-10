@@ -23,8 +23,9 @@ if (isset($_GET["action"],$_GET["token"],$_GET["Email"]) && $_GET["action"] == "
 else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_password"],$_POST["confirm_pass"]) && 
         $_POST["active"] == "Reset" && $_POST["tokenpass"] != "" && $_POST["new_password"] != "" && $_POST["confirm_pass"] != "" && $_POST["Email"] != "")
 {
-    $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword");
+    $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword AND `Email`=:Email");
     $stmt->bindParam(":Tokenpassword",$_POST["tokenpass"]);
+    $stmt->bindParam(":Email",$_POST["Email"]);
     $stmt->execute();
     $data = $stmt->fetchAll();
     if ($data)
