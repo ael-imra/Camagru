@@ -28,6 +28,7 @@ if (isset($_POST["signup"]) && $_POST["signup"] != "")
                     $stmt->bindParam(":Password", $Password);
                     $stmt->bindParam(":Tokenlogin", $Tokenlogin);
                     $stmt->execute();
+                    $_SESSION["script"] = "<script>display_signin();</script>";
                     set_message_success("To Activate your account Please check your Email", $url);
                 }
             }
@@ -86,6 +87,7 @@ if (isset($_POST["reset_Password"]) && $_POST["reset_Password"] != "")
                 $stmt->bindParam("Email", $_POST["Email"]);
                 $stmt->bindParam("Tokenpassword", $Tokenpassword);
                 $stmt->execute();
+                $_SESSION["script"] = "<script>display_signin();</script>";
                 send_mail($Tokenpassword, $_POST["Email"], "reset Password");
                 set_message_success("To Reset Your Password Please check your Email", $url);
             }

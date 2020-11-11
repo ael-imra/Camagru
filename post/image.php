@@ -9,6 +9,7 @@ if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
     $imagesize = getimagesize($img_base64);
     if($imagesize && array_search(strtolower($imagesize["mime"]),$type_image) > -1)
     {
+        chmod($Home_dir.'/post/img',0777);
         $path = 'img/post_'.time().'.'.explode("image/",$imagesize["mime"])[1];
         $file = file_get_contents($img_base64);
         file_put_contents($path, $file);

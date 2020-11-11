@@ -127,7 +127,6 @@ function notificatioClick() {
     box.setAttribute("style", "display:block!important");
   } else if (box) box.style.display = "none";
 }
-// ---------------------Full_Post------------------------
 function deletePost(id) {
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", url + "post/delete_post.php");
@@ -346,4 +345,3 @@ function Comment_click(id) {
   comment_txt.value = "";
   hide_show_comment(id);
 }
-// ---------------------/Full_Post------------------------

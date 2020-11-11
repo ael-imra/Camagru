@@ -25,75 +25,81 @@ $stmt->bindParam(":Username",$_SESSION["User"]);
 $stmt->execute();
 $data = $stmt->fetchAll();
 $is_changed = false;
-if ($_FILES && $_FILES["fileinput"] && $_FILES["fileinput"]["name"] != "")
+if (isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
 {
-  $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
-  if ($_FILES && getimagesize($_FILES["fileinput"]["tmp_name"]) && !$_FILES["fileinput"]["error"] && array_search(strtolower($_FILES["fileinput"]["type"]),$type_image) > -1)
+  if ($_FILES && $_FILES["fileinput"] && $_FILES["fileinput"]["name"] != "")
   {
-      $image_id = time().".".explode("image/",$_FILES["fileinput"]["type"])[1];
-      if(!move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id"))
-        set_message_failed("There was some error moving the file to upload directory",$url);
-      if (file_exists("../".$data[0]["Image"]) && $data[0]["Image"] != "img/default.png")
-        unlink("../".$data[0]["Image"]);
-      sentDatabase($pdo,array("Image"=>"img/".$image_id));
+    $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
+    if ($_FILES && getimagesize($_FILES["fileinput"]["tmp_name"]) && !$_FILES["fileinput"]["error"] && array_search(strtolower($_FILES["fileinput"]["type"]),$type_image) > -1)
+    {
+        chmod($Home_dir.'/img',0777);
+        $image_id = time().".".explode("image/",$_FILES["fileinput"]["type"])[1];
+        if(!move_uploaded_file($_FILES["fileinput"]["tmp_name"],"../img/$image_id"))
+          set_message_failed("There was some error moving the file to upload directory",$url);
+        if (file_exists("../".$data[0]["Image"]) && $data[0]["Image"] != "img/default.png")
+          unlink("../".$data[0]["Image"]);
+        sentDatabase($pdo,array("Image"=>"img/".$image_id));
+    }
+    else
+        set_message_failed("Image must be PNG OR JPG OR JPEG OR GIF And Size lower than 10 MB",$url);
   }
-  else
-      set_message_failed("Image must be PNG OR JPG OR JPEG OR GIF And Size lower than 10 MB",$url);
-}
-if (isset($_POST["save"]))
-    sentDatabase($pdo,array("Notification"=>((isset($_POST["checkbox"])) && $_POST["checkbox"] == "on") ? 1 : 0));
-if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_POST["Email"] != "")
-{
-    if ($_POST["Email"] == $data[0]["Email"] && $_POST["Username"] == $data[0]["Username"])
-        $_SESSION["failed"] = "";
-    else if (validator_Email($_POST["Email"]) && validator_Username($_POST["Username"]))
-    {
-      if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
-          set_message_failed("User Already exist",$url);
-      else
+  if (isset($_POST["save"]))
+      sentDatabase($pdo,array("Notification"=>((isset($_POST["checkbox"])) && $_POST["checkbox"] == "on") ? 1 : 0));
+  if (isset($_POST["Username"],$_POST["Email"]) && $_POST["Username"] != "" && $_POST["Email"] != "")
+  {
+      if ($_POST["Email"] == $data[0]["Email"] && $_POST["Username"] == $data[0]["Username"])
+          $_SESSION["failed"] = "";
+      else if (validator_Email($_POST["Email"]) && validator_Username($_POST["Username"]))
       {
-        sentDatabase($pdo,array("Email"=>$_POST["Email"],"Username"=>$_POST["Username"]));
-        if ($_POST["Username"] != $data[0]["Username"])
-        {
-          $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
-          $stmt->bindParam(":user",$_SESSION["User"]);
-          $stmt->bindParam(":Username",$_POST["Username"]);
-          $stmt->execute();
-          $_SESSION["User"] = $_POST["Username"];
-        }
-        $is_changed = true;
-      }
-    }
-    else
-      set_message_failed("Username or Email was wrong please try again.",$url);
-}
-if (isset($_POST["current-password"],$_POST["new-password"],$_POST["confirm-password"]) &&  $_POST["current-password"] != "" && $_POST["new-password"] != "" && $_POST["confirm-password"] != "")
-{
-    if (validator_Password($_POST["new-password"]) && $_POST["new-password"] == $_POST["confirm-password"] && $_POST["new-password"] != $_POST["current-password"])
-    {
-        $Password = hash("whirlpool",$_POST["current-password"]);
-        $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username AND Password=:Password");
-        $stmt->bindParam(":Password",$Password);
-        $stmt->bindParam(":Username",$_SESSION["User"]);
-        $stmt->execute();
-        $data = $stmt->fetchAll();
-        if ($data)
-        {
-            $Password = hash("whirlpool",$_POST["new-password"]);
-            $stmt = $pdo->prepare("UPDATE `Users` SET Password=:Password WHERE Username=:Username");
-            $stmt->bindParam(":Password",$Password);
-            $stmt->bindParam(":Username",$_SESSION["User"]);
-            $stmt->execute();
-            $is_changed = true;
-        }
+        if (check_user_exist("Username",$_POST["Username"],$pdo) && check_user_exist("Email",$_POST["Email"],$pdo))
+            set_message_failed("User Already exist",$url);
         else
-            set_message_failed("old Password wasn't match",$url);
-    }
-    else
-        set_message_failed("Something wrong with your Password please try again.",$url);
+        {
+          sentDatabase($pdo,array("Email"=>$_POST["Email"],"Username"=>$_POST["Username"]));
+          if ($_POST["Username"] != $data[0]["Username"])
+          {
+            $stmt = $pdo->prepare("UPDATE `Post` SET `UserIdOwner`=:Username WHERE `UserIdOwner`=:user");
+            $stmt->bindParam(":user",$_SESSION["User"]);
+            $stmt->bindParam(":Username",$_POST["Username"]);
+            $stmt->execute();
+            $_SESSION["User"] = $_POST["Username"];
+          }
+          $is_changed = true;
+        }
+      }
+      else
+        set_message_failed("Username or Email was wrong please try again.",$url);
+  }
+  if (isset($_POST["current-password"],$_POST["new-password"],$_POST["confirm-password"]) &&  $_POST["current-password"] != "" && $_POST["new-password"] != "" && $_POST["confirm-password"] != "")
+  {
+      if (validator_Password($_POST["new-password"]) && $_POST["new-password"] == $_POST["confirm-password"] && $_POST["new-password"] != $_POST["current-password"])
+      {
+          $Password = hash("whirlpool",$_POST["current-password"]);
+          $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE Username=:Username AND Password=:Password");
+          $stmt->bindParam(":Password",$Password);
+          $stmt->bindParam(":Username",$_SESSION["User"]);
+          $stmt->execute();
+          $data = $stmt->fetchAll();
+          if ($data)
+          {
+              $Password = hash("whirlpool",$_POST["new-password"]);
+              $stmt = $pdo->prepare("UPDATE `Users` SET Password=:Password WHERE Username=:Username");
+              $stmt->bindParam(":Password",$Password);
+              $stmt->bindParam(":Username",$_SESSION["User"]);
+              $stmt->execute();
+              $is_changed = true;
+          }
+          else
+              set_message_failed("old Password wasn't match",$url);
+      }
+      else
+          set_message_failed("Something wrong with your Password please try again.",$url);
+  }
+  if ($is_changed)
+    set_message_success("You Information has been Saved.",$url);
 }
-if ($is_changed)
-  set_message_success("You Information has been Saved.",$url);
+$csrfToken = hash('whirlpool', time() + time());
+$_SESSION["csrfToken"] = $csrfToken;
 ?>
 
 <!DOCTYPE html>
@@ -113,6 +119,7 @@ if ($is_changed)
     <?php require("../outils/menu.php"); ?>
     <form class="profile_edit w-100 d-flex flex-row justify-content-center mt-5" method="post"
       enctype="multipart/form-data">
+      <input type="hidden" name="csrfToken" value="<?php echo $csrfToken ?>">
       <div class="d-flex flex-column"
         style="width: 90%;max-width: 600px;background-color: #252525;border-radius: 20px;">
         <div class="w-100 d-flex flex-column align-items-center justify-content-center"

@@ -75,7 +75,6 @@ function DrawImage(){
     );
   }
 }
-// **************************/Activity****************************
 function deleteActivity(id) {
   array_activity.splice(id, 1);
   resetIndex();
@@ -136,7 +135,6 @@ function resetIndex() {
   if (ImageToDraw instanceof Image)
     DrawImage();
 }
-// **************************/Activity****************************
 function sizeOfVideo() {
   var canvas = document.getElementsByTagName("canvas")[0];
   var img = document.getElementById("image_capture");
@@ -162,7 +160,6 @@ function sizeOfVideo() {
   if (ImageToDraw instanceof Image)
     DrawImage();
 }
-// **************************Post****************************
 function post_back() {
   post_info.className =
     "post_info d-none flex-column justify-content-center align-items-center";
@@ -204,12 +201,12 @@ function uploadImage() {
   var file = document.getElementById("upload").files[0];
   var reader = new FileReader();
   reader.onload = function () {
-    array_activity = Array();
-    resetIndex();
-    Display_createImageButton(document.getElementsByClassName('createImageButton').length-1);
     var imgUplaoad = new Image();;
     imgUplaoad.src = this.result;
     imgUplaoad.onload = function(){
+      array_activity = Array();
+      resetIndex();
+      Display_createImageButton(document.getElementsByClassName('createImageButton').length-1);
       clearInterval(IdInterval);
       ImageToDraw = imgUplaoad;
       DrawImage();
@@ -217,11 +214,8 @@ function uploadImage() {
   };
   if (file) reader.readAsDataURL(file);
 }
-// **************************/Post****************************
-// **************************Emoji****************************
 function Display_createImageButton(index){
   var createImageButton = document.getElementsByClassName('createImageButton');
-  console.log(index);
   if(createImageButton[index].className.indexOf("d-none") > -1)
     createImageButton[index].className = createImageButton[index].className.replace("d-none","d-flex");
   else if (createImageButton[index].className.indexOf("d-flex") > -1)
@@ -387,4 +381,3 @@ function addNewEmoji() {
   if (file) reader.readAsDataURL(file);
 }
 
-// **************************/Emoji****************************

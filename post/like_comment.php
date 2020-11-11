@@ -51,11 +51,13 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $data = $stmt->fetchAll();
                 if ($data)
                 {
+                    $nofication = $_SESSION["User"] == $_POST["owner"] ? 1:0;
                     echo "<script>alert('".$value."')</script>";
-                    $stmt = $pdo->prepare("INSERT INTO `Like`(`UserIdOwner`, `PostId`, `UserAction`) VALUES (:useridowner,:postid,:UserAction)");
+                    $stmt = $pdo->prepare("INSERT INTO `Like`(`UserIdOwner`, `PostId`, `UserAction`, `Notification`) VALUES (:useridowner,:postid,:UserAction,:Nofification)");
                     $stmt->bindParam(":postid",$_POST["postid"]);
                     $stmt->bindParam(":useridowner",$_POST["owner"]);
                     $stmt->bindParam(":UserAction",$_SESSION["User"]);
+                    $stmt->bindParam(":Nofification",$nofication);
                     $stmt->execute();
                     $data_user = getUserData($pdo,$_POST["owner"]);
                     $message = $_SESSION["User"]." like your post";
@@ -82,11 +84,13 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
             $data = $stmt->fetchAll();
             if ($data)
             {
-                $stmt = $pdo->prepare("INSERT INTO `Comment`(`UserIdOwner`, `PostId`, `UserAction`, `Content`) VALUES (:useridowner,:postid,:UserAction,:content)");
+                $nofication = $_SESSION["User"] == $_POST["owner"] ? 1:0;
+                $stmt = $pdo->prepare("INSERT INTO `Comment`(`UserIdOwner`, `PostId`, `UserAction`, `Content`, `Notification`) VALUES (:useridowner,:postid,:UserAction,:content,:Nofification)");
                 $stmt->bindParam(":postid",$_POST["postid"]);
                 $stmt->bindParam(":useridowner",$_POST["owner"]);
                 $stmt->bindParam(":UserAction",$_SESSION["User"]);
                 $stmt->bindParam(":content",htmlspecialchars($_POST["content"]));
+                $stmt->bindParam(":Nofification",$nofication);
                 $stmt->execute();
                 $data_user = getUserData($pdo,$_POST["owner"]);
                 $message = $_POST["owner"]." comment your post";

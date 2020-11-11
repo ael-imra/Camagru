@@ -15,6 +15,7 @@ if (isset($_GET["action"],$_GET["token"],$_GET["Email"]) && $_GET["action"] == "
         $stmt = $pdo->prepare("UPDATE Users SET Tokenlogin='1' WHERE Email=:Email");
         $stmt->bindParam("Email",$data[0]["Email"]);
         $stmt->execute();
+        $_SESSION["script"] = "<script>display_signin();</script>";
         set_message_success("Seccuss to active account",$url);
     }
     else
@@ -39,6 +40,7 @@ else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_
             $stmt->bindParam("Tokenpassword",$Tokenpassword);
             $stmt->bindParam("Password",$Password);
             $stmt->execute();
+            $_SESSION["script"] = "<script>display_signin();</script>";
             set_message_success("Seccuss to reset password account",$url);
         }
         else
