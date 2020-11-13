@@ -7,6 +7,7 @@ function Activity(id, width, top, left, img) {
     left: left,
   };
 }
+var csrfToken = document.querySelector('input[name="csrfToken"]').value;
 var post_info = document.getElementsByClassName("post_info")[0];
 var gr_emoji = document.getElementsByClassName("gr_emoji")[0];
 var camera = document.getElementsByClassName("camera")[0];
@@ -186,7 +187,7 @@ function post_sent() {
           document
             .getElementById("failed")
             .setAttribute("style", "display:none;");
-        }, 3000);
+        }, 30000);
       }
       window.location.reload();
     }
@@ -194,7 +195,7 @@ function post_sent() {
   xhttp.open("POST", "image.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send(
-    "image_data=" + document.getElementById("image_capture").getAttribute("src")
+    "csrfToken="+csrfToken+"&image_data=" + document.getElementById("image_capture").getAttribute("src")
   );
 }
 function uploadImage() {

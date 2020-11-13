@@ -63,8 +63,10 @@
   if(isset($_SESSION["failed"]) && $_SESSION["failed"] != ""){
     echo 
     '<div id="failed" class="message position-fixed text-center d-flex flex-column" style="background-color:#ff8788">
-      <h4 class=" w-100" style="color:#ff8788">
-        <i class="fas fa-exclamation-triangle" style="color:#ff8788"></i>Failed!
+      <h4 class=" w-100" style="color:#ff8788;position: relative;">
+        <i class="fas fa-chevron-circle-down" style="color:#ff8788"></i>
+        <span style="color: #ff8788;">Failed!</span>
+        <span style="color: #ff8788;position: absolute;right: 15px;font-size: 25px;cursor:pointer;" onclick="document.getElementById(\'failed\').className = document.getElementById(\'failed\').className.replace(\'d-flex\',\'d-none\');">X</span>
       </h4>
       <span>'.$_SESSION["failed"].'</span>
     </div>';
@@ -75,8 +77,10 @@
   if(isset($_SESSION["success"]) && $_SESSION["success"] != ""){
     echo 
     '<div id="success" class="message position-fixed text-center d-flex flex-column" style="background-color:#b1e17e">
-      <h4 class=" w-100" style="color:#b1e17e">
-        <i class="fas fa-chevron-circle-down" style="color:#b1e17e"></i>Success!
+      <h4 class=" w-100" style="color:#b1e17e;position: relative;">
+        <i class="fas fa-chevron-circle-down" style="color:#b1e17e"></i>
+        <span style="color: #b1e17e;">Success!</span>
+        <span style="color: #b1e17e;position: absolute;right: 15px;font-size: 25px;cursor:pointer;"onclick="document.getElementById(\'success\').className = document.getElementById(\'success\').className.replace(\'d-flex\',\'d-none\');">X</span>
       </h4>
       <span>'.$_SESSION["success"].'</span>
     </div>';

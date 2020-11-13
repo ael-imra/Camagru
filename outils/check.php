@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_URI'] == '/outils/check.php' )
 }
 function Redirect($url)
 {
-    header("location: ".$url);
+    echo "<script>location.href = '".$url."';</script>";
     exit();
 }
 function set_message_failed($msg,$url){
@@ -48,7 +48,7 @@ function get_count($table,$pdo,$post_id = null)
     }
     return($count);
 }
-function send_mail($token,$Email,$Email_subject,$csrfToken = null)
+function send_mail($token,$Email,$Email_subject)
 {
     $url = "https://".$_SERVER['HTTP_HOST'];
     $Email_to = $Email;

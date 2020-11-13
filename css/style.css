@@ -362,7 +362,7 @@ input[type="range"] {
   min-height: 135px;
   z-index: 99;
   right: 0;
-  top: 0;
+  top: 50px;
   margin: 5px;
   color: white;
   border-radius: 18px;

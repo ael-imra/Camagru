@@ -3,6 +3,7 @@ $Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
 $url = "./login.php";
+
 if (isset($_GET["action"],$_GET["token"],$_GET["Email"]) && $_GET["action"] == "active" && $_GET["Email"] != "" && $_GET["token"] != "" && $_GET["token"] != '1')
 {
     $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE `Tokenlogin`=:Tokenlogin AND `Email`=:Email");
@@ -24,37 +25,43 @@ if (isset($_GET["action"],$_GET["token"],$_GET["Email"]) && $_GET["action"] == "
 else if (isset($_POST["active"],$_POST["Email"],$_POST["tokenpass"],$_POST["new_password"],$_POST["confirm_pass"]) && 
         $_POST["active"] == "Reset" && $_POST["tokenpass"] != "" && $_POST["new_password"] != "" && $_POST["confirm_pass"] != "" && $_POST["Email"] != "")
 {
-    $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword AND `Email`=:Email");
-    $stmt->bindParam(":Tokenpassword",$_POST["tokenpass"]);
-    $stmt->bindParam(":Email",$_POST["Email"]);
-    $stmt->execute();
-    $data = $stmt->fetchAll();
-    if ($data)
+    if (isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
     {
-        if (validator_Password($_POST["new_password"]) && $_POST["new_password"] == $_POST["confirm_pass"])
+        if (isset($_SESSION["csrfToken"]))
+            unset($_SESSION["csrfToken"]);
+        $stmt = $pdo->prepare("SELECT * FROM Users WHERE Tokenpassword=:Tokenpassword AND `Email`=:Email");
+        $stmt->bindParam(":Tokenpassword",$_POST["tokenpass"]);
+        $stmt->bindParam(":Email",$_POST["Email"]);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+        if ($data)
         {
-            $Tokenpassword = hash("whirlpool",$data[0]["Email"]+time());
-            $Password = hash("whirlpool",$_POST["new_password"]);
-            $stmt = $pdo->prepare("UPDATE Users SET Tokenpassword=:Tokenpassword,Password=:Password WHERE Email=:Email");
-            $stmt->bindParam("Email",$data[0]["Email"]);
-            $stmt->bindParam("Tokenpassword",$Tokenpassword);
-            $stmt->bindParam("Password",$Password);
-            $stmt->execute();
-            $_SESSION["script"] = "<script>display_signin();</script>";
-            set_message_success("Seccuss to reset password account",$url);
+            if (validator_Password($_POST["new_password"]) && $_POST["new_password"] == $_POST["confirm_pass"])
+            {
+                $Tokenpassword = hash("whirlpool",$data[0]["Email"].time());
+                $Password = hash("whirlpool",$_POST["new_password"]);
+                $stmt = $pdo->prepare("UPDATE Users SET Tokenpassword=:Tokenpassword,Password=:Password WHERE Email=:Email");
+                $stmt->bindParam("Email",$data[0]["Email"]);
+                $stmt->bindParam("Tokenpassword",$Tokenpassword);
+                $stmt->bindParam("Password",$Password);
+                $stmt->execute();
+                $_SESSION["script"] = "<script>display_signin();</script>";
+                set_message_success("Seccuss to reset password account",$url);
+            }
+            else
+            {
+                $_SESSION["failed"] = "New password format wroong OR new password nor eqaul confirme password";
+                echo "<script>history.back();</script>";
+                exit();
+            }
         }
         else
-        {
-            $_SESSION["failed"] = "New password format wroong OR new password nor eqaul confirme password";
-            echo "<script>history.back();</script>";
-            exit();
-        }
+            set_message_failed("Password OR Token does not exist.",$url);
     }
     else
-        set_message_failed("Password OR Token does not exist.",$url);
+        Redirect("/user/login.php");
 }
 else
-    Redirect("/user/login.php");
-
+    set_message_failed("Wrong CSRF TOKEN", $url);
 
 ?>

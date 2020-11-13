@@ -3,6 +3,10 @@ $Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."post/post.php");
 if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
   Redirect("../user/login.php");
+if (isset($_SESSION["csrfToken"]))
+  unset($_SESSION["csrfToken"]);
+  $csrfToken = hash('whirlpool', time().time());
+  $_SESSION["csrfToken"] = $csrfToken;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +24,7 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
   <div class="d-flex flex-column m-0 p-0">
     <?php require($Home_dir."outils/menu.php"); ?>
     <div class="create_post d-flex flex-column w-100 mt-5">
+      <input type="hidden" name="csrfToken" value="<?php echo $csrfToken ?>">
       <div id="failed" style="display: none;" class="alert alert-danger text-center" role="alert">
         <h4 class="alert-heading">Failed!</h4>
       </div>

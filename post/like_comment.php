@@ -8,6 +8,11 @@ function getUserData($pdo,$owner){
     $stmt->execute();
     return ($stmt->fetchAll());
 }
+if (!isset($_SESSION["csrfToken"]) || ($_SESSION["csrfToken"] != $_POST["csrfToken"] && $_SESSION["csrfToken"] != $_GET["csrfToken"]))
+{
+    echo "error";
+    exit();
+}
 if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
 {
     if (isset($_POST["submit"]) && $_POST["submit"] == "like")
@@ -30,6 +35,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                     $stmt->bindParam(":UserAction",$_SESSION["User"]);
                     $stmt->execute();
                     echo "Like:-".get_count("Like",$pdo,$_POST["postid"]);
+                    exit();
                 }
                 else
                 {
@@ -39,6 +45,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                     $stmt->bindParam(":UserAction",$_SESSION["User"]);
                     $stmt->execute();
                     echo "Like:-".get_count("Like",$pdo,$_POST["postid"]);
+                    exit();
                 }
             }
             else if (count(explode('post_',$_POST["postid"])) == 2)
@@ -62,8 +69,9 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                     $data_user = getUserData($pdo,$_POST["owner"]);
                     $message = $_SESSION["User"]." like your post";
                     echo "Like:-".get_count("Like",$pdo,$_POST["postid"]);
-                    if ($data_user)
+                    if ($data_user && !$nofication)
                         send_mail($message,$data_user[0]["Email"],"Notification");
+                    exit();
                 }
                 else 
                     set_message_failed("Something Wroong!",$url);
@@ -74,7 +82,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
     }
     else if (isset($_POST["submit"]) && $_POST["submit"] == "comment")
     {
-        if (isset($_POST["postid"]) && isset($_POST["owner"]) && isset($_POST["content"]) && count(explode('post_',$_POST["postid"])) == 2 && str_replace(' ','',$_POST["content"]))
+        if (isset($_POST["postid"]) && isset($_POST["owner"]) && isset($_POST["content"]) && count(explode('post_',$_POST["postid"])) == 2 && str_replace(' ','',$_POST["content"]) && strlen($_POST["content"]) < 256)
         {
             $postid = explode('post_',$_POST["postid"])[1];
             $stmt = $pdo->prepare("SELECT * FROM `Post` WHERE `PostId`=:postid AND `UserIdOwner`=:useridowner");
@@ -93,10 +101,11 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $stmt->bindParam(":Nofification",$nofication);
                 $stmt->execute();
                 $data_user = getUserData($pdo,$_POST["owner"]);
-                $message = $_POST["owner"]." comment your post";
+                $message = $_SESSION["User"]." comment your post";
                 echo "Comment:-".get_count("Comment",$pdo,$_POST["postid"]);
-                if ($data_user)
+                if ($data_user && !$nofication)
                     send_mail($message,$data_user[0]["Email"],"Notification");
+                exit();
             }
             else 
                 set_message_failed("Something Wroong!",$url);
@@ -119,6 +128,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
                 $stmt = $pdo->prepare("DELETE FROM `Comment` WHERE `CommentId`=:CommentId");
                 $stmt->bindParam(":CommentId",$commentid);
                 $stmt->execute();
+                exit();
             }
             else 
                 set_message_failed("Something Wroong!",$url);
@@ -132,6 +142,7 @@ if (isset($_SESSION["User"]) && !isset($_POST["all_comment"],$_POST["postid"]))
         $stmt->execute();
         $stmt = $pdo->prepare("UPDATE `Comment` SET `Notification` = 1 WHERE 1");
         $stmt->execute();
+        exit();
     }
     else
         Redirect("/index.php");
@@ -174,6 +185,7 @@ else if (isset($_POST["all_comment"],$_POST["postid"]) && $_POST["all_comment"] 
                 </div>';
         }
         echo $div;
+        exit();
     }
     else 
         echo "error";

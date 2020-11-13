@@ -2,8 +2,10 @@
 $Home_dir = $_SERVER['DOCUMENT_ROOT']."/";
 require($Home_dir."config/setup.php");
 require($Home_dir."outils/check.php");
-if(isset($_POST["image_data"]) && $_POST["image_data"] != "")
+if(isset($_POST["image_data"]) && $_POST["image_data"] != "" && isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
 {
+    if (isset($_SESSION["csrfToken"]))
+        unset($_SESSION["csrfToken"]);
     $type_image = array("image/png","image/jpg","image/jpeg","image/gif");
     $img_base64 = str_replace(' ', '+', $_POST["image_data"]);
     $imagesize = getimagesize($img_base64);

@@ -1,4 +1,5 @@
 var switch_span = document.querySelectorAll(".switch span");
+var csrfToken = document.querySelector('input[name="csrfToken"]').value;
 var url =
   location.pathname == "/" || location.pathname == "/index.php"
     ? "./"
@@ -10,7 +11,7 @@ setTimeout(function () {
     success.className = success.className.replace("d-flex", "d-none");
   if (failed != null)
     failed.className = failed.className.replace("d-flex", "d-none");
-}, 3000);
+}, 30000);
 function display_signin() {
   switch_span[1].removeAttribute("id");
   switch_span[0].setAttribute("id", "active");
@@ -121,7 +122,7 @@ function notificatioClick() {
     if (icon) {
       icon.className = "d-none";
       var xhttp = new XMLHttpRequest();
-      xhttp.open("GET", url + "post/like_comment.php?not=1");
+      xhttp.open("GET", url + "post/like_comment.php?not=1&csrfToken="+csrfToken);
       xhttp.send();
     }
     box.setAttribute("style", "display:block!important");
@@ -135,7 +136,7 @@ function deletePost(id) {
       window.location = window.location.href;
   };
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhttp.send("postid=" + id);
+  xhttp.send("csrfToken="+csrfToken+"&postid=" + id);
 }
 function displayDeleteBox(id) {
   var delete_box = document.querySelector("#" + id + " .delete_box");
@@ -230,7 +231,7 @@ function getComment(id_post) {
   };
   xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhttp.send("all_comment=true&postid=" + id_post);
+  xhttp.send("csrfToken="+csrfToken+"&all_comment=true&postid=" + id_post);
 }
 function fullSentComment(id_post) {
   document.querySelector(
@@ -258,12 +259,14 @@ function likeBox(color) {
 function deleteComment(id_comment, id_post) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) getComment(id_post);
-    window.location.reload();
+    if (this.readyState == 4 && this.status == 200){
+      getComment(id_post);
+      window.location.reload();
+    }
   };
   xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhttp.send("submit=delete&commentid=" + id_comment);
+  xhttp.send("csrfToken="+csrfToken+"&submit=delete&commentid=" + id_comment);
 }
 function displayDeleteComment(id_comment) {
   var comment_box = document.querySelectorAll("#" + id_comment + " > div");
@@ -312,7 +315,7 @@ function like_click(id) {
   };
   xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhttp.send("submit=like&postid=" + id + "&owner=" + owner.innerHTML);
+  xhttp.send("csrfToken="+csrfToken+"&submit=like&postid=" + id + "&owner=" + owner.innerHTML);
 }
 function Comment_click(id) {
   var owner = document.querySelector("#" + id + " #owner");
@@ -335,7 +338,7 @@ function Comment_click(id) {
   xhttp.open("POST", url + "post/like_comment.php", true);
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhttp.send(
-    "submit=comment&postid=" +
+    "csrfToken="+csrfToken+"&submit=comment&postid=" +
       id +
       "&owner=" +
       owner.innerHTML +

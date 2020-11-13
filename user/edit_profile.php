@@ -98,7 +98,9 @@ if (isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken
   if ($is_changed)
     set_message_success("You Information has been Saved.",$url);
 }
-$csrfToken = hash('whirlpool', time() + time());
+if (isset($_SESSION["csrfToken"]))
+    unset($_SESSION["csrfToken"]);
+$csrfToken = hash('whirlpool', time().time());
 $_SESSION["csrfToken"] = $csrfToken;
 ?>
 

@@ -1,5 +1,9 @@
 <?php
 require("post/post.php");
+$csrfToken = hash('whirlpool', time().time());
+if (isset($_SESSION["csrfToken"]))
+    unset($_SESSION["csrfToken"]);
+$_SESSION["csrfToken"] = $csrfToken;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +21,7 @@ require("post/post.php");
   <div class="d-flex flex-column m-0 p-0">
     <?php require("outils/menu.php"); ?>
     <div class="index-content d-flex flex-row flex-wrap justify-content-center w-100 mx-auto mt-5">
+      <input type="hidden" name="csrfToken" value="<?php echo $csrfToken ?>">
       <?php echo getAllPost($pdo);?>
     </div>
     </section>

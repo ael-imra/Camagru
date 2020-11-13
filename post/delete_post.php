@@ -5,6 +5,13 @@ require($Home_dir."outils/check.php");
 $url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],$pdo))
   Redirect("../user/login.php");
+if (!isset($_SESSION["csrfToken"]) || $_SESSION["csrfToken"] != $_POST["csrfToken"])
+{
+    if (isset($_SESSION["csrfToken"]))
+        unset($_SESSION["csrfToken"]);
+    set_message_failed("Can't Access this page","/index.php");
+    exit();
+}
 function deleteFromTable($pdo,$table,$postid)
 {
     $stmt = $pdo->prepare("DELETE FROM `$table` WHERE `PostId` = :postid");
