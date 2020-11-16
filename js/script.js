@@ -68,10 +68,10 @@ function slide_click(control) {
   if (control == "next") {
     var transform = slide.style.transform;
     var count_post_win = parseInt(window.innerWidth / 310);
-    var diff = (count_post - count_post_win) * 310;
+    var max_translate = (count_post - count_post_win) * 310;
     if (
       transform &&
-      parseInt(transform.split("translateX(")[1]) - 310 >= -diff
+      parseInt(transform.split("translateX(")[1]) - 310 >= -max_translate
     ) {
       var translateX = parseInt(transform.split("translateX(")[1]);
       slide.setAttribute(
@@ -82,7 +82,7 @@ function slide_click(control) {
           (translateX - 310) +
           "px);"
       );
-    } else if (!transform && diff - 310 >= 0)
+    } else if (!transform && max_translate - 310 >= 0)
       slide.setAttribute(
         "style",
         "width:" + slide.style.width + ";transform:translateX(" + -310 + "px);"

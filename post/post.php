@@ -35,10 +35,10 @@ function getDataLike($pdo,$user,$postid){
 function getAllPost($pdo){
     $start = 0;
     $end = 16;
-    if (isset($_GET["page"]) && is_numeric($_GET["page"]))
+    if (isset($_GET["page"]) && is_numeric($_GET["page"]) && $_GET["page"] > 0)
     {
-        $start = (16 * ($_GET["page"] - 1));
-        $end = (16 * $_GET["page"]);
+        $start = (16 * (int)($_GET["page"] - 1));
+        $end = (16 * (int)$_GET["page"]);
     }
     if (isset($_GET["search"]))
     {
@@ -128,7 +128,7 @@ function getPagination($pdo)
         while($i <= $count)
         {
             $style = "";
-            if (isset($_GET["page"]) && $_GET["page"] == $i)
+            if (isset($_GET["page"]) && (int)$_GET["page"] == $i)
                 $style = "background-color: #353535";
             $div .= "<div><input type='submit' style='$style' name='page' value='$i'></div>";
             $i++;

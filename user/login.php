@@ -7,6 +7,10 @@ if (isset($_SESSION["User"]) && check_user_exist("Username",$_SESSION["User"],$p
   Redirect("../index.php");
 if (isset($_POST["signup"]) && $_POST["signup"] != "")
 {
+    if(isset($_POST["Username"]))
+      $_SESSION["SignUpUsername"] = $_POST["Username"];
+    if(isset($_POST["Email"]))
+      $_SESSION["SignUpEmail"] = $_POST["Email"];
     $_SESSION["script"] = "<script>display_signup();</script>";
     if (isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
     {
@@ -40,6 +44,8 @@ if (isset($_POST["signup"]) && $_POST["signup"] != "")
 }
 else if (isset($_POST["signin"]) && $_POST["signin"] != "")
 {
+    if(isset($_POST["Username"]))
+      $_SESSION["SignInUsername"] = $_POST["Username"];
     $_SESSION["script"] = "<script>display_signin();</script>";
     if (isset($_SESSION["csrfToken"]) && $_SESSION["csrfToken"] == $_POST["csrfToken"])
     {
@@ -177,10 +183,12 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
               <form class="w-100" action="login.php" method="post">
                 <input type="hidden" name="csrfToken" value="<?php echo $csrfToken ?>">
                 <div class="mx-auto mt-4 w-75">
-                  <input class="w-100" type="Email" name="Email" placeholder="Email" required>
+                  <input class="w-100" type="Email" name="Email" placeholder="Email"
+                    value="<?php if(isset($_SESSION["SignUpEmail"]))echo $_SESSION["SignUpEmail"];?>" required>
                 </div>
                 <div class="mx-auto mt-4 w-75">
-                  <input class="w-100" type="text" name="Username" placeholder="Username" required>
+                  <input class="w-100" type="text" name="Username" placeholder="Username"
+                    value="<?php if(isset($_SESSION["SignUpUsername"]))echo $_SESSION["SignUpUsername"];?>" required>
                 </div>
                 <div class="mx-auto mt-4 w-75">
                   <input class="w-100" type="Password" name="Password" placeholder="Password" required>
@@ -205,7 +213,8 @@ if (isset($_SESSION["success"]) && $_SESSION["success"] != "")
               <form class="w-100" action="login.php" method="post">
                 <input type="hidden" name="csrfToken" value="<?php echo $csrfToken ?>">
                 <div class="mx-auto mt-4 w-75">
-                  <input class="w-100" type="text" name="Username" placeholder="Username" required>
+                  <input class="w-100" type="text" name="Username" placeholder="Username"
+                    value="<?php if(isset($_SESSION["SignInUsername"]))echo $_SESSION["SignInUsername"];?>" required>
                 </div>
                 <div class="mx-auto mt-4 w-75">
                   <input class="w-100" type="Password" name="Password" placeholder="Password" required>
@@ -249,6 +258,12 @@ require ("../outils/footer.php");
 
   <script src="../js/script.js"></script>
   <?php
+  if (isset($_SESSION["SignUpUsername"]))
+    unset($_SESSION["SignUpUsername"]);
+  if (isset($_SESSION["SignUpEmail"]))
+    unset($_SESSION["SignUpEmail"]);
+  if (isset($_SESSION["SignInUsername"]))
+    unset($_SESSION["SignInUsername"]);
 if (isset($_SESSION["script"])) echo $_SESSION["script"];
 else echo "<script>display_signin();</script>"
 ?>
