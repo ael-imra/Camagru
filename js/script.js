@@ -105,9 +105,16 @@ function slide_click(control) {
 function change_image() {
   var input = document.querySelector("input[name='fileinput']");
   var img = document.getElementById("Profile_image");
+  var newimage = new Image();
   var filereader = new FileReader();
   filereader.onload = function () {
-    img.setAttribute("src", this.result);
+    newimage.src = this.result;
+    newimage.onload = function(){
+      img.setAttribute("src", newimage.src);
+    }
+    newimage.onerror = function(){
+      input.value = "";
+    }
   };
   if (input.files[0]) filereader.readAsDataURL(input.files[0]);
 }

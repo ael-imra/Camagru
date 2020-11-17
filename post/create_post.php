@@ -5,8 +5,8 @@ if (!isset($_SESSION["User"]) || !check_user_exist("Username",$_SESSION["User"],
   Redirect("../user/login.php");
 if (isset($_SESSION["csrfToken"]))
   unset($_SESSION["csrfToken"]);
-  $csrfToken = hash('whirlpool', time().time());
-  $_SESSION["csrfToken"] = $csrfToken;
+$csrfToken = hash('whirlpool', time().time());
+$_SESSION["csrfToken"] = $csrfToken;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,18 +63,18 @@ if (isset($_SESSION["csrfToken"]))
             </div>
             <canvas width="720" height="420"></canvas>
             <div class="d-flex flex-row justify-content-center align-items-center">
-              <div class="createImageButton d-flex flex-column justify-content-center" id="capture"><i
+              <div class="createImageButton d-none flex-column justify-content-center" id="capture"><i
                   class="fas fa-camera fa-2x" style="color:white"></i></div>
               <div class="createImageButton d-flex flex-column justify-content-center" id="upload_image"
                 onclick="document.getElementById('upload').click()"><i class="fas fa-upload fa-2x"
                   style="color:white"></i></div>
               <input type="file" id="upload" style="display: none;" onchange="uploadImage()"
                 onclick="document.getElementById('upload').value=''" accept=" image/png,image/jpg,image/jpeg,image/gif">
-              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-icons fa-2x"
+              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-icons fa-2x"
                   style="color:white"
                   onclick="document.querySelectorAll('.gr_emoji > div')[0].setAttribute('style','display:flex!important')"></i>
               </div>
-              <div class="createImageButton d-flex flex-column justify-content-center"><i class="fas fa-history fa-2x"
+              <div class="createImageButton d-none flex-column justify-content-center"><i class="fas fa-history fa-2x"
                   style="color:white"
                   onclick="document.querySelectorAll('.gr_emoji > div')[1].setAttribute('style','display:flex!important')"></i>
               </div>

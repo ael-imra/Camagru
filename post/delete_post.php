@@ -33,6 +33,8 @@ if (isset($_POST["postid"]) && $_POST["postid"] != "")
             deleteFromTable($pdo,"Post",$postid);
             deleteFromTable($pdo,"Comment","post_".$postid);
             deleteFromTable($pdo,"Like","post_".$postid);
+            if (isset($_SESSION["csrfToken"]))
+                unset($_SESSION["csrfToken"]);
         }
         else
             set_message_failed("You don't have permission to delete this post!",$url);

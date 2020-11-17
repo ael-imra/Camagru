@@ -36,6 +36,9 @@ window.addEventListener("load", function () {
     .then(function(Stream){
       mediaStream = Stream;
       DrawVideo();
+      Display_createImageButton(0);
+      Display_createImageButton(2);
+      Display_createImageButton(3);
     })
     .catch(function (error) {
       console.log(error);
@@ -211,6 +214,13 @@ function uploadImage() {
       clearInterval(IdInterval);
       ImageToDraw = imgUplaoad;
       DrawImage();
+      if (document.getElementsByClassName('createImageButton')[0].className.indexOf('d-none')>-1)
+      {
+        Display_createImageButton(0);
+        Display_createImageButton(2);
+        Display_createImageButton(3);
+        Display_createImageButton(4);
+      }
     };
   };
   if (file) reader.readAsDataURL(file);
@@ -362,22 +372,26 @@ function addNewEmoji() {
   var emojiBox = document.getElementsByClassName("emojiBox")[0];
   var div = document.createElement("div");
   var img = document.createElement("img");
+  var imagetest = new Image();
   reader.onload = function () {
-    img.src = this.result;
-    img.className = "emoji";
-    img.setAttribute(
-      "onClick",
-      "selectEmoji(" +
-        (document.getElementsByClassName("emoji").length - 1) +
-        ")"
-    );
-    div.appendChild(img);
-    emojiBox.appendChild(div);
-    var all_div_emojiBox = document.querySelectorAll(".emojiBox > div");
-    var copyDiv = all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML;
-    all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML =
-      all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
-    all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML = copyDiv;
+    imagetest.src = this.result;
+    imagetest.onload = function(){
+      img.src = imagetest.src;
+      img.className = "emoji";
+      img.setAttribute(
+        "onClick",
+        "selectEmoji(" +
+          (document.getElementsByClassName("emoji").length - 1) +
+          ")"
+      );
+      div.appendChild(img);
+      emojiBox.appendChild(div);
+      var all_div_emojiBox = document.querySelectorAll(".emojiBox > div");
+      var copyDiv = all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML;
+      all_div_emojiBox[all_div_emojiBox.length - 1].innerHTML =
+        all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML;
+      all_div_emojiBox[all_div_emojiBox.length - 2].innerHTML = copyDiv;
+    }
   };
   if (file) reader.readAsDataURL(file);
 }

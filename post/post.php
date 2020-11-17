@@ -32,7 +32,7 @@ function getAllPost($pdo){
         $start = (16 * (int)($_GET["page"] - 1));
     if (isset($_GET["search"]))
     {
-        $search = "%".$_GET["search"]."%";
+        echo $search;
         $stmt = $pdo->prepare("SELECT * FROM `Post` WHERE `Date_create` LIKE :search OR  `UserIdOwner` LIKE :search ORDER BY `Date_create` DESC LIMIT $start,$end");
         $stmt->bindParam(":search",$search);
     }
