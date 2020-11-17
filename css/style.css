@@ -1,0 +1,381 @@
+* {
+  color: #00bcd4;
+}
+::placeholder,
+input {
+  color: white !important;
+}
+/* background: linear-gradient(45deg, #101010 60%, #00BCD4 45%); */
+body {
+  background-color: #3e3e3e !important;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+input {
+  background-color: #2b2b2b;
+  border: 1px solid #323232;
+  padding: 5px 10px;
+  font-size: 16px;
+  outline: none;
+  border-radius: 10px;
+}
+.login-register {
+  background-color: #252525;
+  height: 95%;
+}
+#btn-signup,
+#btn-signin,
+#btn-reset_Password,
+#save {
+  background-color: #00bcd4;
+  color: white !important;
+  box-shadow: 0 0 6px#00BCD4;
+  border: none;
+}
+.br-box {
+  border-radius: 25px;
+  box-shadow: 0 0 15px #1d1d1d;
+}
+.bg-linear {
+  background: linear-gradient(to right bottom, #00bcd4, #aff6ff);
+}
+.switch {
+  background-color: #00bcd4;
+  border: none !important;
+  padding: 2px 5px;
+  padding-bottom: 4px;
+}
+.switch span {
+  color: white !important;
+  font-size: 12px;
+  padding: 6px 7px;
+  text-align: center;
+  cursor: pointer;
+}
+#active {
+  background-color: #2a2a2a;
+  font-weight: bold;
+}
+.text-white {
+  font-size: 12px;
+}
+@media (max-width: 768px) {
+  #login-img {
+    display: none !important;
+    background-color: red;
+  }
+}
+#btn-back {
+  background-color: #1d1d1d;
+  height: 35px;
+  padding-top: 5px;
+}
+/****************************<Menu>****************************/
+#first-menu {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  background-color: #252525;
+}
+.Homelink img {
+  width: 100px;
+  height: 30px;
+}
+#btn-search {
+  height: 35px;
+  width: 40px;
+  top: 0px;
+  left: -33px;
+  outline: none;
+  border-radius: 0 50% 50% 0;
+  background-color: #00bcd4;
+}
+#second-menu {
+  margin-top: 45px;
+  display: none;
+  width: 220px;
+  height: 95%;
+  background-color: #252525;
+  padding: 5% 0 0 2%;
+  left: 0;
+  z-index: 99;
+  list-style: none;
+}
+#second-menu li:last-child {
+  bottom: 2%;
+}
+.menu-item,
+i,
+.post_btn {
+  cursor: pointer;
+}
+.menu-item:hover {
+  background-color: #00bcd4;
+}
+.notification-box {
+  background-color: #1d1d1d;
+  width: 200px;
+  font-size: 14px;
+  right: 0;
+  top: 30px;
+  overflow: auto;
+}
+.notification-box div {
+  color: white;
+  margin: 2px;
+  text-align: center;
+  background-color: #00bcd4;
+}
+#btn-login {
+  padding: 8px 25px;
+  background-color: #00bcd4;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+/****************************</Menu>****************************/
+/****************************<Post>*******************************/
+div img[alt="Profile"] {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+li img[alt="Profile"] {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.icon {
+  width: 30px;
+}
+.post {
+  width: 310px;
+  height: 275px;
+  background-color: #252525;
+  padding: 2px 10px;
+  margin: 10px;
+}
+.post * {
+  color: white !important;
+}
+.comment_txt {
+  width: 70%;
+}
+.comment_btn {
+  padding: 0;
+  font-size: 14px;
+  background: #3e3e3e;
+  border: none;
+  width: 25%;
+  height: 35px;
+  margin: 4px;
+}
+.pagination {
+  max-width: 145px;
+  overflow: hidden;
+}
+.pagination div input {
+  width: 25px;
+  height: 25px;
+  color: white;
+  background-color: #1d1d1d;
+  border: 1px solid black;
+  text-align: center;
+  margin: 2px;
+  padding: 0px;
+  cursor: pointer;
+}
+.delete_box button {
+  width: 49%;
+  color: black !important;
+}
+.full_post {
+  position: fixed;
+  min-width: 320px;
+  width: 80%;
+  max-width: 490px;
+  background-color: #252525;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 13px;
+  overflow: hidden;
+  z-index: 99;
+}
+.full_post * {
+  color: white;
+}
+.full_post input:focus {
+  box-shadow: none;
+}
+#full_post_img_owner {
+  max-height: 300px;
+}
+.delete_comment_box button {
+  border: none;
+  outline: none;
+  margin: 0 2px;
+  font-size: 13px;
+}
+/****************************</Post>*******************************/
+/***********************<Edit_Profile>*****************************/
+.profile_edit label {
+  color: white;
+}
+.profile_edit input {
+  box-shadow: none;
+}
+.profile_edit button {
+  width: 150px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #00bcd4;
+}
+.nt-active {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  left: 10px;
+  top: 0px;
+  background-color: white;
+}
+
+/***********************</Edit_Profile>*****************************/
+/***********************<slider>*****************************/
+
+.slider-content {
+  overflow: hidden;
+}
+.post_slide {
+  width: 236px;
+  height: 350px;
+  margin: 6px;
+  padding: 5px;
+  background-color: #252525;
+}
+.post_slide * {
+  color: white !important;
+}
+.post_slide h2 {
+  font-size: 22px;
+}
+.post_slide img {
+  width: 225px;
+  height: 275px;
+}
+/***********************</slider>*****************************/
+/************************<create_post>***********************/
+canvas {
+  background-color: black;
+  border-radius: 10px;
+}
+.createImageButton {
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  font-size: 17px;
+  background-color: #00bcd4;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 2px;
+}
+.post_info {
+  width: 30%;
+}
+.post_info * {
+  margin: 6px;
+}
+.post_info input[type="text"] {
+  width: 85%;
+}
+.post_info button {
+  width: 40%;
+  background-color: #252525;
+  font-weight: bold;
+  border: none;
+  font-size: 18px;
+}
+.gr_emoji > div {
+  width: 320px !important;
+  background-color: #252525;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px;
+  overflow: auto;
+}
+.emoji {
+  width: 60px;
+  height: 60px;
+  background-color: black;
+  margin: 4px;
+  border-radius: 50%;
+  padding: 5px;
+}
+.emoji-activity {
+  overflow: auto;
+}
+.emoji-act {
+  margin: 4px;
+  background-color: black;
+}
+.emoji-act button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 12px;
+}
+.emoji-act img {
+  width: 60px;
+  height: 60px;
+}
+
+.range-value {
+  width: 35px;
+  top: -10px;
+  position: relative;
+  padding: 0;
+}
+.create_post input:focus,
+.pagination input:focus {
+  box-shadow: none;
+}
+input[type="range"] {
+  width: 75%;
+}
+/************************</create_post>***********************/
+::-webkit-scrollbar {
+  width: 0px;
+}
+/* *****************Message*********** */
+.message {
+  width: 320px;
+  min-height: 135px;
+  z-index: 99;
+  right: 0;
+  top: 50px;
+  margin: 5px;
+  color: white;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.message h4 {
+  background: white;
+  font-size: 28px;
+}
+.message span {
+  color: white;
+  margin: auto 0;
+}
+.message i {
+  margin-right: 7px;
+}
