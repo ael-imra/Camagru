@@ -23,14 +23,16 @@ if (isset($_SESSION["csrfToken"],$_POST["csrfToken"]) && $_SESSION["csrfToken"] 
               else if (!validator_Password($_POST["Password"])) set_message_failed("Password must be :<br/>-above 8 character<br/>-contain lower and upper alpha and number", $url);
               else
               {
+                  $Tokenpassword = hash("whirlpool",$_POST["Email"].time());
                   $Password = hash("whirlpool", $_POST["Password"]);
                   $Tokenlogin = hash('whirlpool', $_POST["Username"].time());
                   send_mail($Tokenlogin, $_POST["Email"] , "Camagru Activation");
-                  $stmt = $pdo->prepare("INSERT INTO `Users`(`Email`, `Username`, `Password`, `Tokenlogin`) VALUES (:Email,:Username,:Password,:Tokenlogin)");
+                  $stmt = $pdo->prepare("INSERT INTO `Users`(`Email`, `Username`, `Password`, `Tokenlogin`,`Tokenpassword`) VALUES (:Email,:Username,:Password,:Tokenlogin,:Tokenpassword)");
                   $stmt->bindParam(":Email", $_POST["Email"]);
                   $stmt->bindParam(":Username", $_POST["Username"]);
                   $stmt->bindParam(":Password", $Password);
                   $stmt->bindParam(":Tokenlogin", $Tokenlogin);
+                  $stmt->bindParam(":Tokenpassword", $Tokenpassword);
                   $stmt->execute();
                   $_SESSION["script"] = "<script>display_signin();</script>";
                   set_message_success("To Activate your account Please check your Email", $url);
@@ -82,13 +84,12 @@ if (isset($_SESSION["csrfToken"],$_POST["csrfToken"]) && $_SESSION["csrfToken"] 
           {
               $_SESSION["script"] = "<script>display_signin();</script>";
               send_mail($data[0]["Tokenpassword"], $_POST["Email"], "reset Password");
-              set_message_success("To Reset Your Password Please check your Email", $url);
+              set_message_success("To Reset Your Password Please check your Email ", $url);
           }
           else set_message_failed("This Email does not exist.", $url);
       }
   }
 }
-else set_message_failed("Wrong CSRF TOKEN", $url);
 if (isset($_SESSION["csrfToken"]))
   unset($_SESSION["csrfToken"]);
 $csrfToken = hash('whirlpool', time().time());

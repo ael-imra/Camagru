@@ -17,7 +17,7 @@ function validator_password($password){
 
 function validator_username($username){
     $has_one_spec_char = preg_match("/[\-\._]{0,1}/",$username);
-    return(preg_match("/^[a-zA-Z][a-zA-Z\d]{6,25}$/",$username) && $has_one_spec_char);
+    return(preg_match("/^[a-zA-Z][a-zA-Z\d\-\._]{6,25}$/",$username) && $has_one_spec_char);
 }
 
 function check_user_exist($row,$value,$pdo){
