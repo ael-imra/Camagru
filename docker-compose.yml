@@ -32,7 +32,7 @@ services:
 
   apache:
     <<: *common
-    build: ./conf
+    build: ./config
     restart: always
     volumes:
       - ./Camagru:/var/www/html
