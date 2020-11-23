@@ -35,7 +35,7 @@ services:
     build: ./config
     restart: always
     volumes:
-      - ./Camagru:/var/www/html
+      - ./Camagruu:/var/www/html
     ports:
       - "80:80"
       - "443:443"
