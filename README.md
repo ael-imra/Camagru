@@ -34,11 +34,9 @@ My Camagru project handles:
 ## Installation
 
 #### Docker installation
-
-    [Linux installation](https://docs.docker.com/engine/install/ubuntu/)
-    [Mac installation](https://docs.docker.com/docker-for-mac/install/)
-    [Windows installation](https://docs.docker.com/docker-for-windows/install/)
-
+   [Linux installation](https://docs.docker.com/engine/install/ubuntu/)</br>
+   [Mac installation](https://docs.docker.com/docker-for-mac/install/)</br>
+   [Windows installation](https://docs.docker.com/docker-for-windows/install/)</br>
 #### Configuration file
 
 -   config/msmtprc file contain mail sender info(you could change this)
