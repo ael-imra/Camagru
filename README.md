@@ -35,9 +35,9 @@ My Camagru project handles:
 
 #### Docker installation
 
-    [Linux](https://docs.docker.com/engine/install/ubuntu/)
-    [Mac](https://docs.docker.com/docker-for-mac/install/)
-    [Windows](https://docs.docker.com/docker-for-windows/install/)
+    [Linux installation](https://docs.docker.com/engine/install/ubuntu/)
+    [Mac installation](https://docs.docker.com/docker-for-mac/install/)
+    [Windows installation](https://docs.docker.com/docker-for-windows/install/)
 
 #### Configuration file
 
@@ -56,9 +56,9 @@ dsn_return off
 account     gmail
 host        smtp.gmail.com
 port        587
-from        camagru1337aelimra@gmail.com
-user        camagru1337aelimra@gmail.com
-password    ael-imra@1337
+from        <email>
+user        <email>
+password    <password>
 protocol smtp
 
 account default : gmail
@@ -72,7 +72,7 @@ account default : gmail
 docker-compose up -d #-d to run it on background
 ```
 
-after images installed you're good start website using your ip address,
+after images installed you're good to start website using your ip address,
 because we're using http instead of https camera won't work to fix this issue
 browse chrome://flags/#unsafely-treat-insecure-origin-as-secure
 enable it and add your ip address to the field and relaunch the browser
